@@ -39,8 +39,26 @@
 #s1.light .s1-hdr{background:#ffffff;border-bottom-color:#d1d5db;}
 #s1.light .sec{border-bottom-color:#c7d2dd;}
 #s1.light .upload-zone:hover{background:#ecfdf5;border-color:#047857;}
+#s1.light .upload-zone.loaded:hover{background:#ecfdf5;}
 #s1.light .upload-sub{color:#6b7280;}
 #s1.light .sb{scrollbar-color:#d1d5db transparent;}
+/* Light-mode overrides for hardcoded dark surfaces */
+#s1.light .pdf-result{background:#f0fdf4;border-color:#bbf7d0;}
+#s1.light .pdf-raw{background:#f9fafb;border-color:#e5e7eb;color:#374151;}
+#s1.light .route-paste textarea{background:#f9fafb;border-color:#bbf7d0;}
+#s1.light .parse-btn{background:#dcfce7;color:#047857;}
+#s1.light .parse-btn:hover{background:#bbf7d0;}
+#s1.light .save-btn{background:#dbeafe;color:#1e40af;}
+#s1.light .save-btn:hover{background:#bfdbfe;}
+#s1.light .saved-item{background:#f3f4f6;border-color:#d1d5db;}
+#s1.light .star-item{background:#f9fafb;border-color:#d1d5db;}
+#s1.light .star-item:hover,#s1.light .star-item.sel{background:#ecfdf5;border-color:#047857;}
+#s1.light .zone-loaded-overlay{background:rgba(255,255,255,0.92);color:#1e293b;}
+/* ④ Waypoints table */
+#s1.light .wt th{background:#f3f4f6;color:#64748b;border-color:#d1d5db;}
+#s1.light .wt input,#s1.light .wt select{background:#ffffff;color:#1e293b;}
+#s1.light .wt .del{background:#fef2f2;color:#dc2626;}
+#s1.light .add-row:hover{background:#ecfdf5;border-color:#047857;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;}
 .scr{position:absolute;inset:0;display:none;flex-direction:column;padding-top:env(safe-area-inset-top);}
