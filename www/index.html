@@ -1418,6 +1418,12 @@ function extractRoutingFixesStrict(rowText, starPrefix){
 }
 
 function parseJeppRoutingTableText(rawText, filename=''){
+  // STAR/ARRIVAL parsing disabled — app is approach-only.
+  // (Hard-coded STAR routes and routing-table OCR parsing remain below as dead
+  // code in case the feature is reintroduced; comment out / delete this early
+  // return to re-enable.)
+  return [];
+  // eslint-disable-next-line no-unreachable
   const text=normalizeRoutingOcrText(rawText);
   if(!text) return [];
   const lines=text.split(/\n+/).map(l=>l.replace(/\s+/g,' ').trim()).filter(Boolean);
@@ -1635,6 +1641,11 @@ function buildGenericRouteFromRoutingSequence(name, fixes){
 // When OCR/PDF text fails, this fallback uses the published ROUTING table
 // and the plan-view leg distances printed on the uploaded charts.
 function buildKnownJeppArrivalRoutes(filename='', text=''){
+  // STAR/ARRIVAL parsing disabled — app is approach-only.
+  // See parseJeppRoutingTableText() for the same gate. To re-enable arrivals,
+  // comment out this early return.
+  return [];
+  // eslint-disable-next-line no-unreachable
   const key=((filename||'')+' '+(text||'')).toUpperCase().replace(/\s+/g,' ');
   const routes=[];
 
@@ -3530,6 +3541,11 @@ async function runOCR(pdf, previewCanvas, side, filename, pageData=null){
 
 // ── OCR TEXT PARSER ────────
 function parseStarsFromOCR(text){
+  // STAR/ARRIVAL parsing disabled — app is approach-only.
+  // (fallbackStarsFromText below is misnamed: it parses approaches via
+  // parseApproachContext / buildApproachRoutesFromPublishedDme, so it is kept.)
+  return [];
+  // eslint-disable-next-line no-unreachable
   const stars=[];
   const used=new Set();
 
