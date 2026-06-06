@@ -18,7 +18,7 @@
     var s1=document.getElementById('s1');
     if(s1) s1.classList.toggle('light', t==='light');
     var btn=document.getElementById('theme-toggle');
-    if(btn) btn.textContent=(t==='light')?'🌙':'☀';
+    if(btn) btn.textContent=(t==='light')?'☀':'🌙';
   }
   window.toggleTheme=function(){
     var cur=(localStorage.getItem('theme')==='light')?'light':'dark';
