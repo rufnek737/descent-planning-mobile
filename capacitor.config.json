@@ -1,0 +1,14 @@
+{
+  "appId": "com.rufnek.descentplanning",
+  "appName": "Descent Planning",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0,
+      "launchAutoHide": false,
+      "backgroundColor": "#0d1f3c",
+      "androidSplashResourceName": "splash",
+      "showSpinner": false
+    }
+  }
+}

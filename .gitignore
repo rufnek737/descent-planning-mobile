@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Android — build outputs
+android/.gradle/
+android/.idea/
+android/build/
+android/app/build/
+android/app/release/
+android/app/debug/
+android/captures/
+android/local.properties
+
+# Android Studio
+*.iml
+
+# APK output
+*.apk
+*.aab
+
+# iOS — generated on Mac via `npx cap add ios`
+# (keeping ios/ source tracked once added, but excluding build artifacts)
+ios/App/Pods/
+ios/App/Podfile.lock
+ios/App/build/
+ios/DerivedData/
+ios/build/
+
+# Capacitor cache
+.capacitor/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/

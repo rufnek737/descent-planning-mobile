@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Descent Planning</string>
+    <string name="title_activity_main">Descent Planning</string>
+    <string name="package_name">com.rufnek.descentplanning</string>
+    <string name="custom_url_scheme">com.rufnek.descentplanning</string>
+</resources>
