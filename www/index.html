@@ -11,9 +11,36 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <script src="vendor/tesseract.min.js"></script>
+<script>
+/* SETUP-screen light/dark toggle. Persists in localStorage. */
+(function(){
+  function applyTheme(t){
+    var s1=document.getElementById('s1');
+    if(s1) s1.classList.toggle('light', t==='light');
+    var btn=document.getElementById('theme-toggle');
+    if(btn) btn.textContent=(t==='light')?'🌙':'☀';
+  }
+  window.toggleTheme=function(){
+    var cur=(localStorage.getItem('theme')==='light')?'light':'dark';
+    var next=cur==='light'?'dark':'light';
+    try{ localStorage.setItem('theme',next); }catch(_){}
+    applyTheme(next);
+  };
+  function init(){ applyTheme(localStorage.getItem('theme')==='light'?'light':'dark'); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+  else init();
+})();
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{--bg:#000;--surf:#0a0f1e;--card:#0f1829;--bdr:#1a2a3a;--amb:#F59E0B;--grn:#00e676;--blu:#4fc3f7;--pnk:#f48fb1;--txt:#e2e8f0;--mut:#4a5568;}
+/* SETUP screen light theme (toggled via #s1.light, persisted in localStorage) */
+#s1.light{--bg:#f5f6f8;--surf:#ffffff;--card:#f3f4f6;--bdr:#d1d5db;--txt:#1e293b;--mut:#64748b;--amb:#b45309;--grn:#047857;--blu:#1e40af;--pnk:#be185d;}
+#s1.light .s1-hdr{background:#ffffff;border-bottom-color:#d1d5db;}
+#s1.light .sec{border-bottom-color:#c7d2dd;}
+#s1.light .upload-zone:hover{background:#ecfdf5;border-color:#047857;}
+#s1.light .upload-sub{color:#6b7280;}
+#s1.light .sb{scrollbar-color:#d1d5db transparent;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;}
 .scr{position:absolute;inset:0;display:none;flex-direction:column;padding-top:env(safe-area-inset-top);}
@@ -509,7 +536,8 @@ canvas{display:block;width:100%;height:100%;}
 <div id="s1" class="scr on">
   <div class="s1-hdr">
     <div class="plane">✈</div>
-    <div><div class="t1">DESCENT PLANNING</div><div class="t2">B737 Navigation Display Simulator</div></div>
+    <div style="flex:1"><div class="t1">DESCENT PLANNING</div><div class="t2">B737 Navigation Display Simulator</div></div>
+    <button id="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light/dark theme" style="background:transparent;border:none;color:inherit;font-size:22px;cursor:pointer;padding:4px 10px;line-height:1">☀</button>
   </div>
   <div class="sb">
     <div class="s1-inner">
