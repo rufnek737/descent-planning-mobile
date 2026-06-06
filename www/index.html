@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>Descent Planning Offline — B737 ND</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Descent Planning">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <script src="vendor/tesseract.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -514,17 +516,6 @@ canvas{display:block;width:100%;height:100%;}
 
       <!-- Chart upload -->
       <div class="sec">① CHARTS — PDF 업로드 시 ROUTING 자동 파싱 / 이미지도 가능</div>
-
-      <!-- Cloud OCR (Google Vision) — online-only high-accuracy parsing -->
-      <div style="margin-bottom:8px">
-        <div style="display:flex;gap:6px;align-items:center">
-          <input class="fi" id="i-gcv-key" type="password" autocomplete="off"
-                 placeholder="Google Vision API 키 (온라인 정밀 파싱·선택)"
-                 style="flex:1;min-width:0" oninput="saveCloudKey(this.value)">
-          <span id="gcv-status" style="font-size:9px;color:#888;white-space:nowrap">키 없음</span>
-        </div>
-        <div class="field-hint" style="margin-top:2px">키 입력 시 온라인에서 고정밀 파싱 → 루트 저장 후 ND는 오프라인 동작</div>
-      </div>
 
       <!-- APPROACH upload (ARRIVAL/STAR removed — approach only) -->
       <div style="margin-bottom:8px">

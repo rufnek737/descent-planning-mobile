@@ -1,9 +1,11 @@
-const CACHE_NAME = 'descent-planning-v65-cache-50';
+const CACHE_NAME = 'descent-planning-v65-cache-52';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './icon.svg',
+  './apple-touch-icon.png',
+  './splash_bg.png',
   './vendor/pdf.min.js',
   './vendor/pdf.worker.min.js',
   './vendor/tesseract.min.js',
