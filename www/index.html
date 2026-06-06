@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <title>Descent Planning Offline — B737 ND</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#000000">
@@ -16,7 +16,7 @@
 :root{--bg:#000;--surf:#0a0f1e;--card:#0f1829;--bdr:#1a2a3a;--amb:#F59E0B;--grn:#00e676;--blu:#4fc3f7;--pnk:#f48fb1;--txt:#e2e8f0;--mut:#4a5568;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;}
-.scr{position:absolute;inset:0;display:none;flex-direction:column;}
+.scr{position:absolute;inset:0;display:none;flex-direction:column;padding-top:env(safe-area-inset-top);}
 .scr.on{display:flex;}
 .sb{overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:#1a2a3a transparent;}
 
