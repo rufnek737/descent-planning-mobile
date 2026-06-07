@@ -1,6 +1,76 @@
 # WORK LOG — 2026-06-06
 
-iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 작업 세션.
+iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 + 영어화 + UX 미세조정 작업 세션.
+
+---
+
+## 🚀 다음 세션 시작하는 법 (다른 컴퓨터에서)
+
+### 1. Repo clone (처음 한 번만)
+```bash
+git clone https://github.com/rufnek737/descent-planning-mobile.git
+cd descent-planning-mobile
+npm install
+```
+
+> 윈도우: `C:\Users\PC\Desktop\descent-app-apk\`
+> 맥: `~/projects/descent-planning-mobile/`
+
+### 2. 이어서 작업할 때
+```bash
+cd <프로젝트_폴더>
+git pull
+```
+
+이 WORK_LOG.md 의 맨 위 (이 섹션 + 아래 "현재 상태") 만 읽으면 컨텍스트 1분 안에 회복.
+
+### 3. 현재 상태 (2026-06-06 마감 시점)
+
+| 항목 | 상태 |
+|---|---|
+| **최신 commit** | `1b1b349` — nd aircraft: drop in the user-supplied B737 SVG silhouette |
+| **sw.js 캐시** | `cache-66` |
+| **GitHub repo** | [rufnek737/descent-planning-mobile](https://github.com/rufnek737/descent-planning-mobile) (Public) |
+| **안드로이드 빌드** | ✅ 사용자 폰에 본인 + 동료 배포 가능 |
+| **iOS 빌드** | ⚠️ 라운드 3+ 변경분 (vh→%, 화살표 제거, B737 SVG) iOS rebuild 필요 |
+| **Apple Developer** | 미가입. 다음 유료 앱 만들 때 결제 예정 ($99/년) |
+
+### 4. 빌드 명령 (외워두면 좋음)
+
+**안드로이드 (윈도우)**:
+```powershell
+cd C:\Users\PC\Desktop\descent-app-apk
+$env:JAVA_HOME = "C:\Program Files\Android\Android Studio\jbr"
+$env:Path = "$env:JAVA_HOME\bin;$env:Path"
+$env:Path += ";$env:LOCALAPPDATA\Android\Sdk\platform-tools"
+npx cap sync android
+cd android
+.\gradlew assembleDebug
+adb install -r app\build\outputs\apk\debug\app-debug.apk
+```
+
+**iOS (맥)**:
+```bash
+cd ~/projects/descent-planning-mobile
+git pull
+npx cap sync ios
+```
+Xcode → ⇧⌘K → ▶ Run
+
+### 5. 다음에 할 일 (우선순위)
+
+1. **iOS rebuild** — Mac에서 git pull + sync + Xcode Run 해서 최신 변경 확인 (특히 B737 비행기, TYPE 화살표 제거, vh→%)
+2. **안드로이드 동료 배포** — APK 카톡/Drive 로 전달 + 설치 안내서 한 페이지
+3. **회귀 테스트** — RKSI 33L/15L, RJBB 06R/32R 등 다른 차트 OCR + approach 파싱 정확도 확인
+4. **iOS Apple Vision vs Android ML Kit OCR 출력 비교** — 줄바꿈/단어분리 패턴 다르면 파서 보정
+5. **라이트 모드 미세 조정** — 사용자 피드백 받고
+6. **다음 유료 앱 진행 시 $99 결제** → 이 앱도 같은 계정에 + TestFlight 무제한 배포
+
+### 6. 매 변경 시 잊지 말 것
+
+- `www/` 코드 수정 → **sw.js 의 `CACHE_NAME` +1 필수**. 안 올리면 폰에서 옛 코드 캐싱돼서 새 코드 안 보임.
+- 사용자가 데이터 삭제 안 해도 자동 갱신되려면 매 수정마다 +1.
+- 매 의미있는 변경 + commit 시 **이 WORK_LOG.md 도 같이 업데이트** + 같은 commit 에 묶기 (메모리 룰).
 
 ---
 
@@ -73,6 +143,7 @@ iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 작업 세션.
     - 2차: 평평 날개 → nose 너무 뾰족
     - 3차: nose 둥글게 → 여전히 사용자 만족 못 함
     - **4차 (최종)**: 사용자 제공 SVG (`b737_marker_C_final.svg`) 를 그대로 Path2D 로 가져와서 적용. 단일 path 안에 동체 + 날개 + 꼬리 다 포함, cubic bezier 로 부드러운 곡선. scale 0.13 으로 ND 사이즈에 맞춤. lineJoin/lineCap round, stroke 2px. 항공차트 풍 깔끔한 B737 실루엣.
+14. **세션 종료 정리** — WORK_LOG.md 맨 위에 "다음 세션 시작하는 법" 섹션 추가 + 현재 상태/빌드명령/다음 할 일 명시. 다른 컴퓨터에서 clone + git pull 만으로 컨텍스트 회복 가능.
 12. **테마 토글 ☀ → ☀️ (variation selector)**:
     - 기존 `☀` (U+2600) 는 monochrome 텍스트 character. 안드로이드는 작게, iOS 는 다른 크기로 표시.
     - `☀️` (U+2600 + U+FE0F variation selector) 로 emoji-style 강제. 양쪽 OS 모두 컬러 emoji + 🌙 와 비슷한 시각 크기.
