@@ -18,7 +18,7 @@
     var s1=document.getElementById('s1');
     if(s1) s1.classList.toggle('light', t==='light');
     var btn=document.getElementById('theme-toggle');
-    if(btn) btn.textContent=(t==='light')?'☀':'🌙';
+    if(btn) btn.textContent=(t==='light')?'☀️':'🌙';
   }
   window.toggleTheme=function(){
     var cur=(localStorage.getItem('theme')==='light')?'light':'dark';
@@ -128,7 +128,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .wt{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:5px;}
 .wt th{background:#040e04;color:var(--mut);padding:5px 3px;border:1px solid #0f1f0f;text-align:center;font-size:8px;letter-spacing:1px;font-family:'Courier New',monospace;}
 .wt td{border:1px solid #0f1f0f;padding:2px;}
-.wt input,.wt select{background:#040e04;border:none;color:var(--txt);font-family:'Courier New',monospace;font-size:10px;padding:3px 4px;width:100%;outline:none;}
+.wt input,.wt select{background-color:#040e04;border:none;color:var(--txt);font-family:'Courier New',monospace;font-size:10px;padding:3px 4px;width:100%;outline:none;}
 .wt select{-webkit-appearance:none;-moz-appearance:none;appearance:none;padding-right:22px;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath fill='%23e2e8f0' d='M0 0h8L4 5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 5px center;background-size:8px 5px;}
 #s1.light .wt select{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath fill='%231e293b' d='M0 0h8L4 5z'/%3E%3C/svg%3E");}
 .wt .del{background:#1a0505;border:none;color:#f87171;padding:2px 7px;cursor:pointer;border-radius:3px;font-size:9px;}
@@ -558,7 +558,7 @@ canvas{display:block;width:100%;height:100%;}
   <div class="s1-hdr">
     <div class="plane">✈</div>
     <div style="flex:1"><div class="t1">DESCENT PLANNING</div><div class="t2">B737 Navigation Display Simulator</div></div>
-    <button id="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light/dark theme" style="background:transparent;border:none;color:inherit;font-size:22px;cursor:pointer;padding:4px 10px;line-height:1">☀</button>
+    <button id="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light/dark theme" style="background:transparent;border:none;color:inherit;font-size:22px;cursor:pointer;padding:4px 10px;line-height:1">☀️</button>
   </div>
   <div class="sb">
     <div class="s1-inner">

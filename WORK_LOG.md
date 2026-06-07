@@ -11,7 +11,7 @@ iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 작업 세션.
   (5/28 v65 변경분은 `rufnek737/descent-planning` 의 `backup-528` 브랜치에 안전 보관)
 - iOS 메타태그 추가: `apple-touch-icon`, `apple-mobile-web-app-status-bar-style`, `viewport-fit=cover`
 - `apple-touch-icon.png` 180x180 생성 (assets/icon.png에서 변환)
-- sw.js 캐시: `cache-50` → `cache-61` (매 코드 변경마다 +1 — 안 올리면 안드로이드/PWA 가 옛 캐시 들고 새 코드 못 받음)
+- sw.js 캐시: `cache-50` → `cache-62` (매 코드 변경마다 +1 — 안 올리면 안드로이드/PWA 가 옛 캐시 들고 새 코드 못 받음)
 - Netlify 자동 배포 ([rufnek737/descent-planning](https://github.com/rufnek737/descent-planning))
 - **사용자 결정**: 이번 수정분부터는 Netlify 배포 안 함 (PWA 대신 네이티브 앱으로 동료 배포)
 
@@ -62,11 +62,14 @@ iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 작업 세션.
     - 2차: portrait `.fmc` 에 직접 padding-bottom 추가 — 자식 콘텐츠 viewport 기준은 그대로라 효과 약함.
     - **3차 (최종)**: portrait `.nd-left`, `.fmc` 의 `vh` 단위 → `%` 로 변경. `.scr` 의 padding box 안에서 비율 분할 → 자식이 padding 영역 안 침범. 안전영역 처리 완전 작동.
     - iOS 는 home indicator safe-area 자동 잡혀서 변경 영향 없음.
-11. **WAYPOINTS 테이블 TYPE select 화살표 겹침 fix** (Android 보정 2회 시도):
-    - 1차: `.wt select` 에 `padding-right: 18px` — 안드로이드 native dropdown 화살표가 padding 무시하고 텍스트 위에 그려져서 효과 없음.
-    - 2차: `-webkit-appearance:none + appearance:none` + SVG ▼ 화살표. padding-right 14 / position right 3px / size 7x4 → IAF 의 F 살짝 잘림.
-    - **3차 미세조정**: padding-right 14 → **22**, position right 3px → 5px, size 7x4 → 8x5. 텍스트 + 화살표 안 겹침.
-    - 라이트 모드용 다크 슬레이트(#1e293b) 색 별도 override (`#s1.light .wt select`).
+11. **WAYPOINTS 테이블 TYPE select 화살표 겹침 fix** (Android 보정 4회 시도):
+    - 1차: `padding-right: 18px` — 효과 없음 (native 화살표가 padding 무시)
+    - 2차: `appearance:none` + SVG ▼. 텍스트 살짝 잘림.
+    - 3차: padding 14→22, size 7x4→8x5.
+    - **4차 (진짜 원인)**: `.wt input,.wt select { background:#040e04 }` 의 shorthand 가 `background-image` 를 silently reset 하고 있었음. **`background-color`** 로 변경. SVG 화살표가 제대로 그려짐.
+12. **테마 토글 ☀ → ☀️ (variation selector)**:
+    - 기존 `☀` (U+2600) 는 monochrome 텍스트 character. 안드로이드는 작게, iOS 는 다른 크기로 표시.
+    - `☀️` (U+2600 + U+FE0F variation selector) 로 emoji-style 강제. 양쪽 OS 모두 컬러 emoji + 🌙 와 비슷한 시각 크기.
 
 9. **SETUP 화면 + 에러 메시지 전체 영어화** (commit 진행 중):
    - UI 라벨 9곳: CHARTS 헤더, upload 라벨, "Re-upload", "PDF Parse Result", "Extracted text", "Apply", WAYPOINTS 헤더 등
