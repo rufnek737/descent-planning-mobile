@@ -1,4 +1,4 @@
-const CACHE_NAME = 'descent-planning-v65-cache-64';
+const CACHE_NAME = 'descent-planning-v65-cache-65';
 const CORE_ASSETS = [
   './',
   './index.html',

@@ -11,7 +11,7 @@ iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 작업 세션.
   (5/28 v65 변경분은 `rufnek737/descent-planning` 의 `backup-528` 브랜치에 안전 보관)
 - iOS 메타태그 추가: `apple-touch-icon`, `apple-mobile-web-app-status-bar-style`, `viewport-fit=cover`
 - `apple-touch-icon.png` 180x180 생성 (assets/icon.png에서 변환)
-- sw.js 캐시: `cache-50` → `cache-64` (매 코드 변경마다 +1 — 안 올리면 안드로이드/PWA 가 옛 캐시 들고 새 코드 못 받음)
+- sw.js 캐시: `cache-50` → `cache-65` (매 코드 변경마다 +1 — 안 올리면 안드로이드/PWA 가 옛 캐시 들고 새 코드 못 받음)
 - Netlify 자동 배포 ([rufnek737/descent-planning](https://github.com/rufnek737/descent-planning))
 - **사용자 결정**: 이번 수정분부터는 Netlify 배포 안 함 (PWA 대신 네이티브 앱으로 동료 배포)
 
@@ -68,9 +68,10 @@ iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 작업 세션.
     - 3차: padding/size 미세조정 — IAF "F" 잘림
     - 4차: background shorthand → background-color 수정 — 그래도 화살표가 텍스트 위에 겹쳐 보임
     - **5차 (최종)**: SVG background-image 완전 제거. `appearance:none + text-align:center + text-align-last:center` 만 유지. 화살표 자체가 안 보이고 텍스트만 가운데 정렬로 깔끔. 사용자가 select 클릭하면 OS-level dropdown 으로 옵션 표시.
-13. **ND 비행기 아이콘 세련되게 변경** (사용자 요청, 2회 시도):
-    - 1차: 슬림 동체 + 후퇴날개(swept-back) + 꼬리 안정판 → **너무 전투기 같다** 는 피드백.
-    - **2차 (최종 — 여객기)**: B737-style 로 재설계. 동체는 더 길고 가는 튜브, 메인 날개는 후퇴각 거의 없이 wide span, 꼬리 안정판도 폭 넓게. 항공차트 풍 여객기 글리프.
+13. **ND 비행기 아이콘 세련되게 변경** (사용자 요청, 3회 시도):
+    - 1차: 후퇴날개 → "너무 전투기 같다"
+    - 2차: B737-style 평평 날개 + 폭 넓은 꼬리 → nose 가 단일 점이라 너무 뾰족
+    - **3차 (최종)**: 동체 nose 를 `quadraticCurveTo(0,-13.5, ...)` 로 둥근 cone 처럼 부드럽게. 진짜 여객기 nose 모양.
 12. **테마 토글 ☀ → ☀️ (variation selector)**:
     - 기존 `☀` (U+2600) 는 monochrome 텍스트 character. 안드로이드는 작게, iOS 는 다른 크기로 표시.
     - `☀️` (U+2600 + U+FE0F variation selector) 로 emoji-style 강제. 양쪽 OS 모두 컬러 emoji + 🌙 와 비슷한 시각 크기.

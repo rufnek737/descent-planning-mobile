@@ -6845,17 +6845,16 @@ function drawNDAircraft(ACx,ACy){
   cx.save();cx.translate(ACx,ACy);
   if(dragging&&dragMode==='aircraft'){cx.shadowColor='#333';cx.shadowBlur=10;}
   cx.strokeStyle='#111';cx.fillStyle='#dde4ee';cx.lineWidth=2;
-  // Airliner glyph (B737-style): long slim fuselage, wide nearly-straight
-  // main wings, wide horizontal tail stabilizer. Origin (0,0) is the centre
-  // of mass; nose points up (-y).
-  // Fuselage — long thin tube
+  // Airliner glyph (B737-style): long slim fuselage with rounded nose +
+  // wide nearly-straight main wings + wide horizontal tail stabilizer.
+  // Origin (0,0) is the centre of mass; nose points up (-y).
+  // Fuselage — long tube with rounded nose (quadratic curve) and tapered tail
   cx.beginPath();
-  cx.moveTo(0,-14);
-  cx.lineTo(1.5,-11);
+  cx.moveTo(-1.5,-10);
+  cx.quadraticCurveTo(0,-13.5, 1.5,-10);  // rounded nose cone
   cx.lineTo(1.5,9);
   cx.lineTo(0,11);
   cx.lineTo(-1.5,9);
-  cx.lineTo(-1.5,-11);
   cx.closePath();
   cx.fill();cx.stroke();
   // Main wings — wide span, minimal sweep
