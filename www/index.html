@@ -6845,36 +6845,37 @@ function drawNDAircraft(ACx,ACy){
   cx.save();cx.translate(ACx,ACy);
   if(dragging&&dragMode==='aircraft'){cx.shadowColor='#333';cx.shadowBlur=10;}
   cx.strokeStyle='#111';cx.fillStyle='#dde4ee';cx.lineWidth=2;
-  // Modern aircraft glyph: slim fuselage + swept-back wings + tail stabilizer.
-  // Origin (0,0) is the centre of mass; nose points up (-y).
-  // Fuselage
+  // Airliner glyph (B737-style): long slim fuselage, wide nearly-straight
+  // main wings, wide horizontal tail stabilizer. Origin (0,0) is the centre
+  // of mass; nose points up (-y).
+  // Fuselage — long thin tube
   cx.beginPath();
   cx.moveTo(0,-14);
-  cx.lineTo(1.5,-2);
-  cx.lineTo(1.5,7);
+  cx.lineTo(1.5,-11);
+  cx.lineTo(1.5,9);
   cx.lineTo(0,11);
+  cx.lineTo(-1.5,9);
+  cx.lineTo(-1.5,-11);
+  cx.closePath();
+  cx.fill();cx.stroke();
+  // Main wings — wide span, minimal sweep
+  cx.beginPath();
+  cx.moveTo(-15,2);
+  cx.lineTo(-1.5,-1);
+  cx.lineTo(1.5,-1);
+  cx.lineTo(15,2);
+  cx.lineTo(2,3);
+  cx.lineTo(-2,3);
+  cx.closePath();
+  cx.fill();cx.stroke();
+  // Tail horizontal stabilizer — wide, gentle sweep
+  cx.beginPath();
+  cx.moveTo(-6,8);
   cx.lineTo(-1.5,7);
-  cx.lineTo(-1.5,-2);
-  cx.closePath();
-  cx.fill();cx.stroke();
-  // Main wings (swept back)
-  cx.beginPath();
-  cx.moveTo(-13,4);
-  cx.lineTo(-1.5,-2);
-  cx.lineTo(1.5,-2);
-  cx.lineTo(13,4);
-  cx.lineTo(2,2);
-  cx.lineTo(-2,2);
-  cx.closePath();
-  cx.fill();cx.stroke();
-  // Tail horizontal stabilizer
-  cx.beginPath();
-  cx.moveTo(-4.5,8.5);
-  cx.lineTo(-1.5,6.5);
-  cx.lineTo(1.5,6.5);
-  cx.lineTo(4.5,8.5);
-  cx.lineTo(1.5,8.5);
-  cx.lineTo(-1.5,8.5);
+  cx.lineTo(1.5,7);
+  cx.lineTo(6,8);
+  cx.lineTo(2,9);
+  cx.lineTo(-2,9);
   cx.closePath();
   cx.fill();cx.stroke();
   cx.restore();
