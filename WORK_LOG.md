@@ -11,7 +11,7 @@ iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 작업 세션.
   (5/28 v65 변경분은 `rufnek737/descent-planning` 의 `backup-528` 브랜치에 안전 보관)
 - iOS 메타태그 추가: `apple-touch-icon`, `apple-mobile-web-app-status-bar-style`, `viewport-fit=cover`
 - `apple-touch-icon.png` 180x180 생성 (assets/icon.png에서 변환)
-- sw.js 캐시: `cache-50` → `cache-59` (매 코드 변경마다 +1 — 안 올리면 안드로이드/PWA 가 옛 캐시 들고 새 코드 못 받음)
+- sw.js 캐시: `cache-50` → `cache-60` (매 코드 변경마다 +1 — 안 올리면 안드로이드/PWA 가 옛 캐시 들고 새 코드 못 받음)
 - Netlify 자동 배포 ([rufnek737/descent-planning](https://github.com/rufnek737/descent-planning))
 - **사용자 결정**: 이번 수정분부터는 Netlify 배포 안 함 (PWA 대신 네이티브 앱으로 동료 배포)
 
@@ -57,14 +57,15 @@ iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 작업 세션.
    - 핵심: polygon origin 이 꼬리 base 가 되면 point 위치 계산이 1:1 — 점선 끝 = 머리 시작
 7. **APK 양 폰 재빌드 + 설치 완료** (안드로이드: assembleDebug + adb install / iOS: Xcode Run)
 8. **WORK_LOG.md 작성** — 이번 세션 + 다음 세션 컨텍스트 박제
-10. **ND 화면 하단 안전영역 처리** (Android 보정 포함):
-    - `.scr` 의 padding-bottom 을 `env(safe-area-inset-bottom)` → `max(env(safe-area-inset-bottom), 48px)` 로 변경.
-    - 안드로이드 WebView 는 `env(safe-area-inset-bottom)` 을 0 으로 반환해서 첫 시도(env만 사용)는 안드로이드에서 효과 없었음. 48px fallback 으로 3-버튼 navigation 바 영역 커버.
-    - iOS 는 home indicator safe-area 가 자동 잡혀서 영향 없음.
-11. **WAYPOINTS 테이블 TYPE select 화살표 겹침 fix**:
-    - 안드로이드 native select dropdown 화살표가 텍스트(IAF/FIX/FAF/RWY) 위에 겹쳐 보이지 않던 문제.
-    - `.wt select` 에 `padding-right: 18px` 추가해서 화살표 영역 분리.
-    - iOS 는 화살표가 자동으로 우측에 정렬돼서 영향 없음.
+10. **ND 화면 하단 안전영역 처리** (Android 보정 2회 시도):
+    - 1차: `.scr` padding-bottom 을 `max(env(safe-area-inset-bottom), 48px)` — 안드로이드에서 효과 약함. 자식 `.fmc` 가 `38vh` (viewport 기준) 으로 `.scr` padding 영역까지 침범했기 때문.
+    - 2차: portrait 미디어쿼리의 `.fmc` 에 직접 `padding-bottom: max(env(safe-area-inset-bottom), 48px) !important` 추가. `.fmc` 내부 (PROGRESS INFO 등) 가 안전영역 안으로 들어감.
+    - iOS 는 home indicator safe-area 자동 잡혀서 두 변경 모두 영향 없음.
+11. **WAYPOINTS 테이블 TYPE select 화살표 겹침 fix** (Android 보정 2회 시도):
+    - 1차: `.wt select` 에 `padding-right: 18px` — 안드로이드 native dropdown 화살표가 padding 무시하고 텍스트 위에 그려져서 효과 없음.
+    - 2차: `-webkit-appearance:none + appearance:none` 으로 native 화살표 제거 + SVG inline data URL 로 커스텀 ▼ 추가. position: right 3px center, size 7x4px.
+    - 라이트 모드용 다크 슬레이트(#1e293b) 색 별도 override (`#s1.light .wt select`).
+    - iOS 는 native 화살표가 우측 정렬돼서 영향 없음. 일관된 디자인을 위해 양쪽 OS 모두 SVG 화살표.
 
 9. **SETUP 화면 + 에러 메시지 전체 영어화** (commit 진행 중):
    - UI 라벨 9곳: CHARTS 헤더, upload 라벨, "Re-upload", "PDF Parse Result", "Extracted text", "Apply", WAYPOINTS 헤더 등
