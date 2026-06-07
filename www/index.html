@@ -561,7 +561,7 @@ canvas{display:block;width:100%;height:100%;}
     <div class="s1-inner">
 
       <!-- Chart upload -->
-      <div class="sec">① CHARTS — PDF 업로드 시 ROUTING 자동 파싱 / 이미지도 가능</div>
+      <div class="sec">① CHARTS — Upload PDF for auto routing parse / images supported</div>
 
       <!-- APPROACH upload (ARRIVAL/STAR removed — approach only) -->
       <div style="margin-bottom:8px">
@@ -570,12 +570,12 @@ canvas{display:block;width:100%;height:100%;}
                  onchange="handleChartFile(this,'app')"
                  onclick="event.stopPropagation()" style="display:none">
           <div class="upload-tag">APPROACH CHART</div>
-          <div class="upload-lbl" id="app-lbl">📄 PDF / 🖼 이미지 — 접근 절차 차트 업로드</div>
+          <div class="upload-lbl" id="app-lbl">📄 PDF / 🖼 Image — Upload approach chart</div>
           <img id="app-preview" class="chart-preview" src="" alt="">
           <canvas id="app-canvas" class="chart-preview" style="display:none"></canvas>
           <div class="zone-loaded-overlay" id="app-overlay" style="display:none">
-            <div class="zone-sel-hint">탭하여 APP 선택</div>
-            <button class="zone-reupload" onclick="reupload(event,'app')">↩ 다시 업로드</button>
+            <div class="zone-sel-hint">Tap to select APP</div>
+            <button class="zone-reupload" onclick="reupload(event,'app')">↩ Re-upload</button>
           </div>
           <div class="zone-click-target" id="app-target" onclick="event.stopPropagation();document.getElementById('app-input').click()"></div>
         </div>
@@ -584,12 +584,12 @@ canvas{display:block;width:100%;height:100%;}
       <!-- PDF parse result / route selector -->
       <div id="pdf-result" class="pdf-result" style="display:none">
         <div class="pdf-result-hdr">
-          <span id="pdf-result-title">PDF 파싱 결과</span>
+          <span id="pdf-result-title">PDF Parse Result</span>
           <button class="parse-btn" style="font-size:9px;padding:4px 8px;border-color:#f87171;color:#f87171" onclick="closePdfResult()">✕</button>
         </div>
         <div id="pdf-stars" class="pdf-stars"></div>
-        <div class="pdf-result-sub">절차를 선택하면 우측 [적용] 버튼으로 웨이포인트를 자동 입력합니다</div>
-        <div class="pdf-raw-lbl">추출된 텍스트 (직접 복사 가능)</div>
+        <div class="pdf-result-sub">Select a procedure to auto-fill waypoints with the [Apply] button on the right</div>
+        <div class="pdf-raw-lbl">Extracted text (copyable)</div>
         <textarea id="pdf-raw" class="pdf-raw" readonly></textarea>
       </div>
 
@@ -620,7 +620,7 @@ canvas{display:block;width:100%;height:100%;}
       <!-- Route quick import -->
       <div class="route-paste">
         <div class="route-paste-lbl">③ ROUTE QUICK IMPORT</div>
-        <div class="route-paste-sub">차트 하단 ROUTING에서 웨이포인트를 붙여넣기하면 행이 자동 생성됩니다<br>예: GUKDO-KAKSO-GEO46-ELMAP-TESIK-GEO23-ENPIL</div>
+        <div class="route-paste-sub">Paste waypoints from the ROUTING table at the chart bottom — rows auto-generate<br>e.g. GUKDO-KAKSO-GEO46-ELMAP-TESIK-GEO23-ENPIL</div>
         <div class="route-paste-row">
           <textarea id="route-txt" placeholder="GUKDO-KAKSO-GEO46-ELMAP-TESIK-GEO23-ENPIL"></textarea>
           <button class="parse-btn" onclick="parseRoute()">AUTO FILL ↓</button>
@@ -635,7 +635,7 @@ canvas{display:block;width:100%;height:100%;}
       </div>
 
       <!-- Waypoints -->
-      <div class="sec">④ WAYPOINTS — Far → Near (DIST/LEG NM = 다음 FIX까지 거리, BRG = 다음 FIX로 가는 inbound track °T)</div>
+      <div class="sec">④ WAYPOINTS — Far → Near (DIST/LEG NM = distance to next FIX, BRG = inbound track °T to next FIX)</div>
       <table class="wt">
         <thead><tr>
           <th>FIX</th><th>INBD °T</th><th>LEG NM</th><th>ALT ft</th><th>SPD kt</th><th>TYPE</th><th></th>
@@ -869,7 +869,7 @@ function withOcrTimeout(promise, ms=30000){
   return Promise.race([
     promise,
     new Promise((_,reject)=>setTimeout(()=>
-      reject(new Error(`OCR 시간 초과 (${ms/1000}초)\n웨이포인트를 직접 입력하거나 다시 시도해 주세요.`))
+      reject(new Error(`OCR timeout (${ms/1000}s)\nPlease enter waypoints manually or try again.`))
     , ms))
   ]);
 }
@@ -896,7 +896,7 @@ function reupload(e,side){
   if(canvas)canvas.style.display='none';
   document.getElementById(side+'-overlay').style.display='none';
   document.getElementById(side+'-target').style.display='block';
-  document.getElementById(side+'-lbl').innerHTML=side==='arr'?'📄 PDF / 🖼 이미지<br>도착 절차 차트':'📄 PDF / 🖼 이미지<br>접근 절차 차트';
+  document.getElementById(side+'-lbl').innerHTML=side==='arr'?'📄 PDF / 🖼 Image<br>Arrival chart':'📄 PDF / 🖼 Image<br>Approach chart';
   document.getElementById(side+'-input').value='';
   document.getElementById(side+'-input').click();
 }
@@ -1092,9 +1092,9 @@ async function ensurePdfJsLoaded(){
     }catch(e){ console.warn('[PDF] CDN failed:', cdnUrl, e.message); }
   }
 
-  throw new Error('PDF.js 로드 실패 — vendor/pdf.min.js 없음 + CDN 연결 불가.\n' +
-    'APK 빌드: capacitor.config.json의 webDir에 vendor/ 폴더가 포함되어야 합니다.\n' +
-    '이미지(.png/.jpg)로 업로드하면 OCR 인식은 가능합니다.');
+  throw new Error('PDF.js failed to load — vendor/pdf.min.js missing + no CDN connection.\n' +
+    'APK build: vendor/ folder must be included in capacitor.config.json webDir.\n' +
+    'Upload as image (.png/.jpg) to use OCR instead.');
 }
 
 function pdfItemFromTextItem(item,pageHeight){
@@ -1133,7 +1133,7 @@ async function fileToArrayBuffer(file){
   return new Promise((resolve,reject)=>{
     const r=new FileReader();
     r.onload=e=>resolve(e.target.result);
-    r.onerror=()=>reject(new Error('FileReader 읽기 실패: '+r.error));
+    r.onerror=()=>reject(new Error('FileReader read failed: '+r.error));
     r.readAsArrayBuffer(file);
   });
 }
@@ -1143,7 +1143,7 @@ async function fileToArrayBuffer(file){
 function withPdfTimeout(promise, ms=30000){
   return Promise.race([
     promise,
-    new Promise((_,reject)=>setTimeout(()=>reject(new Error(`PDF 로딩 시간 초과 (${ms/1000}초). 파일이 손상됐거나 기기 메모리가 부족합니다.`)),ms))
+    new Promise((_,reject)=>setTimeout(()=>reject(new Error(`PDF load timeout (${ms/1000}s). File may be corrupted or device memory insufficient.`)),ms))
   ]);
 }
 
@@ -1185,7 +1185,7 @@ async function loadPdfChart(file,side='app'){
   const previewParts=[];
 
   for(let pageNum=1;pageNum<=pdf.numPages;pageNum++){
-    if(side)document.getElementById(side+'-lbl').innerHTML=`📄 PDF 읽는 중 (${pageNum}/${pdf.numPages})...`;
+    if(side)document.getElementById(side+'-lbl').innerHTML=`📄 Reading PDF (${pageNum}/${pdf.numPages})...`;
     const page=await pdf.getPage(pageNum);
     const vp=page.getViewport({scale:1});
     const textContent=await page.getTextContent({normalizeWhitespace:true,disableCombineTextItems:false});
@@ -3090,7 +3090,7 @@ async function handleChartFile(inp,side){
 
   closePdfResult();
   setZoneState(side,'parsing');
-  document.getElementById(side+'-lbl').innerHTML=isPdf?'📄 PDF 파싱 중...':'🖼 이미지 로드 중...';
+  document.getElementById(side+'-lbl').innerHTML=isPdf?'📄 Parsing PDF...':'🖼 Loading image...';
 
   if(isPdf){
     try{
@@ -3179,11 +3179,11 @@ async function handleChartFile(inp,side){
       // auto-switch to OCR-only mode: use Tesseract on the PDF embedded as image.
       // This works for scanned/image PDFs; text-based PDFs won't yield structured data.
       const isPdfJsMissing = errMsg.includes('vendor/pdf.min.js') ||
-                             errMsg.includes('로드 실패') ||
+                             errMsg.includes('failed to load') ||
                              errMsg.includes('CDN') ||
                              !window.pdfjsLib;
       if(isPdfJsMissing && typeof Tesseract !== 'undefined'){
-        document.getElementById(side+'-lbl').innerHTML='⚠ PDF.js 없음 → OCR 모드로 시도 중...';
+        document.getElementById(side+'-lbl').innerHTML='⚠ PDF.js missing → trying OCR mode...';
         // Render the PDF blob as an object URL into a hidden iframe/img, then OCR.
         // Capacitor WebView can sometimes render PDFs via blob: URL in an <object>.
         // If that's unavailable, we fall through to the error message.
@@ -3196,19 +3196,19 @@ async function handleChartFile(inp,side){
           throw new Error('no-render');
         }catch(_){
           setZoneState(side,'');
-          const hint = 'PDF.js 로드 불가 (vendor/ 없음 + 오프라인).\n' +
-                       '해결책: ① 인터넷 연결 후 재시도 (CDN 자동 로드)\n' +
-                       '② 차트를 PNG/JPG로 캡처 후 이미지로 업로드';
+          const hint = 'PDF.js unavailable (no vendor/ + offline).\n' +
+                       'Fix: ① Connect to internet and retry (CDN auto-loads)\n' +
+                       '② Capture chart as PNG/JPG and upload as image';
           document.getElementById(side+'-lbl').innerHTML=
-            '❌ PDF.js 없음<br><span style="font-size:9px;color:#fbbf24">인터넷 연결 or 이미지로 업로드</span>';
-          showToast('⚠ PDF.js 없음 — 이미지(.png/.jpg)로 업로드하세요', true);
+            '❌ PDF.js missing<br><span style="font-size:9px;color:#fbbf24">Connect to internet or upload as image</span>';
+          showToast('⚠ PDF.js missing — upload as image (.png/.jpg)', true);
           return;
         }
       }
 
       setZoneState(side,'');
-      document.getElementById(side+'-lbl').innerHTML='❌ PDF 파싱 실패<br><span style="font-size:9px;color:#f87171">'+errMsg.slice(0,80)+'</span>';
-      showToast('⚠ PDF 실패: '+errMsg.slice(0,60), true);
+      document.getElementById(side+'-lbl').innerHTML='❌ PDF parse failed<br><span style="font-size:9px;color:#f87171">'+errMsg.slice(0,80)+'</span>';
+      showToast('⚠ PDF failed: '+errMsg.slice(0,60), true);
     }
     return;
   }
@@ -3225,7 +3225,7 @@ async function handleChartFile(inp,side){
     await initTessOptions();
     if(_cloudReady || typeof Tesseract !== 'undefined'){
       setZoneState(side,'ocring');
-      document.getElementById(side+'-lbl').innerHTML = _cloudReady ? '☁ 클라우드 OCR 중...' : '🔍 이미지 OCR 중...';
+      document.getElementById(side+'-lbl').innerHTML = _cloudReady ? '☁ Cloud OCR...' : '🔍 Image OCR...';
       try{
         let text = await runCloudOcrDataUrl(e.target.result);
         if(text === null && typeof Tesseract !== 'undefined'){
@@ -3239,7 +3239,7 @@ async function handleChartFile(inp,side){
           })));
           text=result.data.text||'';
         }
-        if(text === null) throw new Error('OCR 결과 없음');
+        if(text === null) throw new Error('No OCR result');
         const sd=parseStarsDebug([{pageNum:1,normal:text.split('\n').map((s,i)=>({str:s,x:0,y:i*12,width:s.length*6})),mirrored:[]}]);
         const stars=sd.stars||[];
         const knownRoutes=buildKnownJeppApproachRoutes(file.name, text);
@@ -3247,23 +3247,23 @@ async function handleChartFile(inp,side){
         chartData[side]={filename:file.name,stars:finalStars,previewText:text,pdf:null,pageData:null};
         if(side==='app'&&chartData[side].navAid){ST.navStation=chartData[side].navAid.station;ST.navFreq=chartData[side].navAid.freq||'';}
         setZoneLoaded(side,file.name);
-        showPdfResult(file.name,text,finalStars,'이미지 OCR 결과');
+        showPdfResult(file.name,text,finalStars,'Image OCR result');
         document.getElementById('pdf-result').scrollIntoView({behavior:'smooth',block:'start'});
         return;
       }catch(ocrErr){
-        console.warn('이미지 OCR 실패',ocrErr);
+        console.warn('Image OCR failed',ocrErr);
       }
     }
 
     // OCR not available (Capacitor or library missing) — just store as image
-    const ocrMsg = '이미지 파일입니다. OCR 라이브러리가 없어 수동 입력이 필요합니다.';
+    const ocrMsg = 'Image file — OCR library unavailable. Manual entry required.';
     chartData[side]={filename:file.name,stars:[],previewText:ocrMsg,navAid:null};
     setZoneLoaded(side,file.name);
-    showPdfResult(file.name, ocrMsg, [], '이미지는 수동 루트 입력이 필요합니다.');
+    showPdfResult(file.name, ocrMsg, [], 'Image requires manual route entry.');
   };
   reader.onerror=()=>{
     setZoneState(side,'');
-    showToast('⚠ 이미지 파일을 읽지 못했습니다.', true);
+    showToast('⚠ Failed to read image file.', true);
   };
   reader.readAsDataURL(file);
 }
@@ -3304,9 +3304,9 @@ function updateCloudStatus(){
   const el=document.getElementById('gcv-status');
   if(!el) return;
   const hasKey=!!getCloudKey(), online=navigator.onLine;
-  if(hasKey&&online){ el.textContent='✅ 클라우드 준비'; el.style.color='#34d399'; }
-  else if(hasKey&&!online){ el.textContent='⚠ 오프라인'; el.style.color='#fbbf24'; }
-  else{ el.textContent='키 없음'; el.style.color='#888'; }
+  if(hasKey&&online){ el.textContent='✅ Cloud ready'; el.style.color='#34d399'; }
+  else if(hasKey&&!online){ el.textContent='⚠ Offline'; el.style.color='#fbbf24'; }
+  else{ el.textContent='No key'; el.style.color='#888'; }
 }
 // Accumulated spatial IAFs from Cloud Vision bounding boxes (populated per page, reset in runOCR).
 let _cloudSpatialIafs=[];
@@ -3432,23 +3432,23 @@ async function runOCR(pdf, previewCanvas, side, filename, pageData=null){
 
   // 즉시 어떤 엔진이 사용되는지 표시 (디버그용)
   if(_hasCloud){
-    document.getElementById(side+'-lbl').innerHTML = '☁ 클라우드 OCR 준비 중...';
+    document.getElementById(side+'-lbl').innerHTML = '☁ Cloud OCR preparing...';
   } else if(_inCap){
     document.getElementById(side+'-lbl').innerHTML = _hasMLKit
-      ? '🤖 ML Kit OCR 준비 중...'
-      : '⚠️ ML Kit 없음 (플러그인 미등록)';
+      ? '🤖 ML Kit OCR preparing...'
+      : '⚠️ ML Kit unavailable (plugin not registered)';
     if(!_hasMLKit){
       // ML Kit도 없고 클라우드도 못 쓰면(오프라인/키 없음) Tesseract는 동작 불가 → 즉시 실패
       setZoneLoaded(side,filename);
-      const errMsg='❌ OCR 엔진을 사용할 수 없습니다.\n\n· 온라인 상태에서 Google Vision API 키를 입력하거나\n· Android Studio에서 ML Kit 플러그인을 빌드하세요.';
+      const errMsg='❌ OCR engine unavailable.\n\n· Connect to internet and enter a Google Vision API key\n· Or build the ML Kit plugin in Android Studio.';
       chartData[side]={filename,stars:[],previewText:errMsg,pdf,pageData};
       showPdfResult(filename,errMsg,[]);
       return;
     }
   } else if(!_hasTess){
-    document.getElementById(side+'-lbl').innerHTML='❌ OCR 라이브러리 미로드';
+    document.getElementById(side+'-lbl').innerHTML='❌ OCR library not loaded';
     setZoneLoaded(side,filename);
-    chartData[side]={filename,stars:[],previewText:'OCR 라이브러리를 불러올 수 없습니다.',pdf,pageData};
+    chartData[side]={filename,stars:[],previewText:'Failed to load OCR library.',pdf,pageData};
     showPdfResult(filename,chartData[side].previewText,[]);
     return;
   }
@@ -3460,7 +3460,7 @@ async function runOCR(pdf, previewCanvas, side, filename, pageData=null){
     const allPageText=[];
 
     for(let pageNum=1;pageNum<=pdf.numPages;pageNum++){
-      document.getElementById(side+'-lbl').innerHTML=`🔍 OCR 렌더링 중 (${pageNum}/${pdf.numPages})...`;
+      document.getElementById(side+'-lbl').innerHTML=`🔍 OCR rendering (${pageNum}/${pdf.numPages})...`;
       const page=await pdf.getPage(pageNum);
       const vp=page.getViewport({scale:OCR_SCALE});
       const ocrCanvas=document.createElement('canvas');
@@ -3468,7 +3468,7 @@ async function runOCR(pdf, previewCanvas, side, filename, pageData=null){
       ocrCanvas.height=vp.height;
       await page.render({canvasContext:ocrCanvas.getContext('2d'),viewport:vp}).promise;
 
-      document.getElementById(side+'-lbl').innerHTML=`🔍 OCR 인식 중 (${pageNum}/${pdf.numPages})...`;
+      document.getElementById(side+'-lbl').innerHTML=`🔍 OCR recognizing (${pageNum}/${pdf.numPages})...`;
 
       // 0순위: 클라우드 OCR (온라인 + Google Vision 키) — 최고 정밀도
       let pageText = await runCloudOcr(ocrCanvas);
@@ -3534,7 +3534,7 @@ async function runOCR(pdf, previewCanvas, side, filename, pageData=null){
   }catch(e){
     console.error('OCR error',e);
     setZoneLoaded(side,filename);
-    chartData[side]={filename,stars:[],previewText:'OCR 실패: '+e.message};
+    chartData[side]={filename,stars:[],previewText:'OCR failed: '+e.message};
     showPdfResult(filename,chartData[side].previewText,[]);
   }
 }
@@ -3608,8 +3608,8 @@ function parseStarsFromOCR(text){
     const fixes=extractOCRFixes(expanded);
     if(fixes.length>=3){
       const label=chartStarNames.length
-        ? chartStarNames.join(' / ')+' — 차트 웨이포인트'
-        : '차트 웨이포인트 (순서 확인 필요)';
+        ? chartStarNames.join(' / ')+' — Chart waypoints'
+        : 'Chart waypoints (verify order)';
       addStar(label,fixes,1);
     }
   }
@@ -4604,7 +4604,7 @@ function showPdfResult(filename,previewText,stars,dbg,side=activeChartSide){
   const el=document.getElementById('pdf-stars');
   if(stars.length===0){
     const dbgHtml=dbg?`<div style="font-size:8px;color:#94a3b8;font-family:Courier New,monospace;margin-top:6px;white-space:pre-wrap;word-break:break-all">${dbg}</div>`:'';
-    el.innerHTML=`<div style="font-size:9px;color:#f87171;font-family:Courier New,monospace;line-height:1.6">⚠ 루트 시퀀스를 찾지 못했습니다.<br>아래 raw text에서 waypoint 이름을 확인 후 ROUTE QUICK IMPORT에 붙여넣기 하세요.</div>${dbgHtml}`;
+    el.innerHTML=`<div style="font-size:9px;color:#f87171;font-family:Courier New,monospace;line-height:1.6">⚠ Route sequence not found.<br>Check waypoint names in the raw text below and paste into ROUTE QUICK IMPORT.</div>${dbgHtml}`;
     return;
   }
   el.innerHTML=stars.map((s,i)=>{
@@ -4625,10 +4625,10 @@ function showPdfResult(filename,previewText,stars,dbg,side=activeChartSide){
       <div style="flex:1;min-width:0">
         <div class="star-item-name">▶ ${s.name}<span style="font-size:7px;color:var(--mut);margin-left:6px">P${s.page}</span></div>
         <div class="star-item-wpts">${hasFd?wptInfo:s.wpts.join(' → ')}</div>
-        ${hasFd?'':'<div style="font-size:7px;color:#f59e0b;font-family:Courier New,monospace">⚠ 거리/고도 미파싱 — 적용 후 수동 확인</div>'}
+        ${hasFd?'':'<div style="font-size:7px;color:#f59e0b;font-family:Courier New,monospace">⚠ Distance/altitude not parsed — verify manually after apply</div>'}
       </div>
       <button class="parse-btn" style="flex-shrink:0;font-size:9px;padding:4px 10px;white-space:nowrap"
-              onclick="event.stopPropagation();applyParsedRoute(${i})">연동 적용 ↓</button>
+              onclick="event.stopPropagation();applyParsedRoute(${i})">Apply ↓</button>
     </div>`;
   }).join('');
   selectStar(0);
@@ -5344,8 +5344,8 @@ function addWRow(n='',brg='',dist='',alt='',spd='250',t='fix',afterTr=null){
       <option value="rwy" ${t==='rwy'?'selected':''}>RWY</option>
     </select></td>
     <td style="white-space:nowrap">
-      <button class="del" title="아래에 행 추가" onclick="insertWRowAfter(this)" style="color:#00e676;background:#051405">＋</button>
-      <button class="del" title="삭제" onclick="deleteWRow(this)">✕</button>
+      <button class="del" title="Insert row below" onclick="insertWRowAfter(this)" style="color:#00e676;background:#051405">＋</button>
+      <button class="del" title="Delete" onclick="deleteWRow(this)">✕</button>
     </td>`;
   if(afterTr&&afterTr.parentNode===tb) tb.insertBefore(tr, afterTr.nextSibling);
   else tb.appendChild(tr);
@@ -5512,14 +5512,14 @@ function saveRoute(){
     flashBtn('save-btn','SAVED ✓');
   }catch(e){
     console.warn('[SaveRoute] 저장 실패:',e);
-    showToast('⚠ 저장 실패: '+e.name+': '+e.message, true);
+    showToast('⚠ Save failed: '+e.name+': '+e.message, true);
   }
 }
 
 function loadRoute(key){
   const routes=getSavedRoutes();
   const r=routes[key];
-  if(!r){alert('저장된 루트를 찾을 수 없습니다: '+key);return;}
+  if(!r){alert('Saved route not found: '+key);return;}
   document.getElementById('i-icao').value=r.icao||'';
   document.getElementById('i-rwy').value=r.rwy||'';
   document.getElementById('i-crs').value=r.crs||'';
@@ -5534,7 +5534,7 @@ function loadRoute(key){
 
 function deleteRoute(key){
   const routes=getSavedRoutes();
-  if(!(key in routes)){alert('삭제할 저장 루트를 찾을 수 없습니다: '+key);return;}
+  if(!(key in routes)){alert('Route to delete not found: '+key);return;}
   delete routes[key];
   try{
     localStorage.setItem(ROUTE_KEY,JSON.stringify(routes));
@@ -5559,7 +5559,7 @@ function renderSavedList(activeKey=''){
   const btn=document.getElementById('save-btn');
   if(btn){
     if(!lsAvailable()){
-      btn.title='⚠ 브라우저가 저장을 허용하지 않습니다 (프라이빗 모드 또는 권한 차단)';
+      btn.title='⚠ Browser does not allow saving (private mode or permission blocked)';
       btn.style.borderColor='#f87171';btn.style.color='#f87171';
     }else{
       btn.title='';btn.style.borderColor='';btn.style.color='';
@@ -5569,12 +5569,12 @@ function renderSavedList(activeKey=''){
   const keys=Object.keys(routes);
   const container=document.getElementById('saved-list');
   if(!container)return;
-  if(keys.length===0){container.innerHTML='<span style="color:var(--mut);font-size:9px">저장된 루트 없음</span>';return;}
+  if(keys.length===0){container.innerHTML='<span style="color:var(--mut);font-size:9px">No saved routes</span>';return;}
   container.innerHTML=keys.map(k=>{
     const ek=encRouteKey(k);
     return `<div class="saved-item${k===activeKey?' active':''}">
-      <button type="button" class="saved-name" data-route-key="${ek}" title="클릭해서 불러오기">${htmlEsc(k)}</button>
-      <button type="button" class="saved-del" data-del-route-key="${ek}" title="삭제">✕</button>
+      <button type="button" class="saved-name" data-route-key="${ek}" title="Click to load">${htmlEsc(k)}</button>
+      <button type="button" class="saved-del" data-del-route-key="${ek}" title="Delete">✕</button>
     </div>`;
   }).join('');
 }
