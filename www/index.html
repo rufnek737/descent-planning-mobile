@@ -61,7 +61,7 @@
 #s1.light .add-row:hover{background:#ecfdf5;border-color:#047857;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;}
-.scr{position:absolute;inset:0;display:none;flex-direction:column;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);}
+.scr{position:absolute;inset:0;display:none;flex-direction:column;padding-top:env(safe-area-inset-top);padding-bottom:max(env(safe-area-inset-bottom),48px);}
 .scr.on{display:flex;}
 .sb{overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:#1a2a3a transparent;}
 
@@ -129,6 +129,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .wt th{background:#040e04;color:var(--mut);padding:5px 3px;border:1px solid #0f1f0f;text-align:center;font-size:8px;letter-spacing:1px;font-family:'Courier New',monospace;}
 .wt td{border:1px solid #0f1f0f;padding:2px;}
 .wt input,.wt select{background:#040e04;border:none;color:var(--txt);font-family:'Courier New',monospace;font-size:10px;padding:3px 4px;width:100%;outline:none;}
+.wt select{padding-right:18px;}
 .wt .del{background:#1a0505;border:none;color:#f87171;padding:2px 7px;cursor:pointer;border-radius:3px;font-size:9px;}
 .add-row{width:100%;background:none;border:1.5px dashed #0a2a0a;border-radius:7px;color:var(--grn);padding:7px;cursor:pointer;font-family:'Courier New',monospace;font-size:10px;margin-bottom:8px;transition:all .15s;}
 .add-row:hover{background:#040e04;border-color:var(--grn);}

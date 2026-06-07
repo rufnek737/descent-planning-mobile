@@ -11,7 +11,7 @@ iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 작업 세션.
   (5/28 v65 변경분은 `rufnek737/descent-planning` 의 `backup-528` 브랜치에 안전 보관)
 - iOS 메타태그 추가: `apple-touch-icon`, `apple-mobile-web-app-status-bar-style`, `viewport-fit=cover`
 - `apple-touch-icon.png` 180x180 생성 (assets/icon.png에서 변환)
-- sw.js 캐시: `cache-50` → `cache-58` (매 코드 변경마다 +1 — 안 올리면 안드로이드/PWA 가 옛 캐시 들고 새 코드 못 받음)
+- sw.js 캐시: `cache-50` → `cache-59` (매 코드 변경마다 +1 — 안 올리면 안드로이드/PWA 가 옛 캐시 들고 새 코드 못 받음)
 - Netlify 자동 배포 ([rufnek737/descent-planning](https://github.com/rufnek737/descent-planning))
 - **사용자 결정**: 이번 수정분부터는 Netlify 배포 안 함 (PWA 대신 네이티브 앱으로 동료 배포)
 
@@ -57,7 +57,14 @@ iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 작업 세션.
    - 핵심: polygon origin 이 꼬리 base 가 되면 point 위치 계산이 1:1 — 점선 끝 = 머리 시작
 7. **APK 양 폰 재빌드 + 설치 완료** (안드로이드: assembleDebug + adb install / iOS: Xcode Run)
 8. **WORK_LOG.md 작성** — 이번 세션 + 다음 세션 컨텍스트 박제
-10. **ND 화면 하단 안전영역 처리**: `.scr` 컨테이너에 `padding-bottom: env(safe-area-inset-bottom)` 추가. 안드로이드 navigation 바와 ND/FMC 화면 콘텐츠가 겹치던 문제 해결. iOS 홈 인디케이터 영역도 함께 안전.
+10. **ND 화면 하단 안전영역 처리** (Android 보정 포함):
+    - `.scr` 의 padding-bottom 을 `env(safe-area-inset-bottom)` → `max(env(safe-area-inset-bottom), 48px)` 로 변경.
+    - 안드로이드 WebView 는 `env(safe-area-inset-bottom)` 을 0 으로 반환해서 첫 시도(env만 사용)는 안드로이드에서 효과 없었음. 48px fallback 으로 3-버튼 navigation 바 영역 커버.
+    - iOS 는 home indicator safe-area 가 자동 잡혀서 영향 없음.
+11. **WAYPOINTS 테이블 TYPE select 화살표 겹침 fix**:
+    - 안드로이드 native select dropdown 화살표가 텍스트(IAF/FIX/FAF/RWY) 위에 겹쳐 보이지 않던 문제.
+    - `.wt select` 에 `padding-right: 18px` 추가해서 화살표 영역 분리.
+    - iOS 는 화살표가 자동으로 우측에 정렬돼서 영향 없음.
 
 9. **SETUP 화면 + 에러 메시지 전체 영어화** (commit 진행 중):
    - UI 라벨 9곳: CHARTS 헤더, upload 라벨, "Re-upload", "PDF Parse Result", "Extracted text", "Apply", WAYPOINTS 헤더 등
