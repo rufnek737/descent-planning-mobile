@@ -6841,42 +6841,29 @@ function drawCompassArc(ACx,ACy,NDr,NDcX,NDcY){
   cx.restore();
 }
 
+// B737 marker — single SVG-style path (Path2D). Original viewBox -140..140,
+// scaled down so the glyph fits the ND ownship slot (~33px tall).
+const B737_PATH = new Path2D(
+  "M 0 -120 C 18 -103 28 -75 28 -38 L 28 -3 L 102 48 " +
+  "C 111 54 110 66 100 69 L 28 48 L 28 86 L 58 111 " +
+  "C 65 117 62 128 53 130 L 0 113 L -53 130 " +
+  "C -62 128 -65 117 -58 111 L -28 86 L -28 48 L -100 69 " +
+  "C -110 66 -111 54 -102 48 L -28 -3 L -28 -38 " +
+  "C -28 -75 -18 -103 0 -120 Z"
+);
+
 function drawNDAircraft(ACx,ACy){
   cx.save();cx.translate(ACx,ACy);
   if(dragging&&dragMode==='aircraft'){cx.shadowColor='#333';cx.shadowBlur=10;}
-  cx.strokeStyle='#111';cx.fillStyle='#dde4ee';cx.lineWidth=2;
-  // Airliner glyph (B737-style): long slim fuselage with rounded nose +
-  // wide nearly-straight main wings + wide horizontal tail stabilizer.
-  // Origin (0,0) is the centre of mass; nose points up (-y).
-  // Fuselage — long tube with rounded nose (quadratic curve) and tapered tail
-  cx.beginPath();
-  cx.moveTo(-1.5,-10);
-  cx.quadraticCurveTo(0,-13.5, 1.5,-10);  // rounded nose cone
-  cx.lineTo(1.5,9);
-  cx.lineTo(0,11);
-  cx.lineTo(-1.5,9);
-  cx.closePath();
-  cx.fill();cx.stroke();
-  // Main wings — wide span, minimal sweep
-  cx.beginPath();
-  cx.moveTo(-15,2);
-  cx.lineTo(-1.5,-1);
-  cx.lineTo(1.5,-1);
-  cx.lineTo(15,2);
-  cx.lineTo(2,3);
-  cx.lineTo(-2,3);
-  cx.closePath();
-  cx.fill();cx.stroke();
-  // Tail horizontal stabilizer — wide, gentle sweep
-  cx.beginPath();
-  cx.moveTo(-6,8);
-  cx.lineTo(-1.5,7);
-  cx.lineTo(1.5,7);
-  cx.lineTo(6,8);
-  cx.lineTo(2,9);
-  cx.lineTo(-2,9);
-  cx.closePath();
-  cx.fill();cx.stroke();
+  const planeScale=0.13;
+  cx.scale(planeScale,planeScale);
+  cx.fillStyle='#dde4ee';
+  cx.strokeStyle='#111';
+  cx.lineWidth=2/planeScale;     // ~2px effective stroke after scaling
+  cx.lineJoin='round';
+  cx.lineCap='round';
+  cx.fill(B737_PATH);
+  cx.stroke(B737_PATH);
   cx.restore();
 }
 
