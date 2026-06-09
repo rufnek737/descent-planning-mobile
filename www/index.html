@@ -549,6 +549,22 @@ canvas{display:block;width:100%;height:100%;}
     }, 500);
   }, 3000);
 })();
+
+// iOS WKWebView black-screen fix: force repaint when app returns to foreground
+(function(){
+  function forceRepaint(){
+    document.body.style.display='none';
+    // eslint-disable-next-line no-unused-expressions
+    document.body.offsetHeight;
+    document.body.style.display='';
+  }
+  if(window.Capacitor){
+    document.addEventListener('resume', forceRepaint, false);
+    if(window.Capacitor.Plugins && window.Capacitor.Plugins.App){
+      window.Capacitor.Plugins.App.addListener('appStateChange', function(s){ if(s.isActive) forceRepaint(); });
+    }
+  }
+})();
 </script>
 
 

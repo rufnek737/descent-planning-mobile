@@ -1,3 +1,12 @@
+# WORK LOG — 2026-06-09
+
+## 오늘 한 일
+- iOS WKWebView 블랙 스크린 버그 수정: 앱 포그라운드 복귀 시 강제 리페인트 추가 (`resume` + `appStateChange` 이중 리스너)
+- sw.js 캐시 cache-66 → cache-67
+- 로컬 폴더 구조 정리: `Desktop\descent-app-apk` → `Desktop\projects\descent-app-apk` 이동
+
+---
+
 # WORK LOG — 2026-06-06
 
 iOS 네이티브 앱 추가 + 라이트모드 + STAR 제거 + 영어화 + UX 미세조정 작업 세션.
