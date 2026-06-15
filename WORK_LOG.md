@@ -1,10 +1,16 @@
 # WORK LOG — 2026-06-09
 
 ## 오늘 한 일
-- EXT ON 모드 TRACK MILES 고정 버그 수정: off-track 시 route 투영값 대신 EXT fix까지 직선거리 사용 (index.html line ~6231)
+- EXT ON 모드 TRACK MILES 고정 버그 수정 (2차): `extState.selectedIdx` 사용으로 변경
+  - 1차 수정은 `extTargetIdx` 사용했으나, 내부 시퀀싱이 RWY로 앞당겨질 때 여전히 고정됨
+  - 최종: 항상 사용자가 선택한 EXT fix(selectedIdx)까지 직선거리 + 이후 레그 합산
 - iOS WKWebView 블랙 스크린 버그 수정: 앱 포그라운드 복귀 시 강제 리페인트 추가 (`resume` + `appStateChange` 이중 리스너)
-- sw.js 캐시 cache-66 → cache-68
-- 로컬 폴더 구조 정리: `Desktop\descent-app-apk` → `Desktop\projects\descent-app-apk` 이동
+- sw.js 캐시 cache-66 → cache-69
+- 로컬 폴더 구조 정리: `Desktop\app 개발` → `Desktop\projects`, `descent-app-apk` 통합
+
+## 다음 할 일
+- Android APK 재빌드 후 TRACK MILES 업데이트 동작 확인
+- iOS 재빌드 (맥에서): git pull → npx cap sync ios → Xcode Run
 
 ---
 
