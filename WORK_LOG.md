@@ -1,8 +1,9 @@
 # WORK LOG — 2026-06-09
 
 ## 오늘 한 일
+- EXT ON 모드 TRACK MILES 고정 버그 수정: off-track 시 route 투영값 대신 EXT fix까지 직선거리 사용 (index.html line ~6231)
 - iOS WKWebView 블랙 스크린 버그 수정: 앱 포그라운드 복귀 시 강제 리페인트 추가 (`resume` + `appStateChange` 이중 리스너)
-- sw.js 캐시 cache-66 → cache-67
+- sw.js 캐시 cache-66 → cache-68
 - 로컬 폴더 구조 정리: `Desktop\descent-app-apk` → `Desktop\projects\descent-app-apk` 이동
 
 ---

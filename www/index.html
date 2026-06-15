@@ -6226,9 +6226,21 @@ function calc(){
   const timeToVertTarget=distToVertTarget>0?distToVertTarget/gs*60:0;
 
   // DTG: remaining flight-plan track miles to runway.
-  // EXT ON: selected EXT fix is the TO waypoint, so use distance to that fix + following legs.
-  // EXT OFF: use projection on the current route leg + all following entered leg distances.
-  const dtgNm=(extTarget&&extTargetIdx>=0)?calcDTGToRunwayFromIndex(wpts,routeEngine,acE,acN,extTargetIdx):routeEngine.dtg;
+  // EXT ON: direct distance to EXT fix + published legs from EXT fix to runway.
+  //   calcDTGToRunwayFromIndex uses trackRemainOnActiveLeg (projection on active leg)
+  //   which ignores cross-track distance — TRACK MILES freezes when aircraft is off-track.
+  //   Direct distance (already in directDistToVertTarget) responds to lateral movement.
+  // EXT OFF: direct distance to active TO + all following entered leg distances (routeEngine.dtg).
+  const dtgNm=(extTarget&&extTargetIdx>=0)
+    ?(()=>{
+      let d=directDistToVertTarget;
+      for(let i=extTargetIdx;i<wpts.length-1;i++){
+        const a=wpts[i],b=wpts[i+1];
+        d+=(Number.isFinite(a.segToNext)&&a.segToNext>0)?a.segToNext:Math.sqrt((b.east-a.east)**2+(b.north-a.north)**2);
+      }
+      return Math.max(0,d);
+    })()
+    :routeEngine.dtg;
   const timeToRwyDTG=dtgNm>0?dtgNm/gs*60:0;
 
   // Vertical target selection:
