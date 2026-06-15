@@ -6226,15 +6226,20 @@ function calc(){
   const timeToVertTarget=distToVertTarget>0?distToVertTarget/gs*60:0;
 
   // DTG: remaining flight-plan track miles to runway.
-  // EXT ON: direct distance to EXT fix + published legs from EXT fix to runway.
-  //   calcDTGToRunwayFromIndex uses trackRemainOnActiveLeg (projection on active leg)
-  //   which ignores cross-track distance — TRACK MILES freezes when aircraft is off-track.
-  //   Direct distance (already in directDistToVertTarget) responds to lateral movement.
+  // EXT ON: direct distance to user-selected EXT fix + published legs from EXT fix to runway.
+  //   Always use selectedIdx (user-chosen fix, e.g. GOKAK) not extTargetIdx which may have
+  //   already sequenced forward to RWY before the aircraft reaches the fix.
+  //   calcDTGToRunwayFromIndex used trackRemainOnActiveLeg (projection only) which froze
+  //   TRACK MILES when the aircraft was off-track.
   // EXT OFF: direct distance to active TO + all following entered leg distances (routeEngine.dtg).
-  const dtgNm=(extTarget&&extTargetIdx>=0)
+  const dtgNm=(ST.extMode && extState.selectedIdx>=0)
     ?(()=>{
-      let d=directDistToVertTarget;
-      for(let i=extTargetIdx;i<wpts.length-1;i++){
+      const selIdx=extState.selectedIdx;
+      const selWpt=wpts[selIdx];
+      if(!selWpt)return routeEngine.dtg;
+      const directToSel=Math.sqrt((selWpt.east-acE)**2+(selWpt.north-acN)**2);
+      let d=directToSel;
+      for(let i=selIdx;i<wpts.length-1;i++){
         const a=wpts[i],b=wpts[i+1];
         d+=(Number.isFinite(a.segToNext)&&a.segToNext>0)?a.segToNext:Math.sqrt((b.east-a.east)**2+(b.north-a.north)**2);
       }
