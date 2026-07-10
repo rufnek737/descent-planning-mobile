@@ -39,13 +39,37 @@ public class NativeOcrPlugin: CAPPlugin {
                 return
             }
             guard let observations = request.results as? [VNRecognizedTextObservation] else {
-                call.resolve(["text": ""])
+                call.resolve(["text": "", "words": []])
                 return
             }
             // Top-to-bottom line order, one candidate per observation.
             let lines = observations.compactMap { $0.topCandidates(1).first?.string }
             let text = lines.joined(separator: "\n")
-            call.resolve(["text": text])
+
+            // Per-word pixel coordinates (image coords, y grows downward) so the
+            // JS spatial chart parser can reason about label positions.
+            let W = CGFloat(cgImage.width), H = CGFloat(cgImage.height)
+            var words: [[String: Any]] = []
+            for obs in observations {
+                guard let cand = obs.topCandidates(1).first else { continue }
+                let full = cand.string
+                var searchStart = full.startIndex
+                for token in full.split(separator: " ") {
+                    let w = String(token)
+                    if let r = full.range(of: w, range: searchStart..<full.endIndex) {
+                        if let box = try? cand.boundingBox(for: r) {
+                            let bb = box.boundingBox   // normalized, origin bottom-left
+                            words.append([
+                                "text": w,
+                                "x": Double(bb.midX * W),
+                                "y": Double((1 - bb.midY) * H)
+                            ])
+                        }
+                        searchStart = r.upperBound
+                    }
+                }
+            }
+            call.resolve(["text": text, "words": words])
         }
 
         // Chart fixes (e.g. MIBIB, ATVID) are not dictionary words, so disable

@@ -59,6 +59,11 @@
 #s1.light .wt input,#s1.light .wt select{background:#ffffff;color:#1e293b;}
 #s1.light .wt .del{background:#fef2f2;color:#dc2626;}
 #s1.light .add-row:hover{background:#ecfdf5;border-color:#047857;}
+#s1.light .coffee-box{background:#f9fafb;border-color:#d1d5db;}
+#s1.light .coffee-sub{color:#64748b;}
+#s1.light .coffee-opt{background:#ffffff;border-color:#d1d5db;color:#1e293b;}
+#s1.light .coffee-opt:hover{border-color:#047857;background:#ecfdf5;}
+#s1.light .coffee-opt .coffee-price{color:#047857;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;}
 .scr{position:absolute;inset:0;display:none;flex-direction:column;padding-top:env(safe-area-inset-top);padding-bottom:max(env(safe-area-inset-bottom),48px);}
@@ -72,7 +77,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .s1-hdr .t1{font-size:13px;font-weight:700;letter-spacing:3px;color:var(--amb);font-family:'Courier New',monospace;}
 .s1-hdr .t2{font-size:8px;color:var(--mut);letter-spacing:2px;margin-top:1px;}
 .s1-inner{padding:16px 18px;max-width:560px;margin:0 auto;width:100%;}
-.sec{font-size:8px;letter-spacing:2px;color:var(--grn);font-family:'Courier New',monospace;margin:14px 0 6px;border-bottom:1px solid #0a1a0a;padding-bottom:3px;}
+.sec{font-size:11px;letter-spacing:2px;color:var(--grn);font-family:'Courier New',monospace;margin:16px 0 7px;border-bottom:1px solid #0a1a0a;padding-bottom:4px;}
 .fg{display:flex;gap:7px;margin-bottom:7px;}
 .fi{background:var(--card);border:1px solid var(--bdr);border-radius:7px;padding:9px 12px;color:var(--txt);font-size:12px;font-family:'Courier New',monospace;outline:none;width:100%;transition:border-color .15s;}
 .fi:focus{border-color:var(--grn);}
@@ -85,11 +90,27 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .upload-sub{font-size:8px;color:#2a3a2a;margin-top:2px;}
 .chart-preview{width:100%;max-height:160px;object-fit:contain;border-radius:6px;margin-top:6px;display:none;border:1px solid var(--bdr);}
 .route-paste{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:10px 14px;margin-bottom:8px;}
-.route-paste-lbl{font-size:9px;color:var(--grn);letter-spacing:1px;font-family:'Courier New',monospace;margin-bottom:5px;}
-.route-paste-sub{font-size:8px;color:var(--mut);margin-bottom:6px;line-height:1.5;}
+.route-paste-lbl{font-size:13px;color:var(--grn);letter-spacing:1px;font-family:'Courier New',monospace;margin-bottom:6px;}
+.route-paste-sub{font-size:11px;color:var(--mut);margin-bottom:7px;line-height:1.55;}
 .route-paste-row{display:flex;gap:6px;}
-.route-paste textarea{flex:1;background:#040e04;border:1px solid #0a2a0a;border-radius:6px;color:var(--txt);font-family:'Courier New',monospace;font-size:11px;padding:7px 10px;outline:none;resize:none;height:38px;}
+.route-paste textarea{flex:1;background:#040e04;border:1px solid #0a2a0a;border-radius:6px;color:var(--txt);font-family:'Courier New',monospace;font-size:15px;padding:9px 12px;outline:none;resize:none;height:56px;}
 .route-paste textarea:focus{border-color:var(--grn);}
+.route-elev-row{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.route-elev-lbl{font-size:11px;color:var(--mut);font-family:'Courier New',monospace;letter-spacing:.5px;}
+.route-elev-row .fi{width:90px;flex:0 0 auto;font-size:14px;}
+.route-preview{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.route-preview:empty{display:none;}
+.rp-fix{background:#050e05;border:1px solid #123212;border-radius:6px;padding:5px 9px;font-family:'Courier New',monospace;font-size:11px;line-height:1.5;}
+.rp-fix .rp-name{color:var(--grn);font-weight:700;}
+.rp-fix .rp-alt{color:#4fc3f7;}
+.rp-fix .rp-crs{color:#f59e0b;}
+.rp-fix .rp-dist{color:#00e676;}
+.rp-fix .rp-blank{color:#3a4a3a;}
+#s1.light .route-preview .rp-fix{background:#f0fdf4;border-color:#bbf7d0;}
+#s1.light .rp-fix .rp-alt{color:#1e40af;}
+#s1.light .rp-fix .rp-crs{color:#b45309;}
+#s1.light .rp-fix .rp-dist{color:#047857;}
+#s1.light .rp-fix .rp-blank{color:#cbd5e1;}
 .parse-btn{background:#0a2a0a;border:1px solid var(--grn);border-radius:6px;color:var(--grn);padding:6px 12px;font-family:'Courier New',monospace;font-size:10px;cursor:pointer;flex-shrink:0;white-space:nowrap;}
 .parse-btn:hover{background:#0f3a0f;}
 .field-hint{font-size:8px;color:var(--mut);margin-top:2px;}
@@ -125,10 +146,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .pdf-result-sub{font-size:8px;color:#2a3a2a;margin-bottom:6px;}
 .pdf-raw-lbl{font-size:8px;color:var(--mut);margin-bottom:3px;font-family:'Courier New',monospace;}
 .pdf-raw{width:100%;height:110px;background:#020802;border:1px solid #0a1a0a;border-radius:5px;color:#3a5a3a;font-family:'Courier New',monospace;font-size:8px;padding:5px 7px;resize:vertical;outline:none;}
-.wt{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:5px;}
-.wt th{background:#040e04;color:var(--mut);padding:5px 3px;border:1px solid #0f1f0f;text-align:center;font-size:8px;letter-spacing:1px;font-family:'Courier New',monospace;}
+.wt{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:5px;}
+.wt th{background:#040e04;color:var(--mut);padding:6px 3px;border:1px solid #0f1f0f;text-align:center;font-size:10px;letter-spacing:1px;font-family:'Courier New',monospace;}
 .wt td{border:1px solid #0f1f0f;padding:2px;}
-.wt input,.wt select{background-color:#040e04;border:none;color:var(--txt);font-family:'Courier New',monospace;font-size:10px;padding:3px 4px;width:100%;outline:none;}
+.wt input,.wt select{background-color:#040e04;border:none;color:var(--txt);font-family:'Courier New',monospace;font-size:13px;padding:4px 4px;width:100%;outline:none;}
 .wt select{-webkit-appearance:none;-moz-appearance:none;appearance:none;text-align:center;text-align-last:center;}
 .wt .del{background:#1a0505;border:none;color:#f87171;padding:2px 7px;cursor:pointer;border-radius:3px;font-size:9px;}
 .add-row{width:100%;background:none;border:1.5px dashed #0a2a0a;border-radius:7px;color:var(--grn);padding:7px;cursor:pointer;font-family:'Courier New',monospace;font-size:10px;margin-bottom:8px;transition:all .15s;}
@@ -136,6 +157,14 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .btn{width:100%;padding:13px;border:none;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:opacity .15s;}
 .btn-grn{background:var(--grn);color:#000;}
 .btn-grn:hover{opacity:.88;}
+.coffee-box{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:14px;margin-top:16px;}
+.coffee-sub{font-size:9px;color:var(--mut);margin-bottom:10px;line-height:1.5;}
+.coffee-opts{display:flex;gap:7px;}
+.coffee-opt{flex:1;background:var(--surf);border:1px solid var(--bdr);border-radius:8px;padding:10px 6px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;font:inherit;color:var(--txt);}
+.coffee-opt:hover{border-color:var(--grn);background:#041a04;}
+.coffee-emoji{font-size:20px;margin-bottom:4px;}
+.coffee-label{font-size:9px;letter-spacing:.5px;margin-bottom:3px;}
+.coffee-price{font-family:'Courier New',monospace;font-size:10px;color:var(--grn);font-weight:700;}
 
 /* ── ND SCREEN ── */
 #s2{flex-direction:row;}
@@ -325,17 +354,16 @@ canvas{display:block;width:100%;height:100%;}
   .s1-hdr{padding:10px 12px;}
   .s1-hdr .t1{font-size:11px;letter-spacing:2px;}
   .s1-hdr .t2{font-size:7px;}
-  .sec{font-size:8px;letter-spacing:1.5px;}
+  .sec{font-size:11px;letter-spacing:1.5px;}
   .fg{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
   .fg>div{width:auto!important;}
   .fi.s,.fi.m{width:100%;}
-  .route-paste{display:none;}
   .save-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
-  .save-btn{width:100%;font-size:13px;padding:13px 10px;background:#003300;border:2px solid #00e676;color:#00e676;border-radius:8px;}
+  .save-btn{width:100%;font-size:14px;padding:14px 10px;background:#003300;border:2px solid #00e676;color:#00e676;border-radius:8px;}
   .pdf-raw{height:76px;}
-  .wt{font-size:9px;}
-  .wt th{font-size:7px;padding:4px 2px;}
-  .wt input,.wt select{font-size:9px;padding:4px 3px;}
+  .wt{font-size:12px;}
+  .wt th{font-size:9px;padding:5px 2px;}
+  .wt input,.wt select{font-size:12px;padding:5px 3px;}
 }
 
 /* Tablet / desktop landscape: ND + data panel side by side */
@@ -578,6 +606,10 @@ canvas{display:block;width:100%;height:100%;}
   <div class="sb">
     <div class="s1-inner">
 
+      <!-- Legacy chart-upload + airport inputs: hidden from the UI (manual entry
+           workflow) but kept in the DOM because downstream code reads i-icao /
+           i-rwy / i-crs / i-elev / i-star and the chart upload elements. -->
+      <div id="legacy-setup" style="display:none">
       <!-- Chart upload -->
       <div class="sec">① CHARTS — Upload PDF for auto routing parse / images supported</div>
 
@@ -606,7 +638,7 @@ canvas{display:block;width:100%;height:100%;}
           <button class="parse-btn" style="font-size:9px;padding:4px 8px;border-color:#f87171;color:#f87171" onclick="closePdfResult()">✕</button>
         </div>
         <div id="pdf-stars" class="pdf-stars"></div>
-        <div class="pdf-result-sub">Select a procedure to auto-fill waypoints with the [Apply] button on the right</div>
+        <div class="pdf-result-sub" id="pdf-result-sub">Read the fix names below, then type them into ③ ROUTE QUICK IMPORT (altitudes/course/distance auto-fill).</div>
         <div class="pdf-raw-lbl">Extracted text (copyable)</div>
         <textarea id="pdf-raw" class="pdf-raw" readonly></textarea>
       </div>
@@ -634,26 +666,34 @@ canvas{display:block;width:100%;height:100%;}
       <div class="fg">
         <input class="fi" id="i-star" placeholder="STAR / Approach Name" value="ILS 33L">
       </div>
+      </div><!-- /legacy-setup -->
 
       <!-- Route quick import -->
       <div class="route-paste">
-        <div class="route-paste-lbl">③ ROUTE QUICK IMPORT</div>
-        <div class="route-paste-sub">Paste waypoints from the ROUTING table at the chart bottom — rows auto-generate<br>e.g. GUKDO-KAKSO-GEO46-ELMAP-TESIK-GEO23-ENPIL</div>
+        <div class="route-paste-lbl">① ROUTE QUICK IMPORT</div>
+        <div class="route-paste-sub">Type each fix, then its numbers read off the chart: <b>altitude</b> (≥500), <b>course</b> (≤360), <b>distance</b> (with a dot). Order of the numbers doesn't matter. Space separates fixes. End with the runway (e.g. <b>RWY33L</b>).<br>e.g. <b>BUMSI 8000 324 7.4  PUDUB 5500 324 5.1  WONKO 4000 RWY33L</b></div>
         <div class="route-paste-row">
-          <textarea id="route-txt" placeholder="GUKDO-KAKSO-GEO46-ELMAP-TESIK-GEO23-ENPIL"></textarea>
+          <textarea id="route-txt" oninput="onRouteInput(this)" placeholder="BUMSI 8000 324 7.4  PUDUB 5500 324 5.1  WONKO 4000 RWY33L"></textarea>
           <button class="parse-btn" onclick="parseRoute()">AUTO FILL ↓</button>
         </div>
+        <div class="route-elev-row">
+          <span class="route-elev-lbl">Field Elevation</span>
+          <input id="route-elev" class="fi" type="number" inputmode="numeric" placeholder="59" value="23"
+                 oninput="var e=document.getElementById('i-elev'); if(e)e.value=this.value;">
+          <span class="route-elev-lbl">ft</span>
+        </div>
+        <div id="route-preview" class="route-preview"></div>
       </div>
 
       <!-- Save / Load -->
-      <div class="sec">③ SAVED ROUTES</div>
+      <div class="sec">② SAVED ROUTES</div>
       <div class="save-bar">
         <button class="save-btn" id="save-btn" onclick="saveRoute()" ontouchstart="event.preventDefault();saveRoute()">💾 SAVE ROUTE</button>
         <div class="saved-list" id="saved-list"></div>
       </div>
 
       <!-- Waypoints -->
-      <div class="sec">④ WAYPOINTS — Far → Near (DIST/LEG NM = distance to next FIX, BRG = inbound track °T to next FIX)</div>
+      <div class="sec">③ WAYPOINTS — Far → Near (DIST/LEG NM = distance to next FIX, BRG = inbound track °T to next FIX)</div>
       <table class="wt">
         <thead><tr>
           <th>FIX</th><th>INBD °T</th><th>LEG NM</th><th>ALT ft</th><th>SPD kt</th><th>TYPE</th><th></th>
@@ -663,6 +703,24 @@ canvas{display:block;width:100%;height:100%;}
       <!-- Add Waypoint button removed for clean responsive layout -->
 
       <button class="btn btn-grn" onclick="goND()">START ND PLANNING →</button>
+
+      <!-- Developer coffee donation (free-distribution app) -->
+      <div class="coffee-box">
+        <div class="sec" style="margin-top:0">☕ 개발자에게 커피 사주기</div>
+        <div class="coffee-sub">무료로 배포되는 앱입니다. 작은 응원이 다음 업데이트로 이어져요.</div>
+        <div class="coffee-opts">
+          <button class="coffee-opt" onclick="window.open('https://qr.kakaopay.com/FWTLO6dQc','_blank')">
+            <div class="coffee-emoji">☕</div>
+            <div class="coffee-label">커피 한 잔</div>
+            <div class="coffee-price">₩1,500</div>
+          </button>
+          <button class="coffee-opt" onclick="window.open('https://qr.kakaopay.com/FWTLO6dQc','_blank')">
+            <div class="coffee-emoji">🍰</div>
+            <div class="coffee-label">커피+케익</div>
+            <div class="coffee-price">₩4,500</div>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -3416,6 +3474,647 @@ async function runCloudOcrDataUrl(dataUrl){
   window.addEventListener('offline',updateCloudStatus);
 })();
 
+// ── Spatial approach-chart parser ─────────────────────────────────────────
+// Input: words [{text,x,y}] in page pixel coords (merged multi-rotation OCR),
+//        W/H page size, gray {w,h,data:Uint8Array,scale} optional bitmap for
+//        line tracing, ctx {runway} approach context.
+// Output: routes [{name, wpts:[...], fd:{FIX:{alt,legDist,course}}, src}]
+// Works on RASTER charts where pdf.js has no text layer.
+
+function parseApproachChartSpatial(words, W, H, gray, ctx, opts) {
+  if (!words || words.length < 30) return [];
+  opts = opts || {};
+  const MIN_HITS = opts.minHits || 2;
+
+  // ── helpers ──
+  const hyp = (ax, ay, bx, by) => Math.sqrt((bx-ax)*(bx-ax) + (by-ay)*(by-ay));
+  function editDist1(a, b) {          // true if edit distance <= 1
+    if (a === b) return true;
+    const la = a.length, lb = b.length;
+    if (Math.abs(la - lb) > 1) return false;
+    if (la === lb) { let d = 0; for (let i = 0; i < la; i++) if (a[i] !== b[i]) d++; return d <= 1; }
+    const [s, l] = la < lb ? [a, b] : [b, a];
+    let i = 0, j = 0, used = false;
+    while (i < s.length && j < l.length) {
+      if (s[i] === l[j]) { i++; j++; }
+      else { if (used) return false; used = true; j++; }
+    }
+    return true;
+  }
+
+  // ── 1. vertical region bounds ──
+  let briefBottom = 0.16 * H;
+  let profileTop = 0.80 * H;
+  const rowsD0 = {};
+  for (const w of words) {
+    if (/^(Trans|Alt)$/.test(w.text) && w.y < 0.35 * H)
+      briefBottom = Math.max(briefBottom, w.y + 0.003 * H);
+    if (/^\d{1,2}\.0$/.test(w.text)) {
+      const k = Math.round(w.y / (0.006 * H));
+      (rowsD0[k] = rowsD0[k] || new Set()).add(Math.round(w.x / (0.005 * W)));
+    }
+  }
+  for (const k in rowsD0)
+    if (rowsD0[k].size >= 4) profileTop = Math.min(profileTop, k * 0.006 * H - 0.005 * H);
+  const inPlan = (x, y) => y > briefBottom && y < profileTop;
+
+  // ── 2. missed-approach inset exclusion ──
+  let inset = null;
+  for (const a of words) {
+    if (a.text.toUpperCase() !== 'MISSED' || !inPlan(a.x, a.y)) continue;
+    for (const b of words) {
+      if (/^APPROACH/i.test(b.text) && Math.abs(b.y - a.y) < 0.01 * H && b.x > a.x && b.x - a.x < 0.17 * W) {
+        inset = { x: a.x - 0.05 * W, y1: a.y - 0.02 * H, y2: a.y + 0.32 * H };
+        break;
+      }
+    }
+    if (inset) break;
+  }
+  const inInset = (x, y) => !!inset && x > inset.x && y > inset.y1 && y < inset.y2;
+
+  // FT/METER CONVERSION (QNH) box: its altitude figures sit inside the plan
+  // view and poison per-fix altitude lookup — exclude a rect around it.
+  const altExcl = [];
+  for (const a of words) {
+    if (!/^(CONVERSION|QNH)$/i.test(a.text) || !inPlan(a.x, a.y)) continue;
+    altExcl.push({ x1: a.x - 0.11 * W, x2: a.x + 0.13 * W, y1: a.y - 0.03 * H, y2: a.y + 0.09 * H });
+  }
+  const inAltExcl = (x, y) => altExcl.some(r => x > r.x1 && x < r.x2 && y > r.y1 && y < r.y2);
+
+  // ── 3. fix candidates ──
+  const STOP = new Set(('MISSED,APPROACH,APCH,MANDATORY,MANDAT,ANDATORY,DATORY,ATORY,MAXIMUM,MINIMUM,' +
+    'CLIMB,TRACK,TURNS,TURN,RIGHT,LEFT,DIRECT,HOLD,HOLDING,ABOVE,BELOW,UNTIL,WHEN,THEN,ONLY,WITH,' +
+    'REQUESTED,PUBLISHED,PRACTICABLE,UNABLE,DURING,PASSING,GRADIENT,READS,ZERO,SPEED,THRESH,DISPL,' +
+    'DISPLACED,INITIAL,FINAL,APPROACHES,CIRCLE,LAND,LANDING,STRAIGHT,STATE,SCALE,SCALEI,SCALEL,' +
+    'NOTTO,CONVERSION,METER,FEET,RADAR,TOWER,GROUND,ATIS,CHART,CHANGES,FREQUENCY,MHZ,PANS,' +
+    'MAXKT,MINKT,KNOTS,RUNWAY,ELEV,AIRPORT,INTL,BEARING,BEARINGS,COURSE,DESCENT,ANGLE,SLOPE,' +
+    'AVOID,WARNING,BEFORE,AFTER,HEADING,SERVICE,REQUIRED,THRESHOLD,AUTHORIZED,CIRCLING,' +
+    'ALTITUDE,ALTIMETER,APELEV,TRANS,LEVEL,NORTH,SOUTH,WEST,EAST,CAUTION,NOTE,MORA,GRID,MSAARP,' +
+    'MACAU,TAIPA,COLOANE,ZHUHAI,HONG,KONG,CHINA,KOREA,JAPAN,SEOUL,INCHEON,OSAKA,TOKYO,KANSAI').split(','));
+  // Vision OCR sometimes returns Cyrillic/Greek homoglyphs (М, О, Р, Е…) that
+  // look identical to Latin letters. Normalize them so the same fix read across
+  // rotation passes clusters into one token instead of splitting.
+  const HOMOGLYPH = {
+    'А':'A','В':'B','Е':'E','К':'K','М':'M','Н':'H','О':'O','Р':'P','С':'C','Т':'T','Х':'X','У':'Y','І':'I','Ј':'J',
+    'Α':'A','Β':'B','Ε':'E','Ζ':'Z','Η':'H','Ι':'I','Κ':'K','Μ':'M','Ν':'N','Ο':'O','Ρ':'P','Τ':'T','Υ':'Y','Χ':'X'
+  };
+  function cleanFix(t) {
+    return String(t || '').toUpperCase()
+      .replace(/[Ѐ-ӿͰ-Ͽ]/g, ch => HOMOGLYPH[ch] || '')
+      .replace(/Ø/g, '0')
+      .replace(/[^A-Z0-9]/g, '');
+  }
+  // Loose signature for fuzzy fix matching: collapses the OCR digit/letter
+  // confusions (O↔0, I/L↔1, S↔5, B↔8, Z↔2) so a pilot-typed name matches the
+  // OCR-detected token regardless of which glyph each side chose.
+  function fixSig(t) {
+    return cleanFix(t).replace(/[O0Q]/g,'0').replace(/[IL1]/g,'1').replace(/[S5]/g,'5').replace(/[B8]/g,'8').replace(/[Z2]/g,'2');
+  }
+  function isFixTok(t) {
+    if (t.length < 4 || t.length > 6) return false;
+    if (!/^[A-Z][A-Z0-9]+$/.test(t)) return false;
+    if (STOP.has(t)) return false;
+    if (/^(D\d|FL\d|RWY|ILS|LOC|GS\d|VOR|NDB|DME|CAT|MSA|MHA|MAX|MIN|QNH|HPA)/.test(t)) return false;
+    // final-approach bracket fixes ([FI34], [ML34], [FF07]...) and runway idents:
+    // real graph nodes never look like 1-2 letters + trailing digits of the rwy
+    if (/^(F[FIL]?|ML|MAP?|RW|OM|MM|IM|GS|GP)\d{2,4}$/.test(t)) return false;
+    if (/CHINA$|MACAU$|KOREA$|JAPAN$/.test(t)) return false;
+    if (/^\d/.test(t)) return false;
+    return true;
+  }
+
+  const cand = {};   // name -> clusters [{x,y,n}]
+  for (const w of words) {
+    if (!inPlan(w.x, w.y)) continue;
+    const t = cleanFix(w.text);
+    if (!isFixTok(t)) continue;
+    const cl = (cand[t] = cand[t] || []);
+    let hit = null;
+    for (const c of cl)
+      if (Math.abs(c.x - w.x) < 0.025 * W && Math.abs(c.y - w.y) < 0.02 * H) { hit = c; break; }
+    if (hit) { hit.n++; hit.x = (hit.x + w.x) / 2; hit.y = (hit.y + w.y) / 2; }
+    else cl.push({ x: w.x, y: w.y, n: 1 });
+  }
+  // pick best non-inset cluster per name
+  const fixes = {};
+  for (const name in cand) {
+    let best = null;
+    for (const c of cand[name]) {
+      if (inInset(c.x, c.y)) continue;
+      if (!best || c.n > best.n) best = c;
+    }
+    if (best) fixes[name] = best;
+  }
+  // merge OCR-noise variants into the higher-hit name. Two real fixes can have
+  // edit-distance-1 names AND sit near each other (MC610/MC611) — only treat b
+  // as noise when it is a weak read (below MIN_HITS) or a superstring (GAOLANY).
+  let names = Object.keys(fixes);
+  for (const a of names) {
+    if (!fixes[a]) continue;
+    for (const b of names) {
+      if (a === b || !fixes[a] || !fixes[b]) continue;
+      const near = hyp(fixes[a].x, fixes[a].y, fixes[b].x, fixes[b].y) < 0.02 * H;
+      const superstr = b.includes(a) && b.length <= a.length + 2;
+      const weakVar = near && editDist1(a, b) && fixes[b].n < Math.max(MIN_HITS, fixes[a].n / 2);
+      if (superstr || weakVar) {
+        if (fixes[a].n >= fixes[b].n) { fixes[a].n += fixes[b].n; delete fixes[b]; }
+      }
+    }
+  }
+  // drop weak reads: noise tokens rarely repeat across rotation passes
+  for (const n of Object.keys(fixes))
+    if (fixes[n].n < MIN_HITS) delete fixes[n];
+  names = Object.keys(fixes);
+
+  // ── 4. IAF / IF tags ──
+  const tags = {};
+  for (const w of words) {
+    const raw = w.text.toUpperCase().replace(/[^A-Z]/g, '');
+    if (raw !== 'IAF' && raw !== 'IF') continue;
+    if (!/[()]/.test(w.text) && raw === 'IF') continue;  // bare "IF" words are prose
+    if (!inPlan(w.x, w.y) || inInset(w.x, w.y)) continue;
+    let best = null, bd = 1e18;
+    for (const n of Object.keys(fixes)) {
+      const d = hyp(fixes[n].x, fixes[n].y, w.x, w.y);
+      if (d < bd) { bd = d; best = n; }
+    }
+    if (best && bd < 0.06 * H) {
+      const cur = tags[best];
+      if (!cur || raw === 'IAF') tags[best] = raw;
+    }
+  }
+
+  // ── 5. altitude per fix ── (vote across rotation passes: repeated values are
+  // real chart annotations, one-off numbers are misreads/terrain figures)
+  const mandatoryWords = words.filter(w => /^[I|]?MANDATORY[.,]?$/i.test(w.text));
+  function altValOf(w) {
+    const t = w.text.replace(/[,'']/g, '');
+    let v = null;
+    if (/^FL\d{2,3}$/i.test(t)) v = parseInt(t.slice(2), 10) * 100;
+    else if (/^\d{3,5}$/.test(t)) v = parseInt(t, 10);
+    if (v == null || v < 500 || v > 20000 || v % 100) return null;
+    return v;
+  }
+  function fixAlt(name) {
+    const f = fixes[name];
+    // A "MANDATORY" tag near the fix names its crossing altitude explicitly —
+    // the number right next to that word beats any proximity vote.
+    for (const mw of mandatoryWords) {
+      if (hyp(f.x, f.y, mw.x, mw.y) > 0.035 * H) continue;
+      let best = null, bd = 1e18;
+      for (const w of words) {
+        const v = altValOf(w);
+        if (v == null || inAltExcl(w.x, w.y)) continue;
+        const d = hyp(mw.x, mw.y, w.x, w.y);
+        if (d < 0.028 * H && d < bd) { bd = d; best = v; }
+      }
+      if (best != null) return best;
+    }
+    const votes = {};   // v -> {count, minD}
+    for (const w of words) {
+      const v = altValOf(w);
+      if (v == null || inAltExcl(w.x, w.y)) continue;
+      const d = hyp(f.x, f.y, w.x, w.y);
+      if (d > 0.055 * H) continue;
+      const rec = (votes[v] = votes[v] || { count: 0, minD: 1e18 });
+      rec.count++;
+      if (d < rec.minD) rec.minD = d;
+    }
+    let best = null, bs = 1e18;
+    for (const v in votes) {
+      const s = votes[v].minD - Math.min(votes[v].count, 8) * 0.01 * H;
+      if (s < bs) { bs = s; best = parseInt(v, 10); }
+    }
+    return best;
+  }
+
+  // ── 6. leg labels (dedup clusters) ──
+  const labels = [];  // {kind:'dist'|'crs', v, x, y}
+  for (const w of words) {
+    if (!inPlan(w.x, w.y) || inInset(w.x, w.y)) continue;
+    const t = w.text.replace(/^[-.·•]+|[-.·•]+$/g, '');
+    let kind = null, v = null;
+    let m;
+    if ((m = t.match(/^(\d{1,2}\.\d)$/))) {
+      v = parseFloat(m[1]);
+      if (v >= 0.5 && v <= 30) kind = 'dist';
+    } else if ((m = t.match(/^(\d{3})[°º]$/))) {
+      v = parseInt(m[1], 10);
+      if (v >= 1 && v <= 360) kind = 'crs';
+    }
+    if (!kind) continue;
+    let hit = null;
+    for (const L of labels)
+      if (L.kind === kind && hyp(L.x, L.y, w.x, w.y) < 0.012 * H) { hit = L; break; }
+    if (hit) { hit.votes.push(v); if (w.rot != null) hit.rots.add(w.rot); }
+    else labels.push({ kind, x: w.x, y: w.y, votes: [v], rots: new Set(w.rot != null ? [w.rot] : []) });
+  }
+  for (const L of labels) {   // majority vote for value
+    const counts = {};
+    for (const v of L.votes) counts[v] = (counts[v] || 0) + 1;
+    L.v = +Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
+  }
+
+  // couple dist+crs labels that sit together (same leg annotation)
+  const couples = [];
+  const usedC = new Set();
+  for (const d of labels) {
+    if (d.kind !== 'dist') continue;
+    let best = null, bd = 0.05 * H;
+    for (const c of labels) {
+      if (c.kind !== 'crs' || usedC.has(c)) continue;
+      const dd = hyp(d.x, d.y, c.x, c.y);
+      if (dd < bd) { bd = dd; best = c; }
+    }
+    if (best) { usedC.add(best); couples.push({ dist: d, crs: best }); }
+    else couples.push({ dist: d, crs: null });
+  }
+  for (const c of labels)
+    if (c.kind === 'crs' && !usedC.has(c)) couples.push({ dist: null, crs: c });
+
+  // ── 7. edge assignment ──
+  const fixList = Object.keys(fixes);
+  const screenBrg = (a, b) => {
+    const fa = fixes[a], fb = fixes[b];
+    return (Math.atan2(fb.x - fa.x, -(fb.y - fa.y)) * 180 / Math.PI + 360) % 360;
+  };
+  const angDiff = (a, b) => Math.abs(((a - b) % 360 + 540) % 360 - 180);
+
+  function betweenVeto(a, b) {
+    const fa = fixes[a], fb = fixes[b];
+    const L = hyp(fa.x, fa.y, fb.x, fb.y);
+    for (const c of fixList) {
+      if (c === a || c === b) continue;
+      const fc = fixes[c];
+      const t = ((fc.x - fa.x) * (fb.x - fa.x) + (fc.y - fa.y) * (fb.y - fa.y)) / (L * L);
+      if (t < 0.15 || t > 0.85) continue;
+      const px = fa.x + t * (fb.x - fa.x), py = fa.y + t * (fb.y - fa.y);
+      if (hyp(fc.x, fc.y, px, py) < Math.max(0.012 * H, 0.35 * L)) return true;
+    }
+    return false;
+  }
+  function perpT(x, y, a, b) {
+    const fa = fixes[a], fb = fixes[b];
+    const L = hyp(fa.x, fa.y, fb.x, fb.y);
+    const t = ((x - fa.x) * (fb.x - fa.x) + (y - fa.y) * (fb.y - fa.y)) / (L * L);
+    const px = fa.x + t * (fb.x - fa.x), py = fa.y + t * (fb.y - fa.y);
+    return { t, perp: hyp(x, y, px, py), L };
+  }
+
+  const edges = {};   // "A|B" sorted -> {dist,crs,dir,ev}
+  const EV = { COUPLE: 3, SOLO_CRS: 2, SOLO_DIST: 1, LINE: 0.5 };
+  function edgeKey(a, b) { return a < b ? a + '|' + b : b + '|' + a; }
+  function addEdge(a, b, patch, ev) {
+    const k = edgeKey(a, b);
+    const e = (edges[k] = edges[k] || { a: a < b ? a : b, b: a < b ? b : a, ev: 0 });
+    for (const key in patch) if (patch[key] != null && e[key] == null) e[key] = patch[key];
+    e.ev = Math.max(e.ev, ev);
+  }
+
+  for (let ci = 0; ci < couples.length; ci++) {
+    const cp = couples[ci];
+    const lx = cp.dist ? cp.dist.x : cp.crs.x, ly = cp.dist ? cp.dist.y : cp.crs.y;
+    let best = null;
+    for (let i = 0; i < fixList.length; i++) {
+      for (let j = i + 1; j < fixList.length; j++) {
+        const a = fixList[i], b = fixList[j];
+        const { t, perp, L } = perpT(lx, ly, a, b);
+        if (L < 0.02 * H || L > 0.45 * H) continue;
+        if (t < 0.08 || t > 0.92) continue;
+        // uncoupled distance labels are often printed further off the leg line
+        const perpLim = (cp.dist && !cp.crs) ? 0.032 * H : 0.026 * H;
+        if (perp > perpLim) continue;
+        // Leg annotations are printed parallel to their leg, so a label read by
+        // the rot-R OCR pass implies leg slope ≈ (90+R) mod 180. Use this to
+        // stop solo distance labels latching onto a crossing leg.
+        if (cp.dist && !cp.crs && cp.dist.rots && cp.dist.rots.size) {
+          const bm = screenBrg(a, b) % 180;
+          let rotOk = false;
+          for (const rr of cp.dist.rots) {
+            const d0 = Math.abs(bm - (90 + rr) % 180);
+            if (Math.min(d0, 180 - d0) <= 25) { rotOk = true; break; }
+          }
+          if (!rotOk) continue;
+        }
+        let brgDiff = 0, dir = null;
+        if (cp.crs) {
+          const brg = screenBrg(a, b);
+          const d1 = angDiff(cp.crs.v, brg), d2 = angDiff(cp.crs.v, (brg + 180) % 360);
+          brgDiff = Math.min(d1, d2);
+          if (brgDiff > 28) continue;
+          dir = d1 <= d2 ? [a, b] : [b, a];
+        }
+        let score = perp + brgDiff * 0.0015 * H + L * 0.008; // prefer short legs: labels sit on their own leg
+        if (cp.crs && cp.dist) {
+          const p2 = perpT(cp.crs.x, cp.crs.y, a, b);
+          if (p2.perp > 0.03 * H || p2.t < 0.05 || p2.t > 0.95) continue;
+          score = (perp + p2.perp) / 2 + brgDiff * 0.0015 * H + L * 0.008;
+        }
+        // a fix sitting between a-b usually means the label belongs to one of
+        // the sub-legs — penalize rather than veto (charts are only roughly to scale)
+        if (betweenVeto(a, b)) score += 0.05 * H;
+        if (!best || score < best.score) best = { score, a, b, dir };
+      }
+    }
+    if (best) {
+      const ev = cp.dist && cp.crs ? EV.COUPLE : (cp.crs ? EV.SOLO_CRS : EV.SOLO_DIST);
+      addEdge(best.a, best.b, {
+        dist: cp.dist ? cp.dist.v : null,
+        crs: cp.crs ? cp.crs.v : null,
+        dir: best.dir ? best.dir.join('>') : null
+      }, ev);
+    } else if (cp.dist && cp.crs) {
+      // mis-coupled (a distance grabbed a course from a neighbouring leg and
+      // the bearing check rejected every pair) — retry each label solo
+      couples.push({ dist: cp.dist, crs: null }, { dist: null, crs: cp.crs });
+    }
+  }
+
+  // ── 7b. line-trace evidence from bitmap (optional) ──
+  if (gray && gray.data) {
+    const gs = gray.scale || 1;
+    const gw = gray.w, gh = gray.h, G = gray.data;
+    const darkAt = (X, Y) => X >= 0 && Y >= 0 && X < gw && Y < gh && G[Y * gw + X] < 100;
+    function traceCov(a, b) {
+      const fa = fixes[a], fb = fixes[b];
+      const ax = fa.x / gs, ay = fa.y / gs, bx = fb.x / gs, by = fb.y / gs;
+      const L = hyp(ax, ay, bx, by);
+      if (L < 20) return { cov: 0, gap: 1 };
+      const ux = (bx - ax) / L, uy = (by - ay) / L, pxu = -uy, pyu = ux;
+      const n = Math.max(20, Math.floor(L / 3));
+      // generous tolerance: fix anchor = text label, offset from the symbol the
+      // line actually connects (up to ~0.02H in page px)
+      const tol = Math.max(8, Math.round(Math.min(0.022 * H / gs, L * 0.13)));
+      let hits = 0, cur = 0, maxg = 0;
+      for (let i = 0; i <= n; i++) {
+        const t = 0.13 + 0.74 * i / n;
+        const cx = ax + ux * L * t, cy = ay + uy * L * t;
+        let hit = false;
+        for (let o = -tol; o <= tol && !hit; o += 2)
+          if (darkAt(Math.round(cx + pxu * o), Math.round(cy + pyu * o))) hit = true;
+        if (hit) { hits++; cur = 0; } else { cur++; if (cur > maxg) maxg = cur; }
+      }
+      return { cov: hits / (n + 1), gap: maxg / (n + 1) };
+    }
+    for (let i = 0; i < fixList.length; i++) {
+      for (let j = i + 1; j < fixList.length; j++) {
+        const a = fixList[i], b = fixList[j];
+        if (edges[edgeKey(a, b)]) continue;
+        const fa = fixes[a], fb = fixes[b];
+        const L = hyp(fa.x, fa.y, fb.x, fb.y);
+        if (L < 0.03 * H || L > 0.28 * H) continue;
+        if (betweenVeto(a, b)) continue;
+        const { cov, gap } = traceCov(a, b);
+        if (opts.traceLog) opts.traceLog(a, b, cov, gap);
+        if (cov >= 0.68 && gap <= 0.15) addEdge(a, b, { cov }, EV.LINE);
+      }
+    }
+  }
+
+  // ── 8. walk routes from each IAF toward IF ──
+  const IFfix = Object.keys(tags).find(n => tags[n] === 'IF') || null;
+  const adj = {};
+  for (const k in edges) {
+    const e = edges[k];
+    (adj[e.a] = adj[e.a] || []).push(e.b);
+    (adj[e.b] = adj[e.b] || []).push(e.a);
+  }
+  const distToIF = n => IFfix ? hyp(fixes[n].x, fixes[n].y, fixes[IFfix].x, fixes[IFfix].y) : 0;
+
+  function walk(start) {
+    const route = [start], seen = new Set([start]);
+    let cur = start, prevBrg = null;
+    while (cur !== IFfix && route.length < 12) {
+      // line-only edges (ev<1) are weak evidence: allow them solely to leave
+      // the IAF (transition entry lines are drawn bold); afterwards require
+      // label-backed edges or the ink noise of the chart takes over the walk
+      const firstStep = route.length === 1;
+      const turnOf = n => prevBrg == null ? 0 : angDiff(screenBrg(cur, n), prevBrg);
+      const nbrs = (adj[cur] || []).filter(n => {
+        if (seen.has(n)) return false;
+        const e = edges[edgeKey(cur, n)];
+        if (!firstStep && e.ev < 1) return false;
+        // approach transitions never double back — a >100° heading change means
+        // this edge is a mis-assigned label, not the published route
+        if (turnOf(n) > 100) return false;
+        return true;
+      });
+      if (!nbrs.length) break;
+      nbrs.sort((p, q) => {
+        const ep = edges[edgeKey(cur, p)], eq = edges[edgeKey(cur, q)];
+        const dp = ep.dir === (p + '>' + cur) ? 1 : 0;   // edge pointing back at us = bad
+        const dq = eq.dir === (q + '>' + cur) ? 1 : 0;
+        if (dp !== dq) return dp - dq;
+        if (eq.ev !== ep.ev) return eq.ev - ep.ev;
+        if (ep.ev < 1 && eq.ev < 1) return (eq.cov || 0) - (ep.cov || 0);
+        const tp = turnOf(p), tq = turnOf(q);
+        if (Math.abs(tp - tq) > 25) return tp - tq;      // prefer the gentler turn
+        return distToIF(p) - distToIF(q);
+      });
+      const nxt = nbrs[0];
+      const e = edges[edgeKey(cur, nxt)];
+      if (e.dir === nxt + '>' + cur) break;               // only reversed edges left
+      prevBrg = screenBrg(cur, nxt);
+      route.push(nxt); seen.add(nxt); cur = nxt;
+    }
+    if (IFfix && route[route.length - 1] !== IFfix) route.push(IFfix); // dead-end: join final at IF
+    return route;
+  }
+
+  if (opts.debug) opts.debug({ fixes, tags, labels, couples, edges, briefBottom, profileTop, inset });
+
+  // ── KNOWN-SEQUENCE mode ──────────────────────────────────────────────
+  // When the caller supplies the fix order (e.g. the pilot typed it into
+  // ROUTE QUICK IMPORT), skip the error-prone graph walk entirely and just
+  // read each fix's altitude and each leg's distance/course by coordinate
+  // lookup along the given order. This is the most accurate path: the human
+  // provides the connectivity (trivial + 100% correct from the chart) and the
+  // parser only does the reliable per-fix / per-leg number extraction.
+  if (opts.knownSequence && opts.knownSequence.length) {
+    function segLabel(a, b) {
+      if (!fixes[a] || !fixes[b]) return {};
+      let bestD = null, bdD = 1e18, bestC = null, bdC = 1e18;
+      const brg = screenBrg(a, b);
+      for (const L of labels) {
+        const pr = perpT(L.x, L.y, a, b);
+        if (pr.t < 0.05 || pr.t > 0.95) continue;
+        if (pr.perp > 0.05 * H) continue;
+        if (L.kind === 'dist' && pr.perp < bdD) { bdD = pr.perp; bestD = L.v; }
+        else if (L.kind === 'crs') {
+          const d1 = angDiff(L.v, brg), d2 = angDiff(L.v, (brg + 180) % 360);
+          if (Math.min(d1, d2) > 35) continue;
+          if (pr.perp < bdC) { bdC = pr.perp; bestC = L.v; }
+        }
+      }
+      // Course fallback: the degree ring symbol (°) is tiny and often dropped by
+      // OCR, so "324°" comes back as "324" / "-324," and never becomes a crs
+      // label. Along a KNOWN leg we can accept a bare 3-digit number near the
+      // leg whose value matches the leg's screen bearing (±25°) — the bearing
+      // check keeps altitudes/frequencies from being mistaken for a course.
+      if (bestC == null) {
+        for (const w of words) {
+          const t = w.text.replace(/[^0-9]/g, '');
+          if (!/^\d{3}$/.test(t)) continue;
+          const v = parseInt(t, 10);
+          if (v < 1 || v > 360) continue;
+          const pr = perpT(w.x, w.y, a, b);
+          if (pr.t < 0.05 || pr.t > 0.95 || pr.perp > 0.045 * H) continue;
+          const d1 = angDiff(v, brg), d2 = angDiff(v, (brg + 180) % 360);
+          if (Math.min(d1, d2) > 25) continue;
+          if (pr.perp < bdC) { bdC = pr.perp; bestC = v; }
+        }
+      }
+      return { dist: bestD, crs: bestC };
+    }
+    // Resolve each typed name to a detected fix: exact → loose signature
+    // (O/0, I/L/1, S/5, B/8 confusions) → edit distance 1.
+    const fixKeys = Object.keys(fixes);
+    const sigIndex = {};
+    for (const k of fixKeys) (sigIndex[fixSig(k)] = sigIndex[fixSig(k)] || []).push(k);
+    function resolve(typed) {
+      const c = cleanFix(typed);
+      if (fixes[c]) return c;
+      const bySig = sigIndex[fixSig(typed)];
+      if (bySig && bySig.length) return bySig[0];
+      let best = null;
+      for (const k of fixKeys) if (editDist1(c, k)) { best = k; break; }
+      return best;
+    }
+    const names = opts.knownSequence.map(cleanFix);
+    const resolved = names.map(resolve);   // detected-fix key or null per position
+    const fd = {};
+    for (let i = 0; i < names.length; i++) {
+      const nm = names[i], rk = resolved[i], rkNext = resolved[i + 1];
+      const rec = (fd[nm] = fd[nm] || {});
+      const alt = rk ? fixAlt(rk) : null;
+      if (alt != null) rec.alt = alt;
+      if (rk && rkNext) {
+        const sl = segLabel(rk, rkNext);
+        if (sl.dist != null) { rec.legDist = sl.dist; rec.seg = sl.dist; }
+        if (sl.crs != null) rec.course = sl.crs;
+        else if (ctx && ctx.finalCourse) {
+          // Straight-in approaches share the published Final Apch Crs on every
+          // final-segment leg. When no per-leg course label is readable, fall
+          // back to that course for legs whose on-chart bearing roughly aligns
+          // with it (transition legs that head elsewhere are left blank).
+          const brg = screenBrg(rk, rkNext);
+          if (Math.min(angDiff(brg, ctx.finalCourse), angDiff((brg + 180) % 360, ctx.finalCourse)) <= 38)
+            rec.course = ctx.finalCourse;
+        }
+      }
+    }
+    return [{ name: 'route', wpts: names, fd, page: 1, src: 'spatial-known-seq' }];
+  }
+
+  const routes = [];
+  for (const iaf of Object.keys(tags)) {
+    if (tags[iaf] !== 'IAF') continue;
+    const seq = walk(iaf);
+    if (seq.length < 2) continue;
+    const fd = {};
+    for (let i = 0; i < seq.length; i++) {
+      const nm = seq[i], nxt = seq[i + 1];
+      const rec = (fd[nm] = fd[nm] || {});
+      const alt = fixAlt(nm);
+      if (alt != null) rec.alt = alt;
+      if (nxt) {
+        const e = edges[edgeKey(nm, nxt)];
+        if (e) {
+          if (e.dist != null) { rec.legDist = e.dist; rec.seg = e.dist; }
+          if (e.crs != null) rec.course = e.crs;
+        }
+      }
+    }
+    routes.push({
+      name: (ctx && ctx.approachType ? ctx.approachType : 'APCH') + ' ' +
+            (ctx && ctx.runway ? ctx.runway : '') + ' via ' + iaf,
+      wpts: seq, fd, page: 1, src: 'spatial-graph'
+    });
+  }
+  return routes;
+}
+
+
+// ── Multi-rotation OCR word collection (for the spatial chart parser) ─────
+// Rotates the page canvas CW by deg and returns a new canvas (white padding).
+function rotateCanvasCW(src, deg){
+  const rad = deg * Math.PI / 180;
+  const w = src.width, h = src.height;
+  const rw = Math.round(Math.abs(w*Math.cos(rad)) + Math.abs(h*Math.sin(rad)));
+  const rh = Math.round(Math.abs(w*Math.sin(rad)) + Math.abs(h*Math.cos(rad)));
+  const c = document.createElement('canvas'); c.width = rw; c.height = rh;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, rw, rh);
+  ctx.translate(rw/2, rh/2); ctx.rotate(rad); ctx.drawImage(src, -w/2, -h/2);
+  return c;
+}
+
+// Downscaled grayscale bitmap for leg line tracing.
+function grayscaleDownsample(canvas, factor){
+  factor = factor || 3;
+  const w = Math.max(1, Math.floor(canvas.width/factor)), h = Math.max(1, Math.floor(canvas.height/factor));
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const g = c.getContext('2d');
+  g.drawImage(canvas, 0, 0, w, h);
+  const d = g.getImageData(0, 0, w, h).data;
+  const out = new Uint8Array(w*h);
+  for(let i = 0; i < w*h; i++) out[i] = (d[i*4]*0.299 + d[i*4+1]*0.587 + d[i*4+2]*0.114) | 0;
+  return { w, h, data: out, scale: canvas.width/w };
+}
+
+// Hard-threshold copy: kills the tinted plan-view background so faint leg
+// labels (small digits over blue terrain) survive OCR.
+function thresholdCanvas(src){
+  const c = document.createElement('canvas'); c.width = src.width; c.height = src.height;
+  const g = c.getContext('2d');
+  g.drawImage(src, 0, 0);
+  const id = g.getImageData(0, 0, c.width, c.height), d = id.data;
+  for(let i = 0; i < d.length; i += 4){
+    const y = d[i]*0.299 + d[i+1]*0.587 + d[i+2]*0.114;
+    const v = y < 110 ? 0 : 255;
+    d[i] = d[i+1] = d[i+2] = v;
+  }
+  g.putImageData(id, 0, 0);
+  return c;
+}
+
+// OCR the canvas at rotations 0/90/270/45/315 (color) plus 0/45/315 on a
+// hard-thresholded copy via the native plugin, and merge per-word coordinates
+// back into the unrotated canvas frame. Rotated passes recover leg labels
+// printed along diagonal/vertical route lines that a single horizontal pass
+// cannot read. Returns {text, words} (text = color rot-0 pass).
+async function collectChartWordsMultiRotation(srcCanvas){
+  const plugins = window.Capacitor && window.Capacitor.Plugins;
+  if(!plugins || !plugins.NativeOcr) return null;
+  const W = srcCanvas.width, H = srcCanvas.height;
+  const words = [];
+  let text0 = null;
+  let bwCanvas = null;
+  try{ bwCanvas = thresholdCanvas(srcCanvas); }catch(e){ console.warn('[SpatialOCR] threshold failed:', e); }
+  const passes = [
+    {src: srcCanvas, deg: 0}, {src: srcCanvas, deg: 90}, {src: srcCanvas, deg: 270},
+    {src: srcCanvas, deg: 45}, {src: srcCanvas, deg: 315}
+  ];
+  if(bwCanvas) passes.push({src: bwCanvas, deg: 0}, {src: bwCanvas, deg: 45}, {src: bwCanvas, deg: 315});
+  for(const p of passes){
+    let cv = p.src;
+    if(p.deg) cv = rotateCanvasCW(p.src, p.deg);
+    const RW = cv.width, RH = cv.height;
+    try{
+      const res = await plugins.NativeOcr.recognize({imageBase64: cv.toDataURL('image/jpeg', 0.92)});
+      if(p.deg === 0 && p.src === srcCanvas && res && res.text) text0 = res.text;
+      const ws = (res && res.words) || [];
+      const th = p.deg*Math.PI/180, co = Math.cos(th), si = Math.sin(th);
+      for(const w of ws){
+        const rx = w.x - RW/2, ry = w.y - RH/2;
+        words.push({text: w.text, x: rx*co + ry*si + W/2, y: -rx*si + ry*co + H/2, rot: p.deg});
+      }
+    }catch(e){ console.warn('[SpatialOCR] pass '+p.deg+' failed:', e); }
+  }
+  if(text0 === null && !words.length) return null;
+  return { text: text0, words };
+}
+
 async function runNativeOcr(canvas){
   try{
     const plugins = window.Capacitor && window.Capacitor.Plugins;
@@ -3473,9 +4172,12 @@ async function runOCR(pdf, previewCanvas, side, filename, pageData=null){
 
   try{
     // Cloud: 4x PNG for maximum plan-view label resolution; ML Kit: 2x (memory safe); Tesseract: 3x
-    const OCR_SCALE = _hasCloud ? 4 : (_hasMLKit ? 2 : 3);
+    // iOS Vision copes with large bitmaps — render 4x so small rotated leg labels resolve.
+    const _isIos = _inCap && window.Capacitor.getPlatform && window.Capacitor.getPlatform()==='ios';
+    const OCR_SCALE = _hasCloud ? 4 : (_hasMLKit ? (_isIos ? 4 : 2) : 3);
     _cloudSpatialIafs=[];  // reset spatial IAF list for this OCR run
     const allPageText=[];
+    let _spatialData=null;  // {words,W,H,gray} collected on page 1 for the graph parser
 
     for(let pageNum=1;pageNum<=pdf.numPages;pageNum++){
       document.getElementById(side+'-lbl').innerHTML=`🔍 OCR rendering (${pageNum}/${pdf.numPages})...`;
@@ -3488,8 +4190,21 @@ async function runOCR(pdf, previewCanvas, side, filename, pageData=null){
 
       document.getElementById(side+'-lbl').innerHTML=`🔍 OCR recognizing (${pageNum}/${pdf.numPages})...`;
 
+      // Page 1 of an approach chart: run multi-rotation native OCR so the
+      // spatial graph parser gets word coordinates (incl. diagonal leg labels).
+      let pageText = null;
+      if(pageNum===1 && side==='app' && _hasMLKit){
+        document.getElementById(side+'-lbl').innerHTML='🧭 Spatial OCR (5 passes)...';
+        const mr = await collectChartWordsMultiRotation(ocrCanvas);
+        if(mr && mr.words.length){
+          _spatialData = { words: mr.words, W: ocrCanvas.width, H: ocrCanvas.height,
+                           gray: grayscaleDownsample(ocrCanvas, 3) };
+          pageText = mr.text;
+        }
+      }
+
       // 0순위: 클라우드 OCR (온라인 + Google Vision 키) — 최고 정밀도
-      let pageText = await runCloudOcr(ocrCanvas);
+      if(pageText === null) pageText = await runCloudOcr(ocrCanvas);
 
       // 1순위: 네이티브 ML Kit OCR (Capacitor Android APK) — 원본 컬러 이미지 사용
       if(pageText === null) pageText = await runNativeOcr(ocrCanvas);
@@ -3513,12 +4228,59 @@ async function runOCR(pdf, previewCanvas, side, filename, pageData=null){
     const ocrText=allPageText.join('\n\n');
     console.log('[OCR raw]\n'+ocrText);
 
+    // 0) Spatial graph parser — reconstructs IAF transitions from word
+    //    coordinates on the plan view. Most accurate source when available.
+    let spatialStars=[];
+    if(_spatialData && _spatialData.words.length>=30){
+      try{
+        const sctx=parseApproachContext(ocrText)||{};
+        spatialStars=parseApproachChartSpatial(
+          _spatialData.words,_spatialData.W,_spatialData.H,_spatialData.gray,sctx,{minHits:2});
+        // Routes end at the IF — append the FAF from the published DME/bracket
+        // ident (e.g. "[FI34]" / "GOKAK D7.9") so ensureFafToRunway sees it.
+        if(spatialStars.length){
+          let fafName=null;
+          const br=ocrText.match(/\[\s*(F[FI]?\d{2,3})\s*\]/);
+          if(br) fafName=cleanFixToken(br[1]);
+          if(!fafName){
+            const dm=ocrText.match(/\b([A-Z][A-Z0-9]{3,5})\b\s+D\s*(\d{1,2}(?:\.\d)?)\s+[A-Z]{3,5}\b/);
+            if(dm && isApproachFixToken(dm[1]) && parseFloat(dm[2])>=3.5 && parseFloat(dm[2])<=13) fafName=cleanFixToken(dm[1]);
+          }
+          if(fafName){
+            spatialStars.forEach(r=>{
+              if(!r.wpts.includes(fafName)){
+                r.wpts.push(fafName);
+                r.fd[fafName]=Object.assign({type:'FAF'},r.fd[fafName]||{});
+              }
+            });
+          }
+        }
+        console.log('[SpatialGraph] routes:',spatialStars.map(r=>r.name+': '+r.wpts.join('-')));
+      }catch(e){ console.warn('[SpatialGraph] parse failed:',e); }
+    }
+
     // Try known Jeppesen arrival routing-table fallback first, then OCR parsers.
     let stars=parseJeppRoutingTableText(ocrText,filename);
     if(!stars.length) stars=buildKnownJeppArrivalRoutes(filename,ocrText);
     let dbg='';
 
-    if(stars.length){
+    if(spatialStars.length){
+      // Spatial routes lead. Drop text-derived routes for the SAME IAF — two
+      // routes named "via HAZEL" are indistinguishable in the picker and the
+      // text one carries junk altitudes scraped from unrelated OCR lines.
+      const seen=new Set(spatialStars.map(r=>r.wpts.join('-')));
+      const spIafs=new Set(spatialStars.map(r=>cleanFixToken((String(r.name).match(/via\s+([A-Z0-9]+)/i)||[])[1]||'')));
+      spIafs.delete('');
+      stars=spatialStars.concat(stars.filter(r=>{
+        if(!r||!r.wpts) return false;
+        if(seen.has(r.wpts.join('-'))) return false;
+        const m=String(r.name||'').match(/via\s+([A-Z0-9]+)/i);
+        if(m && spIafs.has(cleanFixToken(m[1]))) return false;
+        if(r.wpts[0] && spIafs.has(cleanFixToken(r.wpts[0]))) return false;
+        return true;
+      }));
+      dbg='SPATIAL GRAPH PARSER: plan-view word coordinates + leg labels were used.';
+    }else if(stars.length){
       dbg='KNOWN JEPP ROUTING FALLBACK: ROUTING table sequence + plan-view leg distances were used.';
     }else{
       // OCR text from Jeppesen approach charts often has no clean ROUTING row.
@@ -3531,9 +4293,16 @@ async function runOCR(pdf, previewCanvas, side, filename, pageData=null){
       }
     }
 
-    const PROTECTED_SRC_OCR=/^(known-jepp-routing-table|routing-table-ocr|known-jepp-approach-safety|jeppesen-known-fallback)/;
-    if(!stars.every(r=>r&&PROTECTED_SRC_OCR.test(String(r.src||'')))){
-      stars=enrichParsedRoutesWithTextData(stars,ocrText);
+    // spatial-graph routes carry coordinate-verified alt/dist/course — the text
+    // enricher's line-scan values are strictly worse and must not overwrite them.
+    const PROTECTED_SRC_OCR=/^(known-jepp-routing-table|routing-table-ocr|known-jepp-approach-safety|jeppesen-known-fallback|spatial-graph)/;
+    {
+      const unprotected=stars.filter(r=>r&&!PROTECTED_SRC_OCR.test(String(r.src||'')));
+      if(unprotected.length){
+        const enriched=enrichParsedRoutesWithTextData(unprotected,ocrText);
+        let k=0;
+        stars=stars.map(r=>(r&&!PROTECTED_SRC_OCR.test(String(r.src||'')))?enriched[k++]:r);
+      }
     }
     if(side==='app'){
       forceApproachFafDmeRoutes(stars,ocrText);
@@ -3545,7 +4314,7 @@ async function runOCR(pdf, previewCanvas, side, filename, pageData=null){
     selectedChartIdx[side]=null;
     // Preserve pdf and pageData from the original loadPdfChart so geometric
     // extractors (Apt Elev briefing-strip column scan, etc.) still have input.
-    chartData[side]={filename,stars,previewText:ocrText,dbg,navAid:extractNavAidFromApproachText(ocrText),pdf,pageData};
+    chartData[side]={filename,stars,previewText:ocrText,dbg,navAid:extractNavAidFromApproachText(ocrText),pdf,pageData,spatial:_spatialData};
     if(side==='app'&&chartData[side].navAid){ST.navStation=chartData[side].navAid.station;ST.navFreq=chartData[side].navAid.freq||'';}
     parsedStars=stars;
     showPdfResult(filename,ocrText,stars,dbg);
@@ -4616,40 +5385,12 @@ function parseStarsDebug(pageData){
 }
 
 function showPdfResult(filename,previewText,stars,dbg,side=activeChartSide){
-  document.getElementById('pdf-result').style.display='block';
-  document.getElementById('pdf-result-title').textContent=`📄 ${side==='arr'?'ARRIVAL':'APPROACH'} — ${filename}`;
-  document.getElementById('pdf-raw').value=previewText.slice(0,8000);
-  const el=document.getElementById('pdf-stars');
-  if(stars.length===0){
-    const dbgHtml=dbg?`<div style="font-size:8px;color:#94a3b8;font-family:Courier New,monospace;margin-top:6px;white-space:pre-wrap;word-break:break-all">${dbg}</div>`:'';
-    el.innerHTML=`<div style="font-size:9px;color:#f87171;font-family:Courier New,monospace;line-height:1.6">⚠ Route sequence not found.<br>Check waypoint names in the raw text below and paste into ROUTE QUICK IMPORT.</div>${dbgHtml}`;
-    return;
-  }
-  el.innerHTML=stars.map((s,i)=>{
-    // Build per-waypoint info line from fd (if any)
-    const fd=s.fd||{};
-    const wptInfo=s.wpts.filter(n=>!n.startsWith('RWY')).map(n=>{
-      const d=fd[n]||{};
-      const parts=[];
-      if(d.legDist!=null)parts.push(formatDistValue(d.legDist)+'NM');
-      else if(d.seg!=null)parts.push(formatDistValue(d.seg)+'NM');
-      else if(d.distFromRwy!=null)parts.push(d.distFromRwy.toFixed(1)+'DME');
-      if(d.alt!=null)parts.push(d.alt+'ft');
-      return n+(parts.length?'('+parts.join('/')+')':'');
-    }).join(' → ');
-    const hasFd=Object.keys(fd).some(k=>fd[k].legDist!=null||fd[k].seg!=null||fd[k].distFromRwy!=null||fd[k].alt!=null);
-    return`<div class="star-item" id="star-${i}" onclick="selectStar(${i})"
-         style="display:flex;align-items:center;gap:6px">
-      <div style="flex:1;min-width:0">
-        <div class="star-item-name">▶ ${s.name}<span style="font-size:7px;color:var(--mut);margin-left:6px">P${s.page}</span></div>
-        <div class="star-item-wpts">${hasFd?wptInfo:s.wpts.join(' → ')}</div>
-        ${hasFd?'':'<div style="font-size:7px;color:#f59e0b;font-family:Courier New,monospace">⚠ Distance/altitude not parsed — verify manually after apply</div>'}
-      </div>
-      <button class="parse-btn" style="flex-shrink:0;font-size:9px;padding:4px 10px;white-space:nowrap"
-              onclick="event.stopPropagation();applyParsedRoute(${i})">Apply ↓</button>
-    </div>`;
-  }).join('');
-  selectStar(0);
+  // The whole "parse result" panel is hidden by request: the pilot enters the
+  // route via ③ ROUTE QUICK IMPORT. We still (a) auto-populate ② AIRPORT &
+  // RUNWAY from the chart, and (b) keep chartData[side].spatial for autofill.
+  const box=document.getElementById('pdf-result');
+  if(box) box.style.display='none';
+  try{ applyAirportRunwayMetaFromChart(side); }catch(e){ console.warn('[airport meta] failed:',e); }
 }
 
 // Extract runway ID and approximate magnetic course from approach name
@@ -5303,28 +6044,107 @@ function closePdfResult(){
   document.getElementById('pdf-result').style.display='none';
 }
 
+// Live input transform for ROUTE QUICK IMPORT: force uppercase and turn spaces
+// into dashes so the pilot can type "bumsi 8000 pudub 5500" and get proper
+// dash-separated tokens automatically.
+function onRouteInput(el){
+  const pos=el.selectionStart;
+  const v=el.value.toUpperCase().replace(/[ \t]/g,'-');
+  if(v!==el.value){ el.value=v; try{el.setSelectionRange(pos,pos);}catch(_){}}
+  renderRoutePreview();
+}
+
+// Shared tokenizer for ROUTE QUICK IMPORT. Returns [{name, man:{alt,course,dist}}].
+// A token that is a bare number attaches to the PREVIOUS fix as a manual value:
+// decimal → leg distance (7.4), integer ≥500 → altitude (8000), integer 1–360 →
+// course (324). Fix names keep their digits (DTO06, MC612) — only PURE numbers
+// are treated as values, so number ORDER doesn't matter.
+function parseRouteItems(raw){
+  const tokens=String(raw||'').replace(/\(.*?\)/g,' ').split(/[-\/,→\s]+/).filter(Boolean);
+  const items=[];
+  for(const tk of tokens){
+    if(/^\d*\.?\d+$/.test(tk)){
+      if(!items.length)continue;
+      const man=items[items.length-1].man;
+      if(tk.indexOf('.')>=0){ const d=parseFloat(tk); if(d>=0.1&&d<=40) man.dist=d; }
+      else { const v=parseInt(tk,10); if(v>=500&&v<=45000) man.alt=v; else if(v>=1&&v<=360) man.course=v; }
+    } else {
+      items.push({name:tk.toUpperCase().replace(/[^A-Z0-9]/g,''), man:{}});
+    }
+  }
+  return items.filter(it=>it.name.length>0);
+}
+
+// Live confirmation of how each fix + its numbers were interpreted.
+function renderRoutePreview(){
+  const box=document.getElementById('route-preview');
+  if(!box)return;
+  const items=parseRouteItems(document.getElementById('route-txt').value);
+  box.innerHTML=items.map(it=>{
+    const m=it.man;
+    const alt=m.alt!=null?`<span class="rp-alt">${m.alt}ft</span>`:`<span class="rp-blank">–ft</span>`;
+    const crs=m.course!=null?`<span class="rp-crs">${String(m.course).padStart(3,'0')}°</span>`:`<span class="rp-blank">–°</span>`;
+    const dist=m.dist!=null?`<span class="rp-dist">${m.dist}NM</span>`:`<span class="rp-blank">–NM</span>`;
+    return `<div class="rp-fix"><span class="rp-name">${it.name}</span><br>${alt} ${crs} ${dist}</div>`;
+  }).join('');
+}
+
 function parseRoute(){
   const raw=document.getElementById('route-txt').value.trim();
   if(!raw)return;
-  const names=raw.replace(/\(.*?\)/g,'').split(/[-\/,\s]+/).map(s=>s.trim().toUpperCase()).filter(s=>s.length>0);
-  if(names.length===0)return;
+  const items=parseRouteItems(raw);
+  if(!items.length)return;
+
   const tbody=document.getElementById('wbody');
-  // Drop ALL existing rows (old RWY rows included — will recreate correct one below)
   tbody.innerHTML='';
-  const rwyNamesInList=names.filter(n=>/^RWY/.test(n));
-  let fixNames=names.filter(n=>!/^RWY/.test(n));
+  const rwyItems=items.filter(it=>/^RWY/.test(it.name));
+  let fixItems=items.filter(it=>!/^RWY/.test(it.name));
   // PRESERVE USER EDITS: skip waypoints the user explicitly deleted previously.
-  // The deletion set is cleared whenever a fresh ARRIVAL is applied (see applyParsedRoute).
   if(ST&&ST.userDeletedWpts&&ST.userDeletedWpts.size){
-    fixNames=fixNames.filter(n=>!ST.userDeletedWpts.has(n));
+    fixItems=fixItems.filter(it=>!ST.userDeletedWpts.has(it.name));
   }
-  fixNames.forEach((n,i)=>{
-    const isLast=i===fixNames.length-1;
-    addWRow(n,'','','','',isLast?'faf':'fix');
+  const fixNames=fixItems.map(it=>it.name);
+  // Spatial auto-fill from the loaded chart image (fills only what the pilot
+  // did NOT type). Manual values always win.
+  let sfd=null, swpts=null;
+  try{
+    const sp=chartData.app&&chartData.app.spatial;
+    if(sp&&sp.words&&sp.words.length>=30&&fixNames.length){
+      const sctx=parseApproachContext(chartData.app.previewText||'')||{};
+      const res=parseApproachChartSpatial(sp.words,sp.W,sp.H,sp.gray,sctx,{minHits:2,knownSequence:fixNames});
+      if(res&&res[0]&&res[0].fd){ sfd=res[0].fd; swpts=res[0].wpts; }
+      console.log('[QuickImport spatial fill]',sfd);
+    }
+  }catch(e){ console.warn('[QuickImport] spatial fill failed:',e); }
+
+  fixItems.forEach((it,i)=>{
+    const isLast=i===fixItems.length-1;
+    const key=swpts&&swpts[i];
+    const f=(sfd&&key&&sfd[key])||{};
+    const m=it.man;
+    addWRow(it.name,
+            m.course!=null?m.course:(f.course!=null?f.course:''),
+            m.dist!=null?m.dist:(f.legDist!=null?f.legDist:''),
+            m.alt!=null?m.alt:(f.alt!=null?f.alt:''),
+            '', isLast?'faf':'fix');
   });
-  // Always add exactly one RWY row with the current runway value
-  const rwyLabel=rwyNamesInList.length>0?rwyNamesInList[0]:'RWY'+document.getElementById('i-rwy').value;
-  addWRow(rwyLabel,'0','0',document.getElementById('i-elev').value||'0','145','rwy');
+  // Runway comes from the route (e.g. RWY33L). Sync it to the hidden airport
+  // fields used by the descent geometry, and derive an approximate runway
+  // course from the runway number (33L → 330°) as a default the pilot can
+  // refine in the RWY row.
+  let rwyLabel;
+  if(rwyItems.length){
+    const rwyId=rwyItems[0].name.replace(/^RWY/,'');
+    rwyLabel='RWY'+rwyId;
+    const rEl=document.getElementById('i-rwy'); if(rEl)rEl.value=rwyId;
+    const num=parseInt(rwyId,10);
+    if(!isNaN(num)){ const crs=(num*10)%360||360; const cEl=document.getElementById('i-crs'); if(cEl)cEl.value=crs; }
+  }else{
+    rwyLabel='RWY'+document.getElementById('i-rwy').value;
+  }
+  const elev=(document.getElementById('route-elev')&&document.getElementById('route-elev').value)
+            || document.getElementById('i-elev').value || '0';
+  addWRow(rwyLabel,'0','0',elev,'145','rwy');
 }
 
 // Default RKSI ILS 33L sample data
@@ -6976,8 +7796,8 @@ function drawNDRoute(d){
       const distNm=w.segToNext!=null?w.segToNext:(w.legDist!=null?w.legDist:0);
       const distStr=distNm.toFixed(1)+'NM';
       const altVal=effectiveAlt(w);
-      const altH=Math.round(altVal/100);
-      const altStr=altH.toString().padStart(3,'0');
+      // Show full altitude in feet (3600, 2600) rather than FL-style hundreds.
+      const altStr=altVal>=18000?('FL'+Math.round(altVal/100)):String(altVal);
       cx.fillStyle=isPassed?'rgba(140,140,140,0.8)':'rgba(0,100,150,0.95)';cx.font='bold 10px Courier New';
       cx.fillText(distStr,px+9,py+9);
       cx.fillStyle=isPassed?'rgba(140,140,140,0.8)':'rgba(140,90,0,0.95)';

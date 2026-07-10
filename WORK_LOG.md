@@ -1,3 +1,46 @@
+# WORK LOG — 2026-07-09/10
+
+Jeppesen 접근차트 파싱 정확도 개선 + 수동입력 UX 전환 + 후원 섹션 + 맥 CLI 빌드 세션.
+
+## 오늘 한 일
+
+### 개발자 커피 후원 섹션
+- SETUP 화면 하단에 "☕ 개발자에게 커피 사주기" 박스 추가 (커피 ₩1,500 / 커피+케익 ₩4,500)
+- **결제수단 미정**: 카카오페이 송금링크는 실명 노출 + 금액 미고정으로 사용자가 거부. 앱내구입(IAP)은 스토어 정식출시 필요 → 보류 상태
+
+### Jeppesen 접근차트 공간(좌표) 기반 파서 신설
+- 문제: 이미지 PDF(텍스트레이어 없음)를 정규식으로만 파싱 → 미스드어프로치 인셋 fix 혼입, 고도/거리 오류
+- **OCR 플러그인 확장**: iOS `NativeOcrPlugin.swift`(Vision), Android `OcrPlugin.java`(ML Kit) 가 이제 단어별 픽셀좌표(`words`) 반환
+- **다회전 OCR**: 페이지를 0/±45/±90° + 흑백 임계처리본으로 여러 번 OCR → 사선 레그라벨 복구, 좌표는 원본프레임으로 역변환 병합
+- **그래프 파서** `parseApproachChartSpatial` (index.html): 인셋 제외, (IAF)/(IF) 태그 근접매칭, 거리+코스 라벨을 화면방위와 대조해 레그 배정, IAF→IF 그래프탐색. Macao/GIMPO 차트로 검증
+- 유니코드 유사문자(키릴 М→M) 정규화, 선회각 제한(급선회 차단), MANDATORY 인접고도 우선, FT/METER 박스 제외
+
+### 수동입력 우선으로 전환 (OCR 한계 인정)
+- 작은 거리숫자(7.4 등)는 Apple Vision조차 불안정 → 실측 확인. 정확도의 답은 "순서·숫자는 사람이, 좌표조회만 앱이"
+- **ROUTE QUICK IMPORT 개편**: fix 뒤에 숫자 붙이면 자동분류(고도≥500 / 코스≤360 / 소수점=거리, 순서무관). 스페이스→`-` 자동, 대문자 자동, 실시간 미리보기 카드
+- known-sequence 모드: 조종사가 순서 입력 → 그래프탐색 생략하고 좌표조회로 숫자만 채움. 퍼지매칭(O/0, I/L/1, S/5, B/8), 최종접근코스(briefing strip 334°) fallback
+- 자동파싱 선택박스(Apply) 제거, 차트 업로드 후 공항정보(② AIRPORT) 자동채움
+
+### SETUP 화면 정리 (사용자 요청)
+- **① CHARTS · ② AIRPORT & RUNWAY 제거** (DOM엔 `#legacy-setup`으로 숨겨 코드 호환 유지)
+- 활주로는 루트에 `RWY33L`로 입력 → i-rwy/i-crs 자동설정, 표고는 ROUTE QUICK IMPORT의 Field Elevation 칸으로 이동
+- 섹션 재번호 ① ROUTE QUICK IMPORT / ② SAVED ROUTES / ③ WAYPOINTS, 전반 글씨 확대
+- ND 웨이포인트 고도 라벨 `036`→`3600` (FL식 → 실제 피트)
+- sw.js 캐시 cache-69 → cache-85
+
+### 맥 CLI 빌드/설치 워크플로우
+- `npx cap open ios` 가 `.xcworkspace` 부재로 실패(SPM 프로젝트, workspace가 .xcodeproj 내장) → Xcode에서 `App.xcodeproj` 직접 열기
+- CLI 설치: `xcodebuild -project App.xcodeproj -scheme App -destination id=<UDID> -derivedDataPath <별도경로> ENABLE_DEBUG_DYLIB=NO build` → `xcrun devicectl device install/launch`
+- **주의**: `ENABLE_DEBUG_DYLIB=NO` 빌드를 Xcode와 같은 DerivedData에 넣으면 이후 Xcode Run 시 debug dylib 불일치로 SIGKILL. 반드시 별도 derivedDataPath 사용
+- poppler(brew) 설치로 PDF 렌더링
+
+## 다음 할 일
+- 후원 결제수단 최종 결정 (앱내구입 vs 다른 방식)
+- 여러 접근차트로 known-sequence 입력 실사용 검증
+- (선택) 차트 업로드/OCR 자동채움 되살릴지 결정 — 현재 숨김만 함
+
+---
+
 # WORK LOG — 2026-06-09
 
 ## 오늘 한 일
