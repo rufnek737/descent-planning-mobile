@@ -677,10 +677,19 @@ canvas{display:block;width:100%;height:100%;}
           <button class="parse-btn" onclick="parseRoute()">AUTO FILL ↓</button>
         </div>
         <div class="route-elev-row">
-          <span class="route-elev-lbl">Field Elevation</span>
+          <span class="route-elev-lbl">Name</span>
+          <input id="route-name" class="fi" style="flex:1;min-width:0;width:auto" placeholder="VMMC ILS Z 34"
+                 oninput="onRouteNameInput(this)">
+        </div>
+        <div class="route-elev-row">
+          <span class="route-elev-lbl">Field Elev</span>
           <input id="route-elev" class="fi" type="number" inputmode="numeric" placeholder="59" value="23"
                  oninput="var e=document.getElementById('i-elev'); if(e)e.value=this.value;">
           <span class="route-elev-lbl">ft</span>
+          <span class="route-elev-lbl" style="margin-left:10px">Final Apch Crs</span>
+          <input id="route-crs" class="fi" type="number" inputmode="numeric" placeholder="324" value="334"
+                 oninput="onFinalCrsInput(this)">
+          <span class="route-elev-lbl">°T</span>
         </div>
         <div id="route-preview" class="route-preview"></div>
       </div>
@@ -6054,6 +6063,30 @@ function onRouteInput(el){
   renderRoutePreview();
 }
 
+// Approach/airport name → i-star (used as the saved-route name). If it starts
+// with a 4-letter ICAO (VMMC ILS Z 34), also set the hidden ICAO field.
+function onRouteNameInput(el){
+  const v=el.value;
+  const s=document.getElementById('i-star'); if(s)s.value=v;
+  const m=/^\s*([A-Za-z]{4})\b/.exec(v);
+  if(m){ const ic=document.getElementById('i-icao'); if(ic)ic.value=m[1].toUpperCase(); }
+}
+
+// Final Apch Crs field → hidden i-crs (ST.rwyCourse) + live-sync the FAF row's
+// inbound course (last non-RWY waypoint) so the final approach segment updates.
+function onFinalCrsInput(el){
+  const v=el.value;
+  const c=document.getElementById('i-crs'); if(c)c.value=v;
+  const rows=[...document.querySelectorAll('#wbody tr')];
+  const nonRwy=rows.filter(r=>{
+    const s=r.querySelector('select');
+    const n=(r.querySelector('input')?.value||'').toUpperCase().trim();
+    return !(s&&s.value==='rwy')&&!n.startsWith('RWY');
+  });
+  const faf=nonRwy[nonRwy.length-1];
+  if(faf&&v!==''){ const inputs=faf.querySelectorAll('input'); if(inputs[1]) inputs[1].value=v; }
+}
+
 // Shared tokenizer for ROUTE QUICK IMPORT. Returns [{name, man:{alt,course,dist}}].
 // A token that is a bare number attaches to the PREVIOUS fix as a manual value:
 // decimal → leg distance (7.4), integer ≥500 → altitude (8000), integer 1–360 →
@@ -6063,11 +6096,22 @@ function parseRouteItems(raw){
   const tokens=String(raw||'').replace(/\(.*?\)/g,' ').split(/[-\/,→\s]+/).filter(Boolean);
   const items=[];
   for(const tk of tokens){
+    // Flight-level altitude (FL110 → 11000ft) attaches to the previous fix.
+    const fl=/^FL(\d{2,3})$/i.exec(tk);
+    if(fl){ if(items.length) items[items.length-1].man.alt=parseInt(fl[1],10)*100; continue; }
     if(/^\d*\.?\d+$/.test(tk)){
       if(!items.length)continue;
       const man=items[items.length-1].man;
       if(tk.indexOf('.')>=0){ const d=parseFloat(tk); if(d>=0.1&&d<=40) man.dist=d; }
-      else { const v=parseInt(tk,10); if(v>=500&&v<=45000) man.alt=v; else if(v>=1&&v<=360) man.course=v; }
+      else {
+        const v=parseInt(tk,10);
+        if(v>=500&&v<=45000) man.alt=v;
+        // A course was already read for this fix — a further plain integer is
+        // almost certainly a distance the pilot typed without the decimal
+        // point (e.g. "...344 9" meaning 9NM), not a second course.
+        else if(v>=1&&v<=360 && man.course!=null && man.dist==null) man.dist=v;
+        else if(v>=1&&v<=360) man.course=v;
+      }
     } else {
       items.push({name:tk.toUpperCase().replace(/[^A-Z0-9]/g,''), man:{}});
     }
@@ -6117,31 +6161,40 @@ function parseRoute(){
     }
   }catch(e){ console.warn('[QuickImport] spatial fill failed:',e); }
 
+  // Final approach course (i-crs / ST.rwyCourse) drives the final-approach
+  // geometry AND is the FAF→RWY leg course. The route itself is authoritative,
+  // so a course typed in the route WINS over the Final Apch Crs field (whose
+  // default 334 must not shadow the real FAF course). Priority:
+  //   (1) course on the RWY token ("RWY33L 344"), (2) the last leg (FAF) course
+  //   typed in the route, (3) the Final Apch Crs field, (4) runway-number heading.
+  const rwyId=rwyItems.length?rwyItems[0].name.replace(/^RWY/,''):document.getElementById('i-rwy').value;
+  const crsField=document.getElementById('route-crs');
+  let finalCrs=null;
+  if(rwyItems.length && rwyItems[0].man && rwyItems[0].man.course!=null) finalCrs=rwyItems[0].man.course;
+  if(finalCrs==null){ for(let k=fixItems.length-1;k>=0;k--){ if(fixItems[k].man&&fixItems[k].man.course!=null){ finalCrs=fixItems[k].man.course; break; } } }
+  if(finalCrs==null && crsField && crsField.value!==''){ const v=parseInt(crsField.value,10); if(v>=1&&v<=360) finalCrs=v; }
+  if(finalCrs==null){ const num=parseInt(rwyId,10); if(!isNaN(num)) finalCrs=(num*10)%360||360; }
+
   fixItems.forEach((it,i)=>{
     const isLast=i===fixItems.length-1;
     const key=swpts&&swpts[i];
     const f=(sfd&&key&&sfd[key])||{};
     const m=it.man;
-    addWRow(it.name,
-            m.course!=null?m.course:(f.course!=null?f.course:''),
+    // FAF (last fix) inbound course = final approach course when not typed.
+    const course=m.course!=null?m.course:(f.course!=null?f.course:(isLast&&finalCrs!=null?finalCrs:''));
+    addWRow(it.name, course,
             m.dist!=null?m.dist:(f.legDist!=null?f.legDist:''),
             m.alt!=null?m.alt:(f.alt!=null?f.alt:''),
             '', isLast?'faf':'fix');
   });
-  // Runway comes from the route (e.g. RWY33L). Sync it to the hidden airport
-  // fields used by the descent geometry, and derive an approximate runway
-  // course from the runway number (33L → 330°) as a default the pilot can
-  // refine in the RWY row.
-  let rwyLabel;
-  if(rwyItems.length){
-    const rwyId=rwyItems[0].name.replace(/^RWY/,'');
-    rwyLabel='RWY'+rwyId;
-    const rEl=document.getElementById('i-rwy'); if(rEl)rEl.value=rwyId;
-    const num=parseInt(rwyId,10);
-    if(!isNaN(num)){ const crs=(num*10)%360||360; const cEl=document.getElementById('i-crs'); if(cEl)cEl.value=crs; }
-  }else{
-    rwyLabel='RWY'+document.getElementById('i-rwy').value;
+  // Sync runway + final course into the hidden airport fields + the Final Apch
+  // Crs box (always, so it reflects the route's FAF course — e.g. 344).
+  const rEl=document.getElementById('i-rwy'); if(rEl)rEl.value=rwyId;
+  if(finalCrs!=null){
+    const cEl=document.getElementById('i-crs'); if(cEl)cEl.value=finalCrs;
+    if(crsField) crsField.value=finalCrs;
   }
+  const rwyLabel='RWY'+rwyId;
   const elev=(document.getElementById('route-elev')&&document.getElementById('route-elev').value)
             || document.getElementById('i-elev').value || '0';
   addWRow(rwyLabel,'0','0',elev,'145','rwy');
@@ -6332,9 +6385,13 @@ function saveRoute(){
     const rwyEl =document.getElementById('i-rwy');
     const crsEl =document.getElementById('i-crs');
     const elevEl=document.getElementById('i-elev');
-    const star=(starEl?starEl.value.trim():'')||'UNNAMED';
+    // Prefer the explicit Name field; it is the full route label (may already
+    // include the airport, e.g. "VMMC ILS Z 34").
+    const nameEl=document.getElementById('route-name');
+    const customName=nameEl?nameEl.value.trim():'';
+    const star=customName||(starEl?starEl.value.trim():'')||'UNNAMED';
     const icao=(icaoEl?icaoEl.value.trim():'')||'----';
-    const key=icao+' '+star;
+    const key=customName?customName:(icao+' '+star);
     routes[key]={
       icao,
       rwy :rwyEl ?rwyEl.value :'',
@@ -6551,9 +6608,14 @@ function goND(){
   ST.navStation=appAid?.station || ST.navStation || '';
   ST.navFreq=appAid?.freq || ST.navFreq || '';
   ST.wpts=readWpts();
-  // A new waypoint table makes any previously locked active leg meaningless.
-  // Reset the hysteresis so the first frame can re-pick the closest leg cleanly.
-  if(typeof resetRouteProgressMemory==='function')resetRouteProgressMemory();
+  // Final approach course = the FAF→RWY leg course (last non-RWY waypoint's
+  // inbound track). Derive it straight from the table so the runway symbol and
+  // final-approach geometry always match the FAF course (e.g. 344), regardless
+  // of the i-crs field / a stale saved-route value.
+  {
+    const _faf=[...ST.wpts].reverse().find(w=>w.type!=='rwy');
+    if(_faf && Number.isFinite(_faf.brg) && _faf.brg>0) ST.rwyCourse=_faf.brg;
+  }
   ST.altOvr=null;ST.spdOvr=null;
   ST.mapPanX=0;ST.mapPanY=0;
 
@@ -6571,16 +6633,30 @@ function goND(){
     ST.extFix='';
   }
 
-  // acHdg = rwyCourse initially; drawND() updates it dynamically each frame
-  // as the real bearing from aircraft position to runway (approach-up, aircraft fixed on screen)
+  // Start the aircraft AT the first (start-of-route) waypoint, heading down the
+  // first leg. Placing it out on the runway centerline (old logic) or several
+  // NM before the first fix breaks on looping approaches (e.g. Macao 34, where
+  // HAZEL sits only ~8NM from the runway while MC610/612 loop out to ~16NM):
+  // the aircraft ends up spatially nearer a downstream leg and the nearest-leg
+  // picker locks onto it. Starting exactly at wpts[0] + forcing the active leg
+  // to 0 makes the sim always begin at the route start.
+  // Map is oriented final-approach-up: the runway course (e.g. 344) points to
+  // the top of the screen. acHdg therefore stays = rwyCourse, NOT the first
+  // leg's course, so the whole plate keeps a stable runway-up orientation.
+  const firstWpt=ST.wpts.find(w=>w.type!=='rwy');
+  if(firstWpt){
+    ST.acEast=firstWpt.east;
+    ST.acNorth=firstWpt.north;
+  }else{
+    const d=20, iRad=ST.rwyCourse*Math.PI/180;
+    ST.acEast=-d*Math.sin(iRad);
+    ST.acNorth=-d*Math.cos(iRad);
+  }
   ST.acHdg=ST.rwyCourse;
-
-  // Default aircraft position: 20NM from runway on the inbound/extended final side.
-  // Route/runway stay fixed on the map; only the aircraft symbol starts/moves at this position.
-  const d=20;
-  const iRad=ST.rwyCourse*Math.PI/180;
-  ST.acEast=-d*Math.sin(iRad);
-  ST.acNorth=-d*Math.cos(iRad);
+  // Force the route engine to start on leg 0 (HAZEL→next), overriding the
+  // nearest-leg pick which a looping route would otherwise get wrong.
+  if(typeof resetRouteProgressMemory==='function')resetRouteProgressMemory();
+  _lastLegIndex=0;
   show('s2');
   requestAnimationFrame(()=>{resizeCv();updateExtSel();update();});
 }
@@ -6722,7 +6798,8 @@ function calcRouteProgress(wpts, acE, acN){
   // Aircraft is before the start of the route (all legs have rawT < 0 = aircraft
   // hasn't yet reached the first waypoint). Override hysteresis and lock to leg 0
   // so FROM always shows the first route fix rather than a stale downstream leg.
-  if(allScores.length>0 && allScores.every(s=>s.rawT<0)){
+  const beforeRouteStart = allScores.length>0 && allScores.every(s=>s.rawT<0);
+  if(beforeRouteStart){
     best=allScores.find(s=>s.i===0)||best;
   }
   _lastLegIndex=best.i;
@@ -6733,21 +6810,28 @@ function calcRouteProgress(wpts, acE, acN){
   const manualLeg=(Number.isFinite(a.segToNext)&&a.segToNext>0)?a.segToNext:geomLeg;
   const remainingOnLeg=(1-best.t)*manualLeg;
 
-  const distToNext=Math.sqrt((b.east-acE)**2+(b.north-acN)**2);
+  // Before the aircraft reaches the first fix, the upcoming/highlighted target
+  // must be that first fix itself (wpts[0]), not wpts[1]. Otherwise the display
+  // treats the first fix as already passed the instant the sim starts, even
+  // though the aircraft hasn't reached it yet.
+  const nextWpt = beforeRouteStart ? a : b;
+  const distToNext = beforeRouteStart
+    ? Math.sqrt((a.east-acE)**2+(a.north-acN)**2)
+    : Math.sqrt((b.east-acE)**2+(b.north-acN)**2);
 
   // DTG must change when the aircraft is off the magenta leg. The old logic used
   // only the remaining entered leg distance, so if the aircraft was abeam/before
   // a leg the displayed TRACK MILES could stay frozen. Use direct distance from
   // aircraft to the active next waypoint + all following entered leg distances.
   let dtg=distToNext;
-  for(let j=i+1;j<wpts.length-1;j++){
+  for(let j=i+(beforeRouteStart?0:1);j<wpts.length-1;j++){
     const leg=(Number.isFinite(wpts[j].segToNext)&&wpts[j].segToNext>0)
       ?wpts[j].segToNext
       :Math.sqrt((wpts[j+1].east-wpts[j].east)**2+(wpts[j+1].north-wpts[j].north)**2);
     dtg+=leg;
   }
 
-  return{legIndex:i,nextWpt:b,distToNext,dtg,remainingOnLeg,activeLegCross:best.cross};
+  return{legIndex:i,nextWpt,distToNext,dtg,remainingOnLeg,activeLegCross:best.cross,beforeRouteStart};
 }
 
 // Reset hysteresis when the route or active fix set changes so a fresh route
@@ -6813,8 +6897,11 @@ function buildRouteEngine(wpts, routeProg, acE, acN){
   }
   const activeLegIndex=Math.max(0,Math.min(legs.length-1, routeProg?.legIndex ?? 0));
   const activeLeg=legs[activeLegIndex]||null;
+  const beforeRouteStart=!!routeProg?.beforeRouteStart;
   const activeFrom=activeLeg?.from || wpts?.[0] || null;
-  const activeTo=activeLeg?.to || wpts?.[0] || null;
+  // Before the aircraft reaches the first fix, "TO" must be that first fix
+  // itself, not the fix after it — see calcRouteProgress's matching fix.
+  const activeTo=beforeRouteStart?(activeLeg?.from||wpts?.[0]||null):(activeLeg?.to || wpts?.[0] || null);
   const distToActiveTo=activeTo?Math.sqrt((activeTo.east-acE)**2+(activeTo.north-acN)**2):0;
   // Forward active-leg cross-track so calc() can switch the VTK reference to a
   // direct-distance computation when the aircraft is significantly off the route.
@@ -6843,7 +6930,7 @@ function buildRouteEngine(wpts, routeProg, acE, acN){
     return (1-t)*activeLeg.dist;
   })();
   let dtg=distToActiveTo;
-  for(let j=activeLegIndex+1;j<legs.length;j++) dtg+=legs[j].dist;
+  for(let j=beforeRouteStart?activeLegIndex:activeLegIndex+1;j<legs.length;j++) dtg+=legs[j].dist;
   const nextConstraint=findNextConstraint(wpts, activeLegIndex+1);
   return {legs,activeLegIndex,activeLeg,activeFrom,activeTo,distToActiveTo,trackRemainOnActiveLeg,activeLegCross,dtg,nextConstraint};
 }
