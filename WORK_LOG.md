@@ -1,3 +1,47 @@
+# WORK LOG — 2026-08-22
+
+GitHub Pages 웹버전 배포 + ROUTE QUICK IMPORT 전면 개편(수동입력 중심) + ND north-up 전환 + UI 가독성 수정 세션.
+
+## 오늘 한 일
+
+### GitHub Pages 웹버전 배포
+- repo를 public으로 전환 (Pages는 무료 플랜에서 public repo만 지원)
+- `.github/workflows/pages.yml` 추가: `www/` 변경 시 GitHub Actions로 자동 배포
+- 배포 완료: https://rufnek737.github.io/descent-planning-mobile/
+
+### ROUTE QUICK IMPORT — 자동파싱 대신 "쉬운 수동입력" 방식으로 전환
+- 지난 세션 파서가 차트마다 정확도 편차 커서, "순서+숫자는 사람이, 좌표조회는 앱이" 방향 재확인 후 UI 재설계
+- 자동파싱 Apply 선택박스 완전 제거, 차트 업로드 시 공항정보만 자동채움
+- 입력 포맷: `FIX 고도 코스 거리` — **숫자 순서 무관** (고도≥500 / 코스≤360 / 소수점=거리로 자동판별), 스페이스→`-` 자동, 대문자 자동
+- 실시간 미리보기 카드로 각 fix 파싱 결과 확인 가능
+- **창(window) 고도 지원**: `2000-1600`처럼 숫자 2개 입력 시 순서 무관 **더 큰 값이 우선** (첫 값 우선 → 나중에 사용자 요청으로 변경)
+- FL110 등 Flight Level 표기 지원, 코스 뒤 애매한 정수는 거리로 재해석하는 휴리스틱 추가
+- Final Apch Crs 필드 신설 — FAF 레그 코스와 실시간 동기화
+- ① Name/Field Elev/Final Apch Crs/경로 입력 전부 예문(placeholder)만 표시, 새 사용자는 ②에서 예문 결과(ICN ILS RWY 16R, MUNAN-OLKIK-OSERI)를 바로 확인 가능
+- SETUP 화면 섹션 재배열: ①CHARTS·②AIRPORT 화면에서 제거(DOM엔 legacy-setup으로 숨겨 코드 호환 유지), ①ROUTE QUICK IMPORT/②WAYPOINTS/③SAVED ROUTES 순으로 정리, 전반 글씨 확대
+
+### ND 화면 north-up 전환 (Jeppesen 차트 스타일)
+- 기존: 활주로 코스가 항상 위를 향하고 지도 전체가 회전(heading-up)
+- 변경: **진북(360°)이 항상 위** 고정, 비행기 아이콘만 실제 진행방향으로 회전 — `mapRotDeg()` 헬퍼로 화면변환 6곳 통일
+- 비행기 초기위치를 활주로 코스 연장선 대신 **루트 첫 fix**로 배치, 활성레그 강제로 0번 고정 (루프형 접근절차에서 엉뚱한 레그가 활성화되던 버그 수정)
+- calcRouteProgress/buildRouteEngine의 "루트 시작 전" 케이스 수정: 첫 fix가 아직 도달 전인데 "이미 지남"으로 표시되던 버그 수정
+
+### UI 버그 수정
+- ALTITUDE/SPEED 드래그 조작(위=증가/아래=감소)에 ▲▼ 시각 힌트 추가 (조작 방식 자체는 변경 안 함), 흰색으로 가시성 확보
+- ND 화면 상단 TRACK MILES/RWY DIST/ALTITUDE/SPEED 라벨 글씨가 배경과 대비 부족으로 안 보이던 문제 수정 (색상 `#4a5568`→`#c3cedd` + 굵게)
+- EXT 모드 XTK/거리 텍스트가 비행기 아이콘에 가려지던 문제 수정 — 좌상단 고정 위치로 이동
+- ROUTE QUICK IMPORT 라벨(Name/Field Elev/ft/Final Apch Crs/°T) 굵게 표시
+
+### 기타
+- 개발자 등록 완료 확인, iOS 재설치 (앱 개수 제한 해제)
+
+## 다음 할 일
+- ND north-up 전환 후 실제 비행 시나리오(드래그, EXT 모드)에서 추가 검증 필요
+- 후원 결제수단 최종 결정 (앱내구입 vs 다른 방식) — 계속 보류 중
+- 창(window) 고도를 표/ND에 두 값 다 표시할지 여부 (현재는 max값 하나만 최종 채택)
+
+---
+
 # WORK LOG — 2026-07-09/10
 
 Jeppesen 접근차트 파싱 정확도 개선 + 수동입력 UX 전환 + 후원 섹션 + 맥 CLI 빌드 세션.

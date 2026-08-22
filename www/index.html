@@ -93,10 +93,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .route-paste-lbl{font-size:13px;color:var(--grn);letter-spacing:1px;font-family:'Courier New',monospace;margin-bottom:6px;}
 .route-paste-sub{font-size:11px;color:var(--mut);margin-bottom:7px;line-height:1.55;}
 .route-paste-row{display:flex;gap:6px;}
-.route-paste textarea{flex:1;background:#040e04;border:1px solid #0a2a0a;border-radius:6px;color:var(--txt);font-family:'Courier New',monospace;font-size:15px;padding:9px 12px;outline:none;resize:none;height:56px;}
+.route-paste textarea{flex:1;background:#040e04;border:1px solid #0a2a0a;border-radius:6px;color:var(--txt);font-family:'Courier New',monospace;font-size:15px;padding:9px 12px;outline:none;resize:none;height:78px;}
 .route-paste textarea:focus{border-color:var(--grn);}
 .route-elev-row{display:flex;align-items:center;gap:8px;margin-top:8px;}
-.route-elev-lbl{font-size:11px;color:var(--mut);font-family:'Courier New',monospace;letter-spacing:.5px;}
+.route-elev-lbl{font-size:11px;font-weight:700;color:var(--mut);font-family:'Courier New',monospace;letter-spacing:.5px;}
 .route-elev-row .fi{width:90px;flex:0 0 auto;font-size:14px;}
 .route-preview{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
 .route-preview:empty{display:none;}
@@ -174,9 +174,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .nd-strip{background:#05080f;border-bottom:1px solid #1a2a1a;padding:6px 10px;display:flex;align-items:center;gap:6px;flex-shrink:0;}
 .menu-btn{background:none;border:1px solid var(--bdr);border-radius:6px;color:var(--blu);padding:5px 11px;font-size:10px;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:1px;flex-shrink:0;}
 .st-blk{background:#080d18;border:1px solid #1a2a3a;border-radius:7px;padding:5px 9px;display:flex;flex-direction:column;align-items:center;gap:1px;}
-.st-l{font-size:7px;letter-spacing:1.5px;color:var(--mut);font-family:'Courier New',monospace;}
+.st-l{font-size:7px;letter-spacing:1.5px;color:#c3cedd;font-weight:700;font-family:'Courier New',monospace;}
 .st-v{font-size:19px;font-weight:700;line-height:1;font-family:'Courier New',monospace;}
 .st-u{font-size:8px;color:var(--mut);font-family:'Courier New',monospace;}
+.st-roll-hint{font-size:8px;line-height:1;color:#fff;opacity:.85;pointer-events:none;}
 .st-adj{display:flex;gap:2px;margin-top:2px;}
 .adj{background:#0f1829;border:1px solid #1a2a3a;border-radius:3px;color:#80a0c0;padding:2px 6px;font-size:8px;cursor:pointer;font-family:'Courier New',monospace;}
 .adj:active{background:#1a2a3a;}
@@ -671,38 +672,30 @@ canvas{display:block;width:100%;height:100%;}
       <!-- Route quick import -->
       <div class="route-paste">
         <div class="route-paste-lbl">① ROUTE QUICK IMPORT</div>
-        <div class="route-paste-sub">Type each fix, then its numbers read off the chart: <b>altitude</b> (≥500), <b>course</b> (≤360), <b>distance</b> (with a dot). Order of the numbers doesn't matter. Space separates fixes. End with the runway (e.g. <b>RWY33L</b>).<br>e.g. <b>BUMSI 8000 324 7.4  PUDUB 5500 324 5.1  WONKO 4000 RWY33L</b></div>
-        <div class="route-paste-row">
-          <textarea id="route-txt" oninput="onRouteInput(this)" placeholder="BUMSI 8000 324 7.4  PUDUB 5500 324 5.1  WONKO 4000 RWY33L"></textarea>
-          <button class="parse-btn" onclick="parseRoute()">AUTO FILL ↓</button>
-        </div>
         <div class="route-elev-row">
           <span class="route-elev-lbl">Name</span>
-          <input id="route-name" class="fi" style="flex:1;min-width:0;width:auto" placeholder="VMMC ILS Z 34"
+          <input id="route-name" class="fi" style="flex:1;min-width:0;width:auto" placeholder="ICN ILS RWY 16R"
                  oninput="onRouteNameInput(this)">
         </div>
         <div class="route-elev-row">
           <span class="route-elev-lbl">Field Elev</span>
-          <input id="route-elev" class="fi" type="number" inputmode="numeric" placeholder="59" value="23"
+          <input id="route-elev" class="fi" type="number" inputmode="numeric" placeholder="59"
                  oninput="var e=document.getElementById('i-elev'); if(e)e.value=this.value;">
           <span class="route-elev-lbl">ft</span>
           <span class="route-elev-lbl" style="margin-left:10px">Final Apch Crs</span>
-          <input id="route-crs" class="fi" type="number" inputmode="numeric" placeholder="324" value="334"
+          <input id="route-crs" class="fi" type="number" inputmode="numeric" placeholder="153"
                  oninput="onFinalCrsInput(this)">
           <span class="route-elev-lbl">°T</span>
+        </div>
+        <div class="route-paste-row">
+          <textarea id="route-txt" oninput="onRouteInput(this)" placeholder="WAYPOINT COURSE DISTANCE ALTITUDE&#10;e.g. MUNAN 063 4.9 2000-1600 OLKIK 153 6.1 1600 OSERI 153 4.9 1600 RWY16R"></textarea>
+          <button class="parse-btn" onclick="parseRoute()">AUTO FILL ↓</button>
         </div>
         <div id="route-preview" class="route-preview"></div>
       </div>
 
-      <!-- Save / Load -->
-      <div class="sec">② SAVED ROUTES</div>
-      <div class="save-bar">
-        <button class="save-btn" id="save-btn" onclick="saveRoute()" ontouchstart="event.preventDefault();saveRoute()">💾 SAVE ROUTE</button>
-        <div class="saved-list" id="saved-list"></div>
-      </div>
-
       <!-- Waypoints -->
-      <div class="sec">③ WAYPOINTS — Far → Near (DIST/LEG NM = distance to next FIX, BRG = inbound track °T to next FIX)</div>
+      <div class="sec">② WAYPOINTS — Far → Near (DIST/LEG NM = distance to next FIX, BRG = inbound track °T to next FIX)</div>
       <table class="wt">
         <thead><tr>
           <th>FIX</th><th>INBD °T</th><th>LEG NM</th><th>ALT ft</th><th>SPD kt</th><th>TYPE</th><th></th>
@@ -710,6 +703,13 @@ canvas{display:block;width:100%;height:100%;}
         <tbody id="wbody"></tbody>
       </table>
       <!-- Add Waypoint button removed for clean responsive layout -->
+
+      <!-- Save / Load -->
+      <div class="sec">③ SAVED ROUTES</div>
+      <div class="save-bar">
+        <button class="save-btn" id="save-btn" onclick="saveRoute()" ontouchstart="event.preventDefault();saveRoute()">💾 SAVE ROUTE</button>
+        <div class="saved-list" id="saved-list"></div>
+      </div>
 
       <button class="btn btn-grn" onclick="goND()">START ND PLANNING →</button>
 
@@ -761,25 +761,29 @@ canvas{display:block;width:100%;height:100%;}
       <!-- ALTITUDE with +/-500 -->
       <div class="st-blk stat-edit" id="alt-blk">
         <div class="st-l">ALTITUDE</div>
+        <div class="st-roll-hint" aria-hidden="true">▲</div>
         <div style="display:flex;align-items:baseline;gap:2px">
           <span class="st-v" id="salt" style="color:#4fc3f7">----</span>
           <span class="st-u">FT</span>
         </div>
+        <div class="st-roll-hint" aria-hidden="true">▼</div>
         <div class="st-adj">
-          <button class="adj" data-hold="alt" data-delta="-100">-100</button>
-          <button class="adj" data-hold="alt" data-delta="100">+100</button>
+          <button class="adj" data-hold="alt" data-delta="-100">▼ -100</button>
+          <button class="adj" data-hold="alt" data-delta="100">▲ +100</button>
         </div>
       </div>
       <!-- SPEED with +/-10 -->
       <div class="st-blk stat-edit" id="spd-blk">
         <div class="st-l">SPEED</div>
+        <div class="st-roll-hint" aria-hidden="true">▲</div>
         <div style="display:flex;align-items:baseline;gap:2px">
           <span class="st-v" id="sspd" style="color:#f48fb1">---</span>
           <span class="st-u">KT</span>
         </div>
+        <div class="st-roll-hint" aria-hidden="true">▼</div>
         <div class="st-adj">
-          <button class="adj" data-hold="spd" data-delta="-10">-10</button>
-          <button class="adj" data-hold="spd" data-delta="10">+10</button>
+          <button class="adj" data-hold="spd" data-delta="-10">▼ -10</button>
+          <button class="adj" data-hold="spd" data-delta="10">▲ +10</button>
         </div>
       </div>
       <!-- Extension toggle + fix selector -->
@@ -6105,7 +6109,10 @@ function parseRouteItems(raw){
       if(tk.indexOf('.')>=0){ const d=parseFloat(tk); if(d>=0.1&&d<=40) man.dist=d; }
       else {
         const v=parseInt(tk,10);
-        if(v>=500&&v<=45000) man.alt=v;
+        // Window altitude ("2000-1600" MAXIMUM/MINIMUM, or typed either order —
+        // "1600-2000" too): the LARGER of the numbers wins, since pilots may
+        // type the pair in either order.
+        if(v>=500&&v<=45000){ if(man.alt==null||v>man.alt) man.alt=v; }
         // A course was already read for this fix — a further plain integer is
         // almost certainly a distance the pilot typed without the decimal
         // point (e.g. "...344 9" meaning 9NM), not a second course.
@@ -6200,20 +6207,21 @@ function parseRoute(){
   addWRow(rwyLabel,'0','0',elev,'145','rwy');
 }
 
-// Default RKSI ILS 33L sample data
-const SAMPLE=[
-  {name:'ENPIL', brg:334, dist:  3, alt: 7000,spd:210,type:'iaf'},
-  {name:'GE019', brg:334, dist:3.1, alt: 6000,spd:210,type:'fix'},
-  {name:'BIRIN', brg:334, dist:4.6, alt: 5000,spd:210,type:'fix'},
-  {name:'PIBAK', brg:334, dist:3.3, alt: 3600,spd:180,type:'fix'},
-  {name:'GOKAK', brg:334, dist:7.9, alt: 2600,spd:180,type:'faf'},
-  {name:'RWY33L',brg:  0, dist:  0, alt:   23,spd:145,type:'rwy'},
+// ① Name / Field Elev / Final Apch Crs / route text all start EMPTY — they
+// show only their gray placeholder example (ICN ILS RWY 16R). ② WAYPOINTS is
+// still pre-populated to match that same example, so a new user immediately
+// sees what a filled-in route looks like without ① itself being pre-filled.
+const DEFAULT_WPTS=[
+  {name:'MUNAN', brg:63,  dist:4.9, alt:2000, type:'iaf'},
+  {name:'OLKIK', brg:153, dist:6.1, alt:1600, type:'fix'},
+  {name:'OSERI', brg:153, dist:4.9, alt:1600, type:'faf'},
+  {name:'RWY16R',brg:0,   dist:0,   alt:23,   type:'rwy'},
 ];
 
 function initSetup(){
   const tb=document.getElementById('wbody');
-  tb.innerHTML='';
-  SAMPLE.forEach(w=>addWRow(w.name,w.brg,w.dist,w.alt,w.spd,w.type));
+  if(tb)tb.innerHTML='';
+  DEFAULT_WPTS.forEach(w=>addWRow(w.name,w.brg,w.dist,w.alt,'',w.type));
   renderSavedList();
 }
 
@@ -6717,7 +6725,7 @@ function getCalcAircraftPos(){
   // effectively at a different world position relative to the route, even though
   // the aircraft screen symbol did not move.
   const sc=(ND&&ND.sc)?ND.sc:1;
-  const theta=ST.acHdg*Math.PI/180;
+  const theta=mapRotDeg()*Math.PI/180;
   const su=(ST.mapPanX||0)/sc;
   const sv=-(ST.mapPanY||0)/sc;
   const panEast=su*Math.cos(theta)+sv*Math.sin(theta);
@@ -7462,11 +7470,18 @@ function evPt(e){
   return{x:(s.clientX-r.left),y:(s.clientY-r.top)};
 }
 
+// Screen-rotation angle for the ND map layer (route/runway/fixes/range rings).
+// North-up, like a Jeppesen plan view: true/magnetic 360° always points to the
+// top of the display, so the plate looks the same regardless of which way the
+// aircraft happens to be pointed. ST.acHdg itself still holds the aircraft's
+// real heading (used to orient the aircraft symbol — see drawNDAircraft).
+function mapRotDeg(){ return 0; }
+
 // Convert screen px → world NM (ND only)
 function s2w(px,py){
   const su=(px-(ND.NDcX+ST.mapPanX))/ND.sc;
   const sv=((ND.refY+ST.mapPanY)-py)/ND.sc;
-  const θ=ST.acHdg*Math.PI/180;
+  const θ=mapRotDeg()*Math.PI/180;
   const east=ST.acEast+su*Math.cos(θ)+sv*Math.sin(θ);
   const north=ST.acNorth-su*Math.sin(θ)+sv*Math.cos(θ);
   return{east,north};
@@ -7497,7 +7512,7 @@ function moveDrag(e){
   }
 
   // Drag aircraft only. Convert screen pixel delta → world NM delta.
-  const θ=ST.acHdg*Math.PI/180;
+  const θ=mapRotDeg()*Math.PI/180;
   const su=dx/ND.sc, sv=-dy/ND.sc;
   ST.acEast+=su*Math.cos(θ)+sv*Math.sin(θ);
   ST.acNorth+=-su*Math.sin(θ)+sv*Math.cos(θ);
@@ -7550,7 +7565,7 @@ function worldToScreen(east,north){
   // Map layer transform: route/runway/fixes/range rings.
   // Empty-background dragging changes ST.mapPanX/Y so the map can be repositioned
   // without changing aircraft position or calculations.
-  const θ=ST.acHdg*Math.PI/180;
+  const θ=mapRotDeg()*Math.PI/180;
   const su=east*Math.cos(θ)-north*Math.sin(θ);
   const sv=east*Math.sin(θ)+north*Math.cos(θ);
   return{px:ND.NDcX+ST.mapPanX+su*ND.sc,py:ND.refY+ST.mapPanY-sv*ND.sc};
@@ -7558,7 +7573,7 @@ function worldToScreen(east,north){
 
 function aircraftToScreen(east,north){
   // Aircraft layer transform: no visual map pan.
-  const θ=ST.acHdg*Math.PI/180;
+  const θ=mapRotDeg()*Math.PI/180;
   const su=east*Math.cos(θ)-north*Math.sin(θ);
   const sv=east*Math.sin(θ)+north*Math.cos(θ);
   return{px:ND.NDcX+su*ND.sc,py:ND.refY-sv*ND.sc};
@@ -7591,7 +7606,7 @@ function drawND(d){
   // back on-screen — so portrait behavior and normal landscape ranges are
   // untouched but extreme cases never lose the aircraft symbol.
   const refYDefault = pad + NDr*0.18;
-  const θRef = ST.acHdg*Math.PI/180;
+  const θRef = mapRotDeg()*Math.PI/180;
   const acSvForRef = ST.acEast*Math.sin(θRef) + ST.acNorth*Math.cos(θRef);
   // Where would the aircraft render with the default refY?
   const acPyDefault = refYDefault - acSvForRef*sc;
@@ -7795,6 +7810,10 @@ const B737_PATH = new Path2D(
 function drawNDAircraft(ACx,ACy){
   cx.save();cx.translate(ACx,ACy);
   if(dragging&&dragMode==='aircraft'){cx.shadowColor='#333';cx.shadowBlur=10;}
+  // Map is fixed north-up; the aircraft symbol itself rotates to show its real
+  // heading (relative to the map's rotation, so this collapses to 0 if the map
+  // ever goes back to heading-up).
+  cx.rotate((ST.acHdg-mapRotDeg())*Math.PI/180);
   const planeScale=0.13;
   cx.scale(planeScale,planeScale);
   cx.fillStyle='#dde4ee';
@@ -7913,7 +7932,7 @@ function drawNDWaypoint(px,py,w,isNext,isPassed=false){
 function drawNDExtension(extCalc){
   const fix=extCalc.fix;
   const{px:fx,py:fy}=worldToScreen(fix.east,fix.north);
-  const θ=ST.acHdg*Math.PI/180;
+  const θ=mapRotDeg()*Math.PI/180;
   const rwC=ST.rwyCourse*Math.PI/180;
   const rwDirE=Math.sin(rwC),rwDirN=Math.cos(rwC);
   const dE2=rwDirE,dN2=rwDirN;
@@ -7934,11 +7953,15 @@ function drawNDExtension(extCalc){
   const footPx=fx+sdx*t2,footPy=fy+sdy*t2;
   cx.lineTo(footPx,footPy);cx.stroke();cx.setLineDash([]);
 
+  // Fixed top-left readout (below GS/TAS) instead of anchored next to the
+  // aircraft symbol — the aircraft icon is drawn on top of this layer and was
+  // covering the text whenever it sat near its own XTK/distance readout.
   const xtkAbs=Math.abs(extCalc.cross).toFixed(1);
   const side=extCalc.cross>0?'R':'L';
+  cx.textAlign='left';
   cx.fillStyle='#aa3300';cx.font='bold 10px Courier New';
-  cx.fillText(`XTK ${xtkAbs}NM ${side}`,acPos.px+12,acPos.py-10);
-  cx.fillText(`${extCalc.directDist.toFixed(1)}NM → ${ST.extFix}`,acPos.px+12,acPos.py+4);
+  cx.fillText(`XTK ${xtkAbs}NM ${side}`,6,48);
+  cx.fillText(`${extCalc.directDist.toFixed(1)}NM → ${ST.extFix}`,6,61);
 }
 
 function drawNDDevBar(W,H,d){
