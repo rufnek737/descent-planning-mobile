@@ -18,6 +18,8 @@
 		688404F82FD4090700553292 /* NativeOcrPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688404F72FD4090700553292 /* NativeOcrPlugin.swift */; };
 		688404F92FD4090700553292 /* NativeOcrPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 688404F62FD4090700553292 /* NativeOcrPlugin.m */; };
 		688404FB2FD4123F00553292 /* CustomBridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688404FA2FD4123E00553292 /* CustomBridgeViewController.swift */; };
+		24E8D796850C5E11F972F682 /* IapPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1D309A94A5DA4FC5390F1 /* IapPlugin.swift */; };
+		21CF4BD2ED99CCE1461E7962 /* IapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = A181CA48F51310C9D5C676BA /* IapPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		688404F72FD4090700553292 /* NativeOcrPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeOcrPlugin.swift; sourceTree = "<group>"; };
 		688404FA2FD4123E00553292 /* CustomBridgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBridgeViewController.swift; sourceTree = "<group>"; };
 		958DCC722DB07C7200EA8C5F /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = ../debug.xcconfig; sourceTree = SOURCE_ROOT; };
+		95C1D309A94A5DA4FC5390F1 /* IapPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IapPlugin.swift; sourceTree = "<group>"; };
+		A181CA48F51310C9D5C676BA /* IapPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IapPlugin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,8 @@
 				688404FA2FD4123E00553292 /* CustomBridgeViewController.swift */,
 				688404F62FD4090700553292 /* NativeOcrPlugin.m */,
 				688404F72FD4090700553292 /* NativeOcrPlugin.swift */,
+				A181CA48F51310C9D5C676BA /* IapPlugin.m */,
+				95C1D309A94A5DA4FC5390F1 /* IapPlugin.swift */,
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
 				504EC3071FED79650016851F /* AppDelegate.swift */,
 				504EC30B1FED79650016851F /* Main.storyboard */,
@@ -167,6 +173,8 @@
 				688404FB2FD4123F00553292 /* CustomBridgeViewController.swift in Sources */,
 				688404F82FD4090700553292 /* NativeOcrPlugin.swift in Sources */,
 				688404F92FD4090700553292 /* NativeOcrPlugin.m in Sources */,
+				24E8D796850C5E11F972F682 /* IapPlugin.swift in Sources */,
+				21CF4BD2ED99CCE1461E7962 /* IapPlugin.m in Sources */,
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

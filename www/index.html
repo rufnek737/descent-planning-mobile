@@ -718,17 +718,18 @@ canvas{display:block;width:100%;height:100%;}
         <div class="sec" style="margin-top:0">☕ 개발자에게 커피 사주기</div>
         <div class="coffee-sub">무료로 배포되는 앱입니다. 작은 응원이 다음 업데이트로 이어져요.</div>
         <div class="coffee-opts">
-          <button class="coffee-opt" onclick="window.open('https://qr.kakaopay.com/FWTLO6dQc','_blank')">
+          <button class="coffee-opt" onclick="buyCoffee('com.rufnek.descentplanning.coffee')">
             <div class="coffee-emoji">☕</div>
             <div class="coffee-label">커피 한 잔</div>
             <div class="coffee-price">₩1,500</div>
           </button>
-          <button class="coffee-opt" onclick="window.open('https://qr.kakaopay.com/FWTLO6dQc','_blank')">
+          <button class="coffee-opt" onclick="buyCoffee('com.rufnek.descentplanning.coffeecake')">
             <div class="coffee-emoji">🍰</div>
             <div class="coffee-label">커피+케익</div>
             <div class="coffee-price">₩4,500</div>
           </button>
         </div>
+        <div id="coffee-status" style="font-size:9px;color:var(--mut);margin-top:6px;min-height:12px"></div>
       </div>
     </div>
   </div>
@@ -6505,6 +6506,34 @@ function flashBtn(id,txt){
 }
 
 // ── 화면 중앙 토스트 알림 (모바일/PC 공통) ─────────────────────────────────
+// Developer-support purchase. On iOS, uses StoreKit (Iap native plugin) so
+// the transaction goes through Apple's own payment system per App Store
+// Review Guideline 3.1.1 — a real-name-exposing external payment link is not
+// an option there. Everywhere else (Android, web/GitHub Pages — no App Store
+// review applies) falls back to the KakaoPay link, and iOS also falls back
+// to it if StoreKit has no matching product yet (e.g. before the App Store
+// Connect product is created/cleared for sale, so testing isn't blocked).
+const KAKAOPAY_URL='https://qr.kakaopay.com/FWTLO6dQc';
+async function buyCoffee(productId){
+  const isIos=!!(window.Capacitor && window.Capacitor.getPlatform && window.Capacitor.getPlatform()==='ios');
+  const iap=isIos && window.Capacitor.Plugins && window.Capacitor.Plugins.Iap;
+  const statusEl=document.getElementById('coffee-status');
+  if(!iap){ window.open(KAKAOPAY_URL,'_blank'); return; }
+  if(statusEl) statusEl.textContent='처리 중...';
+  try{
+    const res=await iap.purchase({productId});
+    if(!statusEl){}
+    else if(res.status==='success') statusEl.textContent='☕ 감사합니다!';
+    else if(res.status==='cancelled') statusEl.textContent='';
+    else if(res.status==='pending') statusEl.textContent='구매 승인 대기 중...';
+    else statusEl.textContent='';
+  }catch(e){
+    console.warn('[IAP] purchase failed, falling back to KakaoPay:',e);
+    if(statusEl) statusEl.textContent='';
+    window.open(KAKAOPAY_URL,'_blank');
+  }
+}
+
 function showToast(msg, isError){
   let t=document.getElementById('_dp_toast');
   if(!t){
