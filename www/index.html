@@ -176,7 +176,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .st-blk{background:#080d18;border:1px solid #1a2a3a;border-radius:7px;padding:5px 9px;display:flex;flex-direction:column;align-items:center;gap:1px;}
 .st-l{font-size:7px;letter-spacing:1.5px;color:#c3cedd;font-weight:700;font-family:'Courier New',monospace;}
 .st-v{font-size:19px;font-weight:700;line-height:1;font-family:'Courier New',monospace;}
-.st-u{font-size:8px;color:var(--mut);font-family:'Courier New',monospace;}
+.st-u{font-size:8px;color:#c3cedd;font-weight:700;font-family:'Courier New',monospace;}
 .st-roll-hint{font-size:8px;line-height:1;color:#fff;opacity:.85;pointer-events:none;}
 .st-adj{display:flex;gap:2px;margin-top:2px;}
 .adj{background:#0f1829;border:1px solid #1a2a3a;border-radius:3px;color:#80a0c0;padding:2px 6px;font-size:8px;cursor:pointer;font-family:'Courier New',monospace;}
@@ -186,7 +186,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .vtb.on{background:#0a1428;color:var(--txt);border-color:var(--blu);}
 
 /* Range selector */
-.rng-btn{background:#080d18;border:1px solid #1a2a3a;border-radius:4px;color:#506070;padding:3px 8px;font-size:9px;cursor:pointer;font-family:'Courier New',monospace;}
+.rng-btn{background:#080d18;border:1px solid #2a3a4a;border-radius:4px;color:#c3cedd;font-weight:700;padding:3px 8px;font-size:9px;cursor:pointer;font-family:'Courier New',monospace;}
 .rng-btn.on{background:#0a1428;color:var(--blu);border-color:var(--blu);}
 
 .cv-wrap{flex:1;position:relative;overflow:hidden;cursor:crosshair;}
@@ -795,7 +795,7 @@ canvas{display:block;width:100%;height:100%;}
       </div>
       <!-- Range selector inline -->
       <div style="display:flex;flex-direction:column;gap:2px;align-items:center;flex-shrink:0">
-        <div style="font-size:7px;color:var(--mut);font-family:'Courier New',monospace">RNG</div>
+        <div style="font-size:7px;color:#c3cedd;font-weight:700;font-family:'Courier New',monospace">RNG</div>
         <div class="range-panel" style="display:flex;gap:2px">
           <button class="rng-btn" onclick="setRange(10,this)">10</button>
           <button class="rng-btn" onclick="setRange(20,this)">20</button>

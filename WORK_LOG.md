@@ -31,6 +31,7 @@ GitHub Pages 웹버전 배포 + ROUTE QUICK IMPORT 전면 개편(수동입력 �
 - ND 화면 상단 TRACK MILES/RWY DIST/ALTITUDE/SPEED 라벨 글씨가 배경과 대비 부족으로 안 보이던 문제 수정 (색상 `#4a5568`→`#c3cedd` + 굵게)
 - EXT 모드 XTK/거리 텍스트가 비행기 아이콘에 가려지던 문제 수정 — 좌상단 고정 위치로 이동
 - ROUTE QUICK IMPORT 라벨(Name/Field Elev/ft/Final Apch Crs/°T) 굵게 표시
+- ND 화면 RNG 라벨/10·20·40·80 버튼, 단위(NM/FT/KT) 저대비 문제 동일 원인(어두운 배경에 `var(--mut)`)으로 확인 후 일괄 수정
 
 ### 기타
 - 개발자 등록 완료 확인, iOS 재설치 (앱 개수 제한 해제)
