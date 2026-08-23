@@ -652,7 +652,7 @@ canvas{display:block;width:100%;height:100%;}
           <div class="field-hint">ICAO Code</div>
         </div>
         <div style="display:flex;flex-direction:column;width:90px;flex-shrink:0">
-          <input class="fi" id="i-rwy" placeholder="33L" value="33L">
+          <input class="fi" id="i-rwy" placeholder="16R" value="16R">
           <div class="field-hint">Runway</div>
         </div>
         <div style="display:flex;flex-direction:column;width:80px;flex-shrink:0">
@@ -6608,7 +6608,6 @@ function readWpts(){
 
 function goND(){
   ST.icao=document.getElementById('i-icao').value.toUpperCase().trim()||'RKSI';
-  ST.rwy=document.getElementById('i-rwy').value.trim()||'--';
   ST.rwyCourse=parseFloat(document.getElementById('i-crs').value)||0;
   ST.apElev=parseInt(document.getElementById('i-elev').value)||0;
   ST.starName=document.getElementById('i-star').value.trim();
@@ -6616,6 +6615,14 @@ function goND(){
   ST.navStation=appAid?.station || ST.navStation || '';
   ST.navFreq=appAid?.freq || ST.navFreq || '';
   ST.wpts=readWpts();
+  // Runway ID: read straight off the WAYPOINTS table's RWY row rather than the
+  // hidden legacy i-rwy field, which never gets synced when the table is
+  // pre-filled directly (e.g. the default example) instead of via AUTO FILL.
+  {
+    const _rwyRow=ST.wpts.find(w=>w.type==='rwy'||String(w.name).startsWith('RWY'));
+    ST.rwy=_rwyRow?String(_rwyRow.name).replace(/^RWY/,''):(document.getElementById('i-rwy').value.trim()||'--');
+    const rEl=document.getElementById('i-rwy'); if(rEl)rEl.value=ST.rwy;
+  }
   // Final approach course = the FAF→RWY leg course (last non-RWY waypoint's
   // inbound track). Derive it straight from the table so the runway symbol and
   // final-approach geometry always match the FAF course (e.g. 344), regardless
