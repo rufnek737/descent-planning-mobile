@@ -1,3 +1,37 @@
+# WORK LOG — 2026-08-24
+
+전날 일시정지된 배포 규정 작업 재개. 차트 자동파싱 기능 전체 삭제 + 규정 문구를 앱 실체(학습 시뮬레이터)에 맞게 재작성.
+
+## 오늘 한 일
+
+### 차트 자동 파싱(OCR) 기능 완전 삭제
+- 결정: Google Vision 자동파싱 기능 유지 여부 미결 상태였는데 **완전 삭제**로 확정 (ROUTE QUICK IMPORT 수동입력이 이미 유일한 실사용 경로였음)
+- `www/index.html`에서 차트 업로드~공간파서 전체 블록(약 5,200줄, 전체 파일의 60%+) 삭제: PDF.js 로더, Tesseract OCR, `parseApproachChartSpatial` 공간파서, Jeppesen known-route 테이블, 차트 기반 공항/코스/NAV 자동입력 로직
+- 그 여파로 죽은 참조 정리: `parseRoute()`의 spatial-autofill 시도 블록, `goND()`의 `chartData` 기반 NAV station 동기화, 실제 어디서도 표시 안 되던 `ST.navStation`/`navFreq` 상태값
+- CHARTS 업로드 UI(HTML) 삭제, AIRPORT&RUNWAY 숨김 입력값(i-icao 등)은 다른 코드가 여전히 참조하므로 유지
+- `www/vendor/`(pdf.js + tesseract.js + wasm 코어 4종 + tessdata, 약 41MB) 완전 삭제, `sw.js` 캐시 목록·fetch 핸들러의 vendor 폴백 로직도 정리
+- iOS `NativeOcrPlugin.swift/.m`(Vision 프레임워크 OCR, 호출자 없어짐) 삭제 + `CustomBridgeViewController` 등록 해제, pbxproj 정리
+- **효과**: 앱 패키지 크기 대폭 감소(빌드 산출물 기준 2.6MB), 코드량 큰 폭 축소
+
+### 배포 규정(약관/개인정보/안전고지) 문구 재작성
+- 사용자 지적: 기존 안전고지가 "회사 SOP·ATC 지시·비행 중 판단" 등 실제 운항을 전제로 한 문구였는데, 앱은 **실제 항법장비·실시간 데이터와 무관한 오프라인 학습·시뮬레이션 도구**라 앱 실체와 안 맞음
+- 안전고지/이용약관/개인정보처리방침 전부 재작성: "실제 비행·디스패치 판단 근거로 사용 불가", "모든 값은 사용자가 직접 입력하며 앱은 검증하지 않음", "실시간 항법·기상·ATC 데이터 없음"으로 명확화
+- 개인정보처리방침에서 Google Vision OCR 관련 조항 제거 (해당 기능 자체가 삭제됐으므로)
+- `www/privacy.html`, `www/terms.html` 실제 정적 페이지 신규 작성 (전날 세션에서 앱 내 모달·sw.js 캐시 목록에 링크만 걸어두고 실제 파일은 없던 상태였음)
+
+### 커밋/배포
+- 전날 미커밋 상태였던 후원 결제 플랫폼 분기(iOS StoreKit 전용, 외부결제 폴백 없음) + 안전고지 모달 + 오늘 작업 전체를 한 커밋으로 반영, GitHub push 완료
+- iOS 빌드(2.6MB, 캐시 cache-112)를 실제 기기에 설치·실행 확인
+
+## 다음 할 일
+- iOS 후원 상품(`com.rufnek.descentplanning.coffee`/`coffeecake`)을 App Store Connect에 등록 — **앱 자체가 아직 App Store Connect에 생성되지 않은 상태 확인됨** (Pilot Logbook/CrewSwap만 존재), 앱 등록부터 먼저 필요
+- 앱 등록 시 번들 ID(`com.rufnek.descentplanning`) 드롭다운에 안 뜨면 Apple Developer 사이트에서 App ID 선등록 필요
+- Paid Apps Agreement 동의 → 인앱구입 상품 2개 생성 → Cleared for Sale 전환
+- Android 정식 배포 시 카카오페이 후원 분기 재검증 + release keystore 설정
+- 안전고지 첫 실행 확인(acknowledge) 플로우를 실제 기기에서 시각적으로 재검증
+
+---
+
 # WORK LOG — 2026-08-23
 
 Descent Planning 후원 결제의 플랫폼별 구조 확정.
