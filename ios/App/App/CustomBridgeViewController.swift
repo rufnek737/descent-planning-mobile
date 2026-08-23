@@ -8,7 +8,6 @@ import Capacitor
 /// discovered automatically. They must be registered via `capacitorDidLoad`.
 class CustomBridgeViewController: CAPBridgeViewController {
     override func capacitorDidLoad() {
-        bridge?.registerPluginInstance(NativeOcrPlugin())
         bridge?.registerPluginInstance(IapPlugin())
     }
 }

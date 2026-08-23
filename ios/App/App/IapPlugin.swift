@@ -9,8 +9,8 @@ import StoreKit
 ///
 /// These product IDs must exist in App Store Connect (Consumable type,
 /// Cleared for Sale) before purchases will resolve — StoreKit returns an
-/// empty product list otherwise, which the JS side treats as "IAP unavailable"
-/// and falls back to the external KakaoPay link.
+/// empty product list otherwise. The JS side then shows an availability error;
+/// iOS must never route the user to an external payment method.
 @objc(IapPlugin)
 public class IapPlugin: CAPPlugin {
     static let productIds = [

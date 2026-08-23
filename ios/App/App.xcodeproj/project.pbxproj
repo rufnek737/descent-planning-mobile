@@ -15,8 +15,6 @@
 		504EC30F1FED79650016851F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30E1FED79650016851F /* Assets.xcassets */; };
 		504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC3101FED79650016851F /* LaunchScreen.storyboard */; };
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
-		688404F82FD4090700553292 /* NativeOcrPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688404F72FD4090700553292 /* NativeOcrPlugin.swift */; };
-		688404F92FD4090700553292 /* NativeOcrPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 688404F62FD4090700553292 /* NativeOcrPlugin.m */; };
 		688404FB2FD4123F00553292 /* CustomBridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688404FA2FD4123E00553292 /* CustomBridgeViewController.swift */; };
 		24E8D796850C5E11F972F682 /* IapPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1D309A94A5DA4FC5390F1 /* IapPlugin.swift */; };
 		21CF4BD2ED99CCE1461E7962 /* IapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = A181CA48F51310C9D5C676BA /* IapPlugin.m */; };
@@ -32,8 +30,6 @@
 		504EC3111FED79650016851F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		504EC3131FED79650016851F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50B271D01FEDC1A000F3C39B /* public */ = {isa = PBXFileReference; lastKnownFileType = folder; path = public; sourceTree = "<group>"; };
-		688404F62FD4090700553292 /* NativeOcrPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeOcrPlugin.m; sourceTree = "<group>"; };
-		688404F72FD4090700553292 /* NativeOcrPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeOcrPlugin.swift; sourceTree = "<group>"; };
 		688404FA2FD4123E00553292 /* CustomBridgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBridgeViewController.swift; sourceTree = "<group>"; };
 		958DCC722DB07C7200EA8C5F /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = ../debug.xcconfig; sourceTree = SOURCE_ROOT; };
 		95C1D309A94A5DA4FC5390F1 /* IapPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IapPlugin.swift; sourceTree = "<group>"; };
@@ -73,8 +69,6 @@
 			isa = PBXGroup;
 			children = (
 				688404FA2FD4123E00553292 /* CustomBridgeViewController.swift */,
-				688404F62FD4090700553292 /* NativeOcrPlugin.m */,
-				688404F72FD4090700553292 /* NativeOcrPlugin.swift */,
 				A181CA48F51310C9D5C676BA /* IapPlugin.m */,
 				95C1D309A94A5DA4FC5390F1 /* IapPlugin.swift */,
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
@@ -171,8 +165,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				688404FB2FD4123F00553292 /* CustomBridgeViewController.swift in Sources */,
-				688404F82FD4090700553292 /* NativeOcrPlugin.swift in Sources */,
-				688404F92FD4090700553292 /* NativeOcrPlugin.m in Sources */,
 				24E8D796850C5E11F972F682 /* IapPlugin.swift in Sources */,
 				21CF4BD2ED99CCE1461E7962 /* IapPlugin.m in Sources */,
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
@@ -317,7 +309,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = V6TT3SA8H9;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -343,7 +335,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = V6TT3SA8H9;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
