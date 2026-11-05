@@ -10,8 +10,8 @@
 | 앱 이름 | Descent Planning |
 | 번들 ID / 패키지명 | `com.rufnek.descentplanning` |
 | 카테고리 | Education (대안: Utilities) — Navigation 카테고리는 피할 것 (실제 항법 앱으로 오해 + 추가 심사) |
-| 개인정보처리방침 URL | https://rufnek737.github.io/descent-planning-mobile/privacy.html (임시 — 기존 앱처럼 `https://rufnekcrew.com/<앱이름>/privacy` 형식으로 옮길지 결정 필요) |
-| 이용약관 URL | https://rufnek737.github.io/descent-planning-mobile/terms.html (위와 동일) |
+| 개인정보처리방침 URL | https://rufnekcrew.com/descent/privacy (rufnekcrew-site 배포 후 유효 — 배포 전에는 제출 금지) |
+| 이용약관 URL | https://rufnekcrew.com/descent/terms (위와 동일) |
 | 저작권 표기 | 2026 RufnekCrew (기존 앱 공통) |
 | 지원 이메일 | info@rufnekcrew.com |
 | 가격 | 무료 (iOS: 소모성 후원 IAP 2종 / Android: 외부 후원 링크) |
