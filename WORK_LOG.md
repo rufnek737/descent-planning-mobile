@@ -10,9 +10,10 @@
 - **그래픽**: 아이콘 512, 기능 그래픽 1024×500 제작 (세션 scratchpad, 업로드는 사람이 직접)
 - `store/LISTING.md` 작성, 정책 URL은 `rufnekcrew.com/descent/privacy|terms`
 - 사이트(`rufnekcrew-site`): `/descent` 소개·개인정보·약관 페이지를 `deploy/descent-pages` 브랜치에 준비 (main은 날고적고 스토어 버튼 포함이라 배포 보류)
+- **(후속, 11-06) 사이트 페이지 배포 완료**: `rufnekcrew.com`은 OpenAI Sites가 아니라 본인 Cloudflare Worker(`rufnekcrew-site`)라 Codex 없이 여기서 `wrangler deploy`로 배포함. `deploy/descent-pages`(`6f7c86e`)를 올려 `/descent`, `/descent/privacy`, `/descent/terms`가 404→200 (버전 `b03d5d93`). `main`은 날고적고 App Store 버튼 때문에 여전히 배포 보류. 자세한 절차는 `rufnekcrew-site/WORKLOG.md` 2026-11-06 항목
 
 ## 남은 일
-- Codex로 `deploy/descent-pages` 배포 → Play 개인정보처리방침 URL 입력 + 데이터 보안 확정 + Apple 정책 URL
+- ~~Codex로 `deploy/descent-pages` 배포~~ → **배포 완료(2026-11-06 후속 참고)**. 이제 Play 개인정보처리방침 URL 입력 + 데이터 보안 확정 + Apple 정책 URL
 - Play 등록정보: 아이콘·기능 그래픽·폰 스크린샷 2장+ 업로드, 웹사이트 URL, 그 뒤 게시 개요에서 제출
 - Apple: 개발자 프로그램 라이선스 계약 동의(계정 소유자) → IAP 2종 생성 → Release 아카이브/TestFlight → 스크린샷(1320×2868, iPad 2064×2752)·개인정보·연령 등급 → 심사 제출(IAP 같은 제출에 포함)
 - 3.1.1 위험(후원 IAP가 기능을 해제하지 않음) 반려 시 iOS 빌드에서 후원 섹션 제거 후 재제출
