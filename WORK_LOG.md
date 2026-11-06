@@ -1,3 +1,25 @@
+# WORK LOG — 2026-11-05/06
+
+스토어 제출 준비. App Store Connect / Play Console 앱 등록, Android 정리·서명·내부 테스트 업로드, 사이트 소개 페이지 준비.
+
+## 한 일
+- **Android 정리**: 죽은 OCR(`OcrPlugin.java`, ML Kit 의존성·manifest 메타데이터) 삭제, 릴리스 서명 설정(`keystore.properties` → crewswap 업로드 키 재사용, git 제외), 서명된 AAB 빌드(`com.rufnek.descentplanning`, versionCode 1 / 1.0, 약 9.5MB)
+- **iOS**: Apple Developer에 명시적 App ID 등록 → App Store Connect 앱 레코드 생성. 후원 IAP 2종·TestFlight는 아직
+- **Play Console**: 앱 레코드 생성, AAB를 내부 테스트 트랙에 업로드·출시(테스터 미지정이라 아무에게도 안 보임). 앱 콘텐츠 선언 입력: 광고 없음 / 로그인 불필요 / 만 18세 이상 / 광고ID 미사용 / 정부앱 아님 / 금융·건강 기능 없음 / 콘텐츠 등급(IARC, 전체이용가·PEGI 3, 교육용 예) / 데이터 보안 임시저장(수집·공유 없음)
+- **스토어 등록정보**: 한국어 짧은 설명·자세한 설명 입력(`store/LISTING.md` 기준), 카테고리 교육, 연락처 info@rufnekcrew.com
+- **그래픽**: 아이콘 512, 기능 그래픽 1024×500 제작 (세션 scratchpad, 업로드는 사람이 직접)
+- `store/LISTING.md` 작성, 정책 URL은 `rufnekcrew.com/descent/privacy|terms`
+- 사이트(`rufnekcrew-site`): `/descent` 소개·개인정보·약관 페이지를 `deploy/descent-pages` 브랜치에 준비 (main은 날고적고 스토어 버튼 포함이라 배포 보류)
+
+## 남은 일
+- Codex로 `deploy/descent-pages` 배포 → Play 개인정보처리방침 URL 입력 + 데이터 보안 확정 + Apple 정책 URL
+- Play 등록정보: 아이콘·기능 그래픽·폰 스크린샷 2장+ 업로드, 웹사이트 URL, 그 뒤 게시 개요에서 제출
+- Apple: 개발자 프로그램 라이선스 계약 동의(계정 소유자) → IAP 2종 생성 → Release 아카이브/TestFlight → 스크린샷(1320×2868, iPad 2064×2752)·개인정보·연령 등급 → 심사 제출(IAP 같은 제출에 포함)
+- 3.1.1 위험(후원 IAP가 기능을 해제하지 않음) 반려 시 iOS 빌드에서 후원 섹션 제거 후 재제출
+- Android 후원은 카카오페이 외부 링크 그대로 제출 — Play 정책 반려 가능성 인지
+
+---
+
 # WORK LOG — 2026-08-24
 
 전날 일시정지된 배포 규정 작업 재개. 차트 자동파싱 기능 전체 삭제 + 규정 문구를 앱 실체(학습 시뮬레이터)에 맞게 재작성.
