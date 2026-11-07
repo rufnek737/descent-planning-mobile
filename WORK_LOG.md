@@ -1,3 +1,20 @@
+# WORK LOG — 2026-11-07
+
+iOS 심사 준비 마무리. 개발자 계정은 이제 전부 정여진(Ryeojin Jung, 팀 XV2TFVJUG3).
+
+## 한 일
+- 빌드 2~5 업로드. **버전 1.0에는 빌드 4 연결** (iOS 후원 버튼 금액 표시 없음, 금액은 Apple 결제창에서만)
+- iOS에서 "Android·웹 외부 후원" 문구 숨김(안내 모달 2곳 + privacy.html), `ITSAppUsesNonExemptEncryption=false`
+- ASC: 부제목·카테고리(교육)·무료·175개 지역·개인정보 URL·개인정보(수집 안 함, 게시)·콘텐츠 권한·연령 등급·심사 연락처
+- TestFlight 내부 그룹 `Internal`, `rufnek@naver.com`을 팀에 마케팅+제품 개발 역할로 추가(업로드 권한)
+- 웹(GitHub Pages) 후원 금액 ₩2,200 / ₩5,500 반영 (`d2a21e8`)
+
+## ⚠️ 다음 iOS 업데이트 전 반드시 (빌드 5 코드가 main에 있음)
+- 빌드 5의 StoreKit `displayPrice` 표시는 **쓰지 말 것**: TestFlight에서 US$0.99가 나오는데 결제창은 ₩2,200, ASC 미국가는 $1.99. 심사도 샌드박스라 불일치 노출 위험
+- 대신 `Storefront.current.countryCode == "KOR"`일 때만 ₩2,200 / ₩5,500 고정 표시, 그 외 국가는 금액 숨김 (`www/index.html` `loadCoffeePrices`, `IapPlugin.swift/.m`의 `getProducts` 교체)
+- ASC 한국 기준가를 바꾸면 앱 안 ₩ 문구도 같이 바꿀 것
+- 한국 계정 TestFlight에서 버튼 금액 = 결제창 금액 확인 후 제출. 수정은 모아서 한 번에 업로드
+
 # WORK LOG — 2026-11-05/06
 
 스토어 제출 준비. App Store Connect / Play Console 앱 등록, Android 정리·서명·내부 테스트 업로드, 사이트 소개 페이지 준비.
