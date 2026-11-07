@@ -16,7 +16,7 @@ iOS 심사 준비 마무리. 개발자 계정은 이제 전부 정여진(Ryeojin
 ## 다음 세션
 - 심사 결과 대기 → 반려 시 사유 대응(수정은 모아서 한 번에 업로드)
 - **둘 다 승인되면 같은 날**: ASC "이 버전 출시" + Play 게시 개요 "변경사항 게시"
-- 출시 후 rufnekcrew.com/descent 페이지의 "출시 예정" 문구를 스토어 링크로 교체 (Cloudflare `wrangler deploy`)
+- 출시 당일 rufnekcrew.com/descent 스토어 버튼 배포: `rufnekcrew-site`의 `feat/descent-store-links` 브랜치에 준비 완료(테스트 14/14 통과) → 두 스토어 공개 확인 후 `wrangler deploy` (main은 날고적고 상태 때문에 배포 기준 확인 필요)
 - 다음 iOS 업데이트 전 위 ⚠️ 항목(한국 스토어만 ₩ 표시) 먼저 처리
 
 ## ⚠️ 다음 iOS 업데이트 전 반드시 (빌드 5 코드가 main에 있음)
