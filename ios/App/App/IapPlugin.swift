@@ -4,8 +4,8 @@ import StoreKit
 
 /// StoreKit 2 in-app purchase plugin for the developer-support ("coffee")
 /// section. Two consumable products:
-///   com.rufnek.descentplanning.coffee      — 커피 한 잔 (₩1,500)
-///   com.rufnek.descentplanning.coffeecake  — 커피+케익 (₩4,500)
+///   com.rufnek.descentplanning.coffee      — 커피 한 잔 (₩2,200)
+///   com.rufnek.descentplanning.coffeecake  — 커피+케익 (₩5,500)
 ///
 /// These product IDs must exist in App Store Connect (Consumable type,
 /// Cleared for Sale) before purchases will resolve — StoreKit returns an
@@ -33,6 +33,18 @@ public class IapPlugin: CAPPlugin {
 
     deinit {
         updatesTask?.cancel()
+    }
+
+    /// Localized StoreKit prices so the buttons match the payment sheet's storefront.
+    @objc func getProducts(_ call: CAPPluginCall) {
+        Task {
+            do {
+                let products = try await Product.products(for: IapPlugin.productIds)
+                call.resolve(["products": products.map { ["id": $0.id, "displayPrice": $0.displayPrice] }])
+            } catch {
+                call.reject("Failed to load products: \(error.localizedDescription)")
+            }
+        }
     }
 
     @objc func purchase(_ call: CAPPluginCall) {

@@ -711,15 +711,15 @@ canvas{display:block;width:100%;height:100%;}
         <div class="sec" style="margin-top:0">☕ 개발자에게 커피 사주기</div>
         <div class="coffee-sub">무료로 배포되는 앱입니다. 작은 응원이 다음 업데이트로 이어져요.</div>
         <div class="coffee-opts">
-          <button class="coffee-opt" onclick="buyCoffee('com.rufnek.descentplanning.coffee')">
+          <button class="coffee-opt" data-product="com.rufnek.descentplanning.coffee" onclick="buyCoffee('com.rufnek.descentplanning.coffee')">
             <div class="coffee-emoji">☕</div>
             <div class="coffee-label">커피 한 잔</div>
-            <div class="coffee-price">₩1,500</div>
+            <div class="coffee-price">₩2,200</div>
           </button>
-          <button class="coffee-opt" onclick="buyCoffee('com.rufnek.descentplanning.coffeecake')">
+          <button class="coffee-opt" data-product="com.rufnek.descentplanning.coffeecake" onclick="buyCoffee('com.rufnek.descentplanning.coffeecake')">
             <div class="coffee-emoji">🍰</div>
             <div class="coffee-label">커피+케익</div>
-            <div class="coffee-price">₩4,500</div>
+            <div class="coffee-price">₩5,500</div>
           </button>
         </div>
         <div id="coffee-status" style="font-size:9px;color:var(--mut);margin-top:6px;min-height:12px"></div>
@@ -1333,8 +1333,29 @@ function flashBtn(id,txt){
 // - iOS: StoreKit only. Never route an iOS purchase to an external payment.
 // - Android/web: KakaoPay support link. Supporting does not unlock benefits.
 const KAKAOPAY_URL='https://qr.kakaopay.com/FWTLO6dQc';
+function isIosApp(){
+  return !!(window.Capacitor && window.Capacitor.getPlatform && window.Capacitor.getPlatform()==='ios');
+}
+// iOS: replace the hard-coded KRW labels with StoreKit's localized prices.
+// Labels stay empty if StoreKit can't load them; the payment sheet always shows the price.
+async function loadCoffeePrices(){
+  if(!isIosApp()) return;
+  const labels={};
+  document.querySelectorAll('.coffee-opt[data-product]').forEach(btn=>{
+    const el=btn.querySelector('.coffee-price');
+    if(el){ el.textContent=''; labels[btn.dataset.product]=el; }
+  });
+  const iap=window.Capacitor.Plugins && window.Capacitor.Plugins.Iap;
+  if(!iap || !iap.getProducts) return;
+  try{
+    const {products}=await iap.getProducts();
+    (products||[]).forEach(p=>{ if(labels[p.id]) labels[p.id].textContent=p.displayPrice; });
+  }catch(e){ console.warn('[IAP] price load failed:',e); }
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',loadCoffeePrices);
+else loadCoffeePrices();
 async function buyCoffee(productId){
-  const isIos=!!(window.Capacitor && window.Capacitor.getPlatform && window.Capacitor.getPlatform()==='ios');
+  const isIos=isIosApp();
   const iap=isIos && window.Capacitor.Plugins && window.Capacitor.Plugins.Iap;
   const statusEl=document.getElementById('coffee-status');
   if(!isIos){
@@ -1381,14 +1402,14 @@ const LEGAL_CONTENT={
   privacy:{
     title:'개인정보처리방침',
     html:`<h3>수집·저장</h3><p>계정 가입을 요구하지 않으며 이름, 이메일, 연락처를 개발자 서버로 수집하지 않습니다. 저장한 경로와 설정은 사용자의 기기 로컬 저장소에만 보관되며 외부로 전송되지 않습니다.</p>
-      <h3>결제 및 외부 서비스</h3><p>iOS 후원 결제는 Apple이 처리하며 개발자는 카드 정보를 받지 않습니다. Android·웹에서 외부 후원 링크를 선택하면 해당 서비스의 정책이 적용됩니다.</p>
+      <h3>결제 및 외부 서비스</h3><p>iOS 후원 결제는 Apple이 처리하며 개발자는 카드 정보를 받지 않습니다.<span class="non-ios"> Android·웹에서 외부 후원 링크를 선택하면 해당 서비스의 정책이 적용됩니다.</span></p>
       <h3>삭제·문의</h3><p>앱 삭제 또는 브라우저 데이터 삭제로 기기 저장 데이터를 제거할 수 있습니다. 문의: <a href="mailto:info@rufnekcrew.com">info@rufnekcrew.com</a></p>
       <p><a href="privacy.html" target="_blank" rel="noopener">웹 개인정보처리방침 전체 보기</a></p>`
   },
   support:{
     title:'후원 및 문의',
     html:`<h3>선택적 개발자 후원</h3><p>Descent Planning의 모든 계획 기능은 무료입니다. 후원 여부에 따라 기능이나 서비스가 달라지지 않습니다.</p>
-      <ul><li>iOS: Apple 인앱결제로 일회성 후원</li><li>Android·웹: 표시되는 외부 후원 수단 이용</li><li>자동 갱신 또는 구독 결제 없음</li></ul>
+      <ul><li>iOS: Apple 인앱결제로 일회성 후원</li><li class="non-ios">Android·웹: 표시되는 외부 후원 수단 이용</li><li>자동 갱신 또는 구독 결제 없음</li></ul>
       <h3>문의</h3><p>오류, 안전 관련 제보, 개인정보 및 결제 문의: <a href="mailto:info@rufnekcrew.com">info@rufnekcrew.com</a></p>`
   }
 };
@@ -1397,6 +1418,7 @@ function openLegal(type,firstRun){
   const modal=document.getElementById('legal-modal');
   document.getElementById('legal-modal-title').textContent=data.title;
   document.getElementById('legal-modal-body').innerHTML=data.html;
+  if(isIosApp()) document.querySelectorAll('#legal-modal-body .non-ios').forEach(el=>el.remove());
   const ack=document.getElementById('legal-ack');
   ack.style.display=firstRun?'block':'none';
   modal.dataset.firstRun=firstRun?'1':'0';

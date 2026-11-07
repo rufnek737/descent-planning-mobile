@@ -93,7 +93,7 @@ Apple 설문의 "무제한 웹 접근" 항목은 "아니오" (후원 외부 링�
 1. App Store Connect → 앱 → **+ 새로운 앱** (플랫폼 iOS, 번들 ID `com.rufnek.descentplanning`, SKU 임의)
    - 번들 ID 드롭다운에 없으면 developer.apple.com → Identifiers에서 App ID 먼저 등록
 2. 계약·세금·은행 → **Paid Apps Agreement** 동의 (IAP 상품 생성의 전제)
-3. 기능 → 인앱 구입 → 소모성 2종 생성 (`coffee` ₩1,500대 / `coffeecake` ₩4,500대), 심사용 스크린샷·표시 이름 입력
+3. 기능 → 인앱 구입 → 소모성 2종 생성 (`coffee` ₩2,200 / `coffeecake` ₩5,500), 심사용 스크린샷·표시 이름 입력
    - **인앱 상품은 앱 버전과 같은 제출에 포함**시켜야 함. 상품이 준비 안 된 채 구매 버튼이 눌러도 안 사지면 반려 사유 (CrewSwap 반려 이력)
 4. Xcode Release 아카이브 → 업로드 → TestFlight 내부 테스트로 IAP 실결제 샌드박스 확인
 5. 메타데이터·스크린샷·개인정보·연령 등급 입력 후 심사 제출
