@@ -1,5 +1,11 @@
 # WORK LOG — 2026-11-09
 
+## 동시 출시 체크리스트 (현재 심사본: iOS 빌드 6 / Android versionCode 4)
+- Apple 재제출 완료(빌드 6 + IAP 2종, 답변·영상 첨부, 수동 출시). Google versionCode 4 검토 중(관리형 게시)
+- ⚠️ Play "변경사항 11개 게시"는 versionCode 3 포함 — versionCode 4 승인 전 누르지 말 것
+- 둘 다 승인 → 같은 날 ASC "이 버전 출시" + Play "변경사항 게시" → 링크 확인 → rufnekcrew-site `feat/descent-store-links` 배포
+- 안전 고지 "다시 열지 않음"은 `feat/safety-notice-opt-out`(`e964db7`)에 보관, 이번 심사본 미포함. 반영하려면 main 병합 후 iOS 빌드 7 / Android 5를 사용자 허락 받고 업로드(재심사 필요)
+
 - **Apple 1차 결과**: 2.1 정보 요청(앱 거절 아님). Notes에 실기기 화면 녹화·목적·사용법·외부 서비스·지역 차이·규제 답변 필요
 - **Google**: versionCode 3 승인 상태였으나 저장 버그로 미공개, versionCode 4로 교체 진행
 - **저장 버그 수정**: Name 비면 숨은 기본값 "RKSI ILS 33L"로 16R 표를 덮어쓰던 문제 → Name 필수, 불러오기 시 Name/Elev/Crs도 복원
