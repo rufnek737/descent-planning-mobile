@@ -35,18 +35,6 @@ public class IapPlugin: CAPPlugin {
         updatesTask?.cancel()
     }
 
-    /// Localized StoreKit prices so the buttons match the payment sheet's storefront.
-    @objc func getProducts(_ call: CAPPluginCall) {
-        Task {
-            do {
-                let products = try await Product.products(for: IapPlugin.productIds)
-                call.resolve(["products": products.map { ["id": $0.id, "displayPrice": $0.displayPrice] }])
-            } catch {
-                call.reject("Failed to load products: \(error.localizedDescription)")
-            }
-        }
-    }
-
     @objc func purchase(_ call: CAPPluginCall) {
         guard let productId = call.getString("productId"), !productId.isEmpty else {
             call.reject("Missing productId")

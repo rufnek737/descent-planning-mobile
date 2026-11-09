@@ -1,3 +1,10 @@
+# WORK LOG — 2026-11-09
+
+- **Apple 1차 결과**: 2.1 정보 요청(앱 거절 아님). Notes에 실기기 화면 녹화·목적·사용법·외부 서비스·지역 차이·규제 답변 필요
+- **Google**: versionCode 3 승인 상태였으나 저장 버그로 미공개, versionCode 4로 교체 진행
+- **저장 버그 수정**: Name 비면 숨은 기본값 "RKSI ILS 33L"로 16R 표를 덮어쓰던 문제 → Name 필수, 불러오기 시 Name/Elev/Crs도 복원
+- iOS 빌드 5의 StoreKit 가격 코드 제거, 빌드 6은 빌드 4처럼 금액 숨김. iOS 빌드 6 업로드, sw cache-119
+
 # WORK LOG — 2026-11-07
 
 iOS 심사 준비 마무리. 개발자 계정은 이제 전부 정여진(Ryeojin Jung, 팀 XV2TFVJUG3).
@@ -19,9 +26,9 @@ iOS 심사 준비 마무리. 개발자 계정은 이제 전부 정여진(Ryeojin
 - 출시 당일 rufnekcrew.com/descent 스토어 버튼 배포: `rufnekcrew-site`의 `feat/descent-store-links` 브랜치에 준비 완료(테스트 14/14 통과) → 두 스토어 공개 확인 후 `wrangler deploy` (main은 날고적고 상태 때문에 배포 기준 확인 필요)
 - 다음 iOS 업데이트 전 위 ⚠️ 항목(한국 스토어만 ₩ 표시) 먼저 처리
 
-## ⚠️ 다음 iOS 업데이트 전 반드시 (빌드 5 코드가 main에 있음)
+## ⚠️ 다음 iOS 업데이트 때 금액 표시 (현재 main은 iOS 금액 숨김)
 - 빌드 5의 StoreKit `displayPrice` 표시는 **쓰지 말 것**: TestFlight에서 US$0.99가 나오는데 결제창은 ₩2,200, ASC 미국가는 $1.99. 심사도 샌드박스라 불일치 노출 위험
-- 대신 `Storefront.current.countryCode == "KOR"`일 때만 ₩2,200 / ₩5,500 고정 표시, 그 외 국가는 금액 숨김 (`www/index.html` `loadCoffeePrices`, `IapPlugin.swift/.m`의 `getProducts` 교체)
+- 대신 `Storefront.current.countryCode == "KOR"`일 때만 ₩2,200 / ₩5,500 고정 표시, 그 외 국가는 금액 숨김 (`www/index.html` `hideCoffeePricesOnIos` 교체, `IapPlugin`에 storefront 조회 추가)
 - ASC 한국 기준가를 바꾸면 앱 안 ₩ 문구도 같이 바꿀 것
 - 한국 계정 TestFlight에서 버튼 금액 = 결제창 금액 확인 후 제출. 수정은 모아서 한 번에 업로드
 

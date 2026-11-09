@@ -711,12 +711,12 @@ canvas{display:block;width:100%;height:100%;}
         <div class="sec" style="margin-top:0">☕ 개발자에게 커피 사주기</div>
         <div class="coffee-sub">무료로 배포되는 앱입니다. 작은 응원이 다음 업데이트로 이어져요.</div>
         <div class="coffee-opts">
-          <button class="coffee-opt" data-product="com.rufnek.descentplanning.coffee" onclick="buyCoffee('com.rufnek.descentplanning.coffee')">
+          <button class="coffee-opt" onclick="buyCoffee('com.rufnek.descentplanning.coffee')">
             <div class="coffee-emoji">☕</div>
             <div class="coffee-label">커피 한 잔</div>
             <div class="coffee-price">₩2,200</div>
           </button>
-          <button class="coffee-opt" data-product="com.rufnek.descentplanning.coffeecake" onclick="buyCoffee('com.rufnek.descentplanning.coffeecake')">
+          <button class="coffee-opt" onclick="buyCoffee('com.rufnek.descentplanning.coffeecake')">
             <div class="coffee-emoji">🍰</div>
             <div class="coffee-label">커피+케익</div>
             <div class="coffee-price">₩5,500</div>
@@ -1206,6 +1206,14 @@ function saveRoute(){
   const _now=Date.now();
   if(saveRoute._t && _now-saveRoute._t<800) return;
   saveRoute._t=_now;
+  // Without a typed Name the key would fall back to the hidden default fields
+  // and silently overwrite an existing route, so require one.
+  const nameInput=document.getElementById('route-name');
+  if(nameInput && !nameInput.value.trim()){
+    showToast('⚠ Enter a Name first', true);
+    nameInput.focus();
+    return;
+  }
   // Always show a toast immediately so user knows the tap registered.
   showToast('⏳ SAVING...', false);
   try{
@@ -1252,6 +1260,10 @@ function loadRoute(key){
   document.getElementById('i-crs').value=r.crs||'';
   document.getElementById('i-elev').value=r.elev||'';
   document.getElementById('i-star').value=r.star||'';
+  // Keep the visible ① fields in step with the loaded route.
+  document.getElementById('route-name').value=key;
+  document.getElementById('route-elev').value=r.elev||'';
+  document.getElementById('route-crs').value=r.crs||'';
   const tb=document.getElementById('wbody');tb.innerHTML='';
   (r.wpts||[]).forEach(w=>addWRow(w.name,w.brg,w.dist,w.alt,w.spd,w.type));
   autoSortRows();
@@ -1336,24 +1348,12 @@ const KAKAOPAY_URL='https://qr.kakaopay.com/FWTLO6dQc';
 function isIosApp(){
   return !!(window.Capacitor && window.Capacitor.getPlatform && window.Capacitor.getPlatform()==='ios');
 }
-// iOS: replace the hard-coded KRW labels with StoreKit's localized prices.
-// Labels stay empty if StoreKit can't load them; the payment sheet always shows the price.
-async function loadCoffeePrices(){
-  if(!isIosApp()) return;
-  const labels={};
-  document.querySelectorAll('.coffee-opt[data-product]').forEach(btn=>{
-    const el=btn.querySelector('.coffee-price');
-    if(el){ el.textContent=''; labels[btn.dataset.product]=el; }
-  });
-  const iap=window.Capacitor.Plugins && window.Capacitor.Plugins.Iap;
-  if(!iap || !iap.getProducts) return;
-  try{
-    const {products}=await iap.getProducts();
-    (products||[]).forEach(p=>{ if(labels[p.id]) labels[p.id].textContent=p.displayPrice; });
-  }catch(e){ console.warn('[IAP] price load failed:',e); }
+// iOS: hide the hard-coded KRW labels; Apple's payment sheet shows the real price.
+function hideCoffeePricesOnIos(){
+  if(isIosApp()) document.querySelectorAll('.coffee-price').forEach(el=>el.remove());
 }
-if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',loadCoffeePrices);
-else loadCoffeePrices();
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hideCoffeePricesOnIos);
+else hideCoffeePricesOnIos();
 async function buyCoffee(productId){
   const isIos=isIosApp();
   const iap=isIos && window.Capacitor.Plugins && window.Capacitor.Plugins.Iap;
