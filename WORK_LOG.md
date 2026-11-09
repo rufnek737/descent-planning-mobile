@@ -1,6 +1,8 @@
 # WORK LOG — 2026-11-09
 
 ## 동시 출시 체크리스트 (현재 심사본: iOS 빌드 6 / Android versionCode 4)
+- **규칙: 두 스토어는 항상 같은 최신 버전을 같은 날 공개.** 수정은 한쪽만 제출·공개하지 않음. 업로드는 모아서 사용자 허락 후
+- 결정: 현재 심사본으로 먼저 출시, 안전 고지 수정과 한국 스토어 ₩ 표시는 첫 업데이트(빌드 7 / versionCode 5)에 함께 반영
 - Apple 재제출 완료(빌드 6 + IAP 2종, 답변·영상 첨부, 수동 출시). Google versionCode 4 검토 중(관리형 게시)
 - ⚠️ Play "변경사항 11개 게시"는 versionCode 3 포함 — versionCode 4 승인 전 누르지 말 것
 - 둘 다 승인 → 같은 날 ASC "이 버전 출시" + Play "변경사항 게시" → 링크 확인 → rufnekcrew-site `feat/descent-store-links` 배포
