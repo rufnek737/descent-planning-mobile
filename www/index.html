@@ -187,6 +187,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans
 .legal-modal-body p,.legal-modal-body li{color:#cbd5e1;}
 .legal-modal-body ul{padding-left:20px;margin:5px 0 10px;}
 .legal-modal-body a{color:var(--blu);}
+#s1 input::placeholder,#s1 textarea::placeholder{color:#64748b;opacity:.55;font-style:italic;}
+#s1.light input::placeholder,#s1.light textarea::placeholder{color:#94a3b8;opacity:.8;}
+.legal-skip{display:none;align-items:center;gap:8px;margin:0 16px 10px;font-size:12px;color:#cbd5e1;cursor:pointer;flex-shrink:0;}
+#s1.light .legal-skip{color:#475569;}
 .legal-ack{margin:0 16px 16px;padding:12px;border:0;border-radius:9px;background:var(--amb);color:#111827;font-size:13px;font-weight:800;cursor:pointer;flex-shrink:0;}
 .legal-emphasis{border:1px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:9px;padding:11px;margin-bottom:10px;color:#fbbf24!important;font-weight:700;}
 
@@ -689,6 +693,7 @@ canvas{display:block;width:100%;height:100%;}
 
       <!-- Waypoints -->
       <div class="sec">② WAYPOINTS — Far → Near (DIST/LEG NM = distance to next FIX, BRG = inbound track °T to next FIX)</div>
+      <button type="button" class="parse-btn" style="margin-bottom:7px" onclick="loadExampleRoute()">LOAD EXAMPLE</button>
       <table class="wt">
         <thead><tr>
           <th>FIX</th><th>INBD °T</th><th>LEG NM</th><th>ALT ft</th><th>SPD kt</th><th>TYPE</th><th></th>
@@ -743,6 +748,7 @@ canvas{display:block;width:100%;height:100%;}
       <button type="button" class="legal-modal-close" aria-label="닫기" onclick="closeLegal()">×</button>
     </div>
     <div id="legal-modal-body" class="legal-modal-body"></div>
+    <label id="legal-skip" class="legal-skip"><input id="legal-skip-check" type="checkbox">다시 열지 않음</label>
     <button id="legal-ack" type="button" class="legal-ack" onclick="acknowledgeSafety()" style="display:none">내용을 확인했습니다</button>
   </div>
 </div>
@@ -1032,9 +1038,9 @@ function parseRoute(){
 }
 
 // ① Name / Field Elev / Final Apch Crs / route text all start EMPTY — they
-// show only their gray placeholder example (ICN ILS RWY 16R). ② WAYPOINTS is
-// still pre-populated to match that same example, so a new user immediately
-// sees what a filled-in route looks like without ① itself being pre-filled.
+// show only their gray placeholder example (ICN ILS RWY 16R). ② WAYPOINTS shows
+// that same example as placeholders only, so a new user sees what a filled-in
+// route looks like while no example value can be saved or planned.
 const DEFAULT_WPTS=[
   {name:'MUNAN', brg:63,  dist:4.9, alt:2000, type:'iaf'},
   {name:'OLKIK', brg:153, dist:6.1, alt:1600, type:'fix'},
@@ -1045,8 +1051,28 @@ const DEFAULT_WPTS=[
 function initSetup(){
   const tb=document.getElementById('wbody');
   if(tb)tb.innerHTML='';
-  DEFAULT_WPTS.forEach(w=>addWRow(w.name,w.brg,w.dist,w.alt,'',w.type));
+  // Empty rows that only show the example as placeholders, so nothing unreal
+  // can be saved or planned.
+  DEFAULT_WPTS.forEach(w=>{
+    addWRow('','','','','',w.type);
+    const inp=tb.lastElementChild.querySelectorAll('input');
+    [w.name,w.brg,w.dist,w.alt].forEach((v,i)=>{ if(inp[i]) inp[i].placeholder=v; });
+  });
   renderSavedList();
+}
+
+function loadExampleRoute(){
+  const nameEl=document.getElementById('route-name');
+  nameEl.value='ICN ILS RWY 16R';
+  onRouteNameInput(nameEl);
+  document.getElementById('route-elev').value='59';
+  document.getElementById('i-elev').value='59';
+  const crsEl=document.getElementById('route-crs');
+  crsEl.value='153';
+  onFinalCrsInput(crsEl);
+  document.getElementById('wbody').innerHTML='';
+  DEFAULT_WPTS.forEach(w=>addWRow(w.name,w.brg,w.dist,w.alt,'',w.type));
+  showToast('✓ EXAMPLE LOADED');
 }
 
 function addWRow(n='',brg='',dist='',alt='',spd='250',t='fix',afterTr=null){
@@ -1212,6 +1238,10 @@ function saveRoute(){
   if(nameInput && !nameInput.value.trim()){
     showToast('⚠ Enter a Name first', true);
     nameInput.focus();
+    return;
+  }
+  if(!readRowsRaw().length){
+    showToast('⚠ Enter waypoints first', true);
     return;
   }
   // Always show a toast immediately so user knows the tap registered.
@@ -1420,6 +1450,7 @@ function openLegal(type,firstRun){
   document.getElementById('legal-modal-body').innerHTML=data.html;
   if(isIosApp()) document.querySelectorAll('#legal-modal-body .non-ios').forEach(el=>el.remove());
   const ack=document.getElementById('legal-ack');
+  document.getElementById('legal-skip').style.display=firstRun?'flex':'none';
   ack.style.display=firstRun?'block':'none';
   modal.dataset.firstRun=firstRun?'1':'0';
   modal.classList.add('on');
@@ -1432,7 +1463,10 @@ function closeLegal(){
   document.body.style.overflow='';
 }
 function acknowledgeSafety(){
-  try{localStorage.setItem('dp_safety_ack_v1','1');}catch(_){ }
+  // Show the notice on every launch unless the user opts out.
+  if(document.getElementById('legal-skip-check').checked){
+    try{localStorage.setItem('dp_safety_hide_v2','1');}catch(_){ }
+  }
   const modal=document.getElementById('legal-modal');
   modal.dataset.firstRun='0';
   modal.classList.remove('on');
@@ -1440,7 +1474,7 @@ function acknowledgeSafety(){
 }
 function showFirstRunSafety(){
   let acknowledged=false;
-  try{acknowledged=localStorage.getItem('dp_safety_ack_v1')==='1';}catch(_){ }
+  try{acknowledged=localStorage.getItem('dp_safety_hide_v2')==='1';}catch(_){ }
   if(!acknowledged) setTimeout(()=>openLegal('safety',true),3400);
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',showFirstRunSafety);
@@ -1548,6 +1582,10 @@ function readWpts(){
 }
 
 function goND(){
+  if(!readRowsRaw().length){
+    showToast('⚠ Enter waypoints first', true);
+    return;
+  }
   ST.icao=document.getElementById('i-icao').value.toUpperCase().trim()||'RKSI';
   ST.rwyCourse=parseFloat(document.getElementById('i-crs').value)||0;
   ST.apElev=parseInt(document.getElementById('i-elev').value)||0;
