@@ -1,5 +1,7 @@
 # WORK LOG — 2026-11-10
 
+- **2026-11-11 1.0.1 동시 공개**: Apple "이 버전 출시"(배포 준비됨) + Google "변경사항 게시" 완료
+
 - **1.0 출시 완료**: Apple(빌드 6)·Google(versionCode 4) 동시 공개, 스토어 링크 200 확인. rufnekcrew.com 카드·다운로드 버튼 배포(사이트 main)
 - **1.0.1 심사 제출**: iOS 빌드 7 / Android versionCode 5 (안전 고지 "다시 열지 않음", 예시 흐리게·저장 불가, 빈 표 저장·시작 차단, LOAD EXAMPLE). 둘 다 수동 출시/관리형 게시
 - 웹(GitHub Pages)은 1.0.1 내용 선반영(cache-121)
